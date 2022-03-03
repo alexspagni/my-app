@@ -1,5 +1,5 @@
 import React ,{useEffect, useState}from 'react';
-import {View,Text,StyleSheet,FlatList,Button,Image} from 'react-native';
+import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import getImage from '../api/getImage'; 
 //import getApi from '../api/getApi';
@@ -16,26 +16,6 @@ const IndexScreen = ({navigation})=>{
           payload : results
         })
     },[])
-    /*
-    const variabile=useSelector((store)=>store.getImagesReducer);
-    const dispatch = useDispatch();
-
-    const addBook = (number) => {
-        dispatch({
-            type: LIBRARIES_ADD,
-            payload: number
-        })
-    }
-    const resolveImages = async () =>  {
-        const results= await getImage();
-        setImages(prev => ([...prev,results]));
-    }
-    
-    //vado ad effettuare la richiesta get alle API della nasa
-    useEffect(() => {
-        resolveImages();
-    },[])
-   */
     return (
        <View> 
         <Text>here there are all images</Text>
@@ -43,7 +23,11 @@ const IndexScreen = ({navigation})=>{
            data={images}
            keyExtractor={(item)=>item.title}
            renderItem ={({item})=>
+           <TouchableOpacity
+           onPress={()=>navigation.navigate('Show',{image:item})}
+           >
            <Image source={{uri:item.url}} style={styles.image}/>
+           </TouchableOpacity>
            }
            />
         </View>
@@ -61,15 +45,3 @@ const styles=StyleSheet.create({
       }
 });
 export default IndexScreen;
-/*
-<Image source={{uri:item.url}} style={styles.image}/>
-const variabile=useSelector((store)=>store.libraries);
-    const dispatch = useDispatch();
-
-    const addBook = (number) => {
-        dispatch({
-            type: LIBRARIES_ADD,
-            payload: number
-        })
-    }*/
-//<Button title='add book' onPress={() => addBook(Math.random() * 200)} />
