@@ -16,19 +16,20 @@ type LibrariesRemoveActionType ={
 
 type LibrariesResetActionType ={
     type: typeof LIBRARIES_RESET,
-    payload: null,
+    payload: [],
 }
 
 export const addElementsToLibraries = (object: nasaObject): LibrariesAddActionType | undefined => {
     if(object.title.length){
         return {
-            type: LIBRARIES_ADD,
+            type: LIBRARIES_RESET,
             payload: object
         }
     } 
     return;
    
 }
+/*
 export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddActionTypeMars => {
     
         return {
@@ -37,6 +38,23 @@ export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddAct
         }
     
    
+}* */
+export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddActionTypeMars |undefined=> {
+    
+    if(array.length){
+        return {
+            type: LIBRARIES_ADD_MARS,
+            payload: array
+        }
+    }
+    else{
+        return{
+            type: LIBRARIES_RESET,
+            payload:[]
+        }
+    }
+    return;
+
 }
 type AllLibrariesAction = LibrariesAddActionType | LibrariesRemoveActionType |  LibrariesResetActionType|LibrariesAddActionTypeMars;
 
