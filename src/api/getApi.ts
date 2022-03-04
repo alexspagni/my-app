@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-export default axios.create({
+export const NasaApi = axios.create({
     //url di base a cui vado a fare la richiesta HTTP
-    baseURL:'https://api.nasa.gov/planetary'
+    baseURL:'https://api.nasa.gov'
 
 });
+
 
 
