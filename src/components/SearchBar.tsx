@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 
 type SearchBarProps={
   term: string,
-  onTermChange:any
+  onTermChange(s:string):void
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({term,onTermChange}) => {
@@ -18,7 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({term,onTermChange}) => {
         placeholder="Search"
         value={term}
         onChangeText={onTermChange}
-        onEndEditing={()=>console.log("siamofndsfi")}
+        onEndEditing={()=>console.log("end typing")}
       />
     </View>
   );

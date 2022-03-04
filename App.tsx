@@ -5,16 +5,18 @@ import ShowScreen from './src/components/ShowScreen'
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducers from './src/reducers';
+import SearchScreen from './src/screens/SearchScreen';
 const Navigator = createStackNavigator(
   {
     Index: IndexScreen,
-    Show:ShowScreen
+    Show:ShowScreen,
+    Search:SearchScreen
   },
   {
     //
     initialRouteName: 'Index',
     defaultNavigationOptions: {
-      title: 'Business Search',
+      title: 'Space application',
     },
   }
 );
