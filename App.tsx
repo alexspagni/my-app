@@ -5,7 +5,7 @@ import ShowScreen from './src/components/ShowScreen'
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducers from './src/reducers';
-const navigator = createStackNavigator(
+const Navigator = createStackNavigator(
   {
     Index: IndexScreen,
     Show:ShowScreen
@@ -17,7 +17,7 @@ const navigator = createStackNavigator(
     },
   }
 );
-const App=createAppContainer(navigator);
+const App=createAppContainer(Navigator);
 
 export default ()=>{
   return (

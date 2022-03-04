@@ -7,9 +7,9 @@ const IndexScreen = ({navigation})=>{
 const image=navigation.getParam("image");
     return (
        <View> 
-        <Text>Image title:{image.title}</Text>
-        <Text>Image explanation: {image.explanation}</Text>
-        <Text>Image date: {image.date}</Text>
+        <Text>Image id:{image.id}</Text>
+        <Text>rover name: {image.rover.name}</Text>
+        <Text>camera name: {image.camera.name}</Text>
         </View>
     );
     
