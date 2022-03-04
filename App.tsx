@@ -11,6 +11,7 @@ const Navigator = createStackNavigator(
     Show:ShowScreen
   },
   {
+    //
     initialRouteName: 'Index',
     defaultNavigationOptions: {
       title: 'Business Search',
