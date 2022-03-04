@@ -7,7 +7,6 @@ import { Feather } from '@expo/vector-icons';
 const IndexScreen = ({ navigation }: any)=>{
     const images=useSelector((store: any)=>store?.images);
     const dispatch = useDispatch();
-    //const [term,setTerm]=useState<string>('');
 
     const getImageFromMars = async () => {
         const results= await getImageMars("curiosity");
@@ -15,20 +14,19 @@ const IndexScreen = ({ navigation }: any)=>{
             type:'images_add_mars',
             payload:results
         })
-      // dispatch({addElementsToLibrariesMars(results)})
     }
 
     useEffect( () => {
         getImageFromMars();
     },[])
     return (
-       <View >
-        {images.length?<Text>Here you can find some photos about mars rover</Text>:<Text>no photo found</Text>}
+       <View style={styles.containerPrincipal}>
+        {images.length?<Text style={styles.TextStyle}>Here you can find some photos about mars rover</Text>:<Text style={styles.TextStyle}>no photo found</Text>}
         <FlatList
            data={images}
            keyExtractor={(item)=>item.id}
            renderItem ={({item})=>
-           <View style={styles.Container}>
+           <View style={styles.container}>
             <TouchableOpacity onPress={()=>navigation.navigate('Show',{image:item})}>  
                 <PhotoComponent object={item}/>
             </TouchableOpacity>
@@ -46,10 +44,18 @@ const IndexScreen = ({ navigation }: any)=>{
 //<SearchBar term={term}  onTermChange={(newterm)=>setTerm(newterm)}/>
 
 const styles=StyleSheet.create({
-    Container :{
+    container :{
         marginBottom:10,
         alignItems:'center'
         
+    },
+    containerPrincipal:{
+        backgroundColor:'black',
+        flex:1
+    },
+    TextStyle:{
+        color:'white'
+
     }
 });
 IndexScreen.navigationOptions=({navigation}:any)=>{

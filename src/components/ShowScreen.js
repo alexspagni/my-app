@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 const IndexScreen = ({navigation})=>{
 const image=navigation.getParam("image");
     return (
-       <View> 
-        <Text>Image id:{image.id}</Text>
-        <Text>rover name: {image.rover.name}</Text>
-        <Text>camera name: {image.camera.name}</Text>
+       <View style={styles.container}> 
+        <Text style={styles.TextStyle}>Image id:{image.id}</Text>
+        <Text style={styles.TextStyle}>rover name: {image.rover.name}</Text>
+        <Text style={styles.TextStyle}>camera name: {image.camera.name}</Text>
         </View>
     );
     
@@ -17,11 +17,12 @@ const image=navigation.getParam("image");
 
 
 const styles=StyleSheet.create({
-    image: {
-        width: 250,
-        height : 120,
-        borderRadius:4
-        
-      }
+    container:{
+        backgroundColor:'black',
+        flex:1
+    },
+    TextStyle:{
+        color:'white'
+    }
 });
 export default IndexScreen;
