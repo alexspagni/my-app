@@ -7,3 +7,4 @@ import getApi from "./getApi"
       console.log("no data");
     }
   };
+  
