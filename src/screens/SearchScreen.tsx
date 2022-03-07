@@ -8,11 +8,7 @@ const SerchScreen:React.FC<SerchScreenProp> =({navigation})=>{
     const [roverName,setRoverName]=useState<string>('');
     return (
         <View>
-            <FormSearch term={roverName} 
-            value="Insert rover Name" 
-            onChangeText={(newTerm)=>{setRoverName(newTerm)}}
-           
-            />
+            <FormSearch/>
         </View>
     );
 }
