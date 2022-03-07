@@ -19,7 +19,7 @@ const FormSearch: React.FC<FormProps>= ({term,value,onChangeText,navigation}) =>
     const [isChecked, setChecked] = useState(false);
         const getImageFromMars = async () => {
             const results= await getImageMars(term);
-            console.log(results);
+            //console.log(results);
             dispatch(dispatch(addElementsToLibrariesMars(results)))
             navigation.navigate('Index');
       // dispatch({addElementsToLibrariesMars(results)})
