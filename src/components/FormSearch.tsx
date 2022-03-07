@@ -17,26 +17,16 @@ const FormSearch: React.FC<FormProps>= ({term,value,onChangeText,navigation}) =>
     const images=useSelector((store: any)=>store?.images);
     const dispatch = useDispatch();
     const [isChecked, setChecked] = useState(false);
+    //una volta premuto enter nella sulla tastiera dello schermo vado a recuperare delle immagini delle rover
         const getImageFromMars = async () => {
             const results= await getImageMars(term);
-            //console.log(results);
             dispatch(dispatch(addElementsToLibrariesMars(results)))
             navigation.navigate('Index');
-      // dispatch({addElementsToLibrariesMars(results)})
     }
   return (
     <View style={styles.backgroundStyle}>
      
-      <TextInput
-        
-        autoCorrect={false}
-        style={styles.inputStyle}
-        placeholder={value}
-        value={term}
-        onChangeText={onChangeText}
-        onEndEditing={()=>getImageFromMars()}
-        
-      />
+     
     </View>
   );
 };
@@ -45,17 +35,18 @@ const styles = StyleSheet.create({
   backgroundStyle: {
     marginTop: 10,
     backgroundColor: '#F0EEEE',
-    height: 50,
+   
+    height: 600,
     borderRadius: 5,
     borderColor:'black',
     borderWidth:4,
-    
     marginHorizontal: 15,
+    marginBottom: 10,
+    ...StyleSheet.absoluteFillObject
     
-    marginBottom: 10
   },
   inputStyle: {
-    flex: 1,
+    margin: 1,
     fontSize: 18
   },
   iconStyle: {
@@ -63,9 +54,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginHorizontal: 15
   },
-  checkbox: {
-    margin: 8,
-  }
+
 });
 export default withNavigation(FormSearch);
 
