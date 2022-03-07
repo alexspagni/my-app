@@ -26,7 +26,26 @@ const FormSearch: React.FC<FormProps>= ({term,value,onChangeText,navigation}) =>
   return (
     <View style={styles.backgroundStyle}>
      
-     
+      <TextInput
+        
+        autoCorrect={false}
+        style={styles.inputStyle}
+        placeholder={value}
+        value={term}
+        onChangeText={onChangeText}
+        onEndEditing={()=>getImageFromMars()}
+        
+      />
+      <TextInput
+        
+        autoCorrect={false}
+        style={styles.inputStyle}
+        placeholder={value}
+        value={term}
+        onChangeText={onChangeText}
+        onEndEditing={()=>getImageFromMars()}
+        
+      />
     </View>
   );
 };
@@ -35,15 +54,12 @@ const styles = StyleSheet.create({
   backgroundStyle: {
     marginTop: 10,
     backgroundColor: '#F0EEEE',
-   
     height: 600,
     borderRadius: 5,
     borderColor:'black',
     borderWidth:4,
     marginHorizontal: 15,
-    marginBottom: 10,
-    ...StyleSheet.absoluteFillObject
-    
+    marginBottom: 10
   },
   inputStyle: {
     margin: 1,
