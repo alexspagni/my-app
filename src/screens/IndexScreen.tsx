@@ -1,3 +1,4 @@
+////////ALL IMPORT///////////////
 import React ,{useEffect, useState}from 'react';
 import Checkbox from 'expo-checkbox';
 import {View,Text,StyleSheet,FlatList,TouchableOpacity} from 'react-native';
@@ -5,10 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import {getImageMars} from '../api/getImage'; 
 import PhotoComponent from '../components/PhotoComponent';
 import { Feather } from '@expo/vector-icons';
+////////////COMPONENT////////////
 const IndexScreen = ({ navigation }: any)=>{
+    //////HOOKS//////////////
     const images=useSelector((store: any)=>store?.images);
     const dispatch = useDispatch();
     const [isChecked, setChecked] = useState(false);
+
     const getImageFromMars = async () => {
         const results= await getImageMars("curiosity");
         dispatch({
@@ -20,6 +24,7 @@ const IndexScreen = ({ navigation }: any)=>{
     useEffect( () => {
         getImageFromMars();
     },[])
+
     return (
        <View style={styles.containerPrincipal}>
            <Checkbox
@@ -28,7 +33,9 @@ const IndexScreen = ({ navigation }: any)=>{
           onValueChange={setChecked}
           color={isChecked ? '#4630EB' : undefined}
         />
+
         {images.length?<Text style={styles.TextStyle}>Here you can find some photos about mars rover</Text>:<Text style={styles.TextStyle}>no photo found</Text>}
+        
         <FlatList
            data={images}
            keyExtractor={(item)=>item.id}
