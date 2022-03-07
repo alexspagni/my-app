@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import {getImageMars} from '../api/getImage'; 
+import {getImageMars} from '../api/getImage';
+import Checkbox from 'expo-checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavigationProvider, withNavigation } from 'react-navigation';
 import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
+
 type FormProps={
     term: string,
     value:string,
@@ -14,7 +16,7 @@ type FormProps={
 const FormSearch: React.FC<FormProps>= ({term,value,onChangeText,navigation}) => {
     const images=useSelector((store: any)=>store?.images);
     const dispatch = useDispatch();
-    
+    const [isChecked, setChecked] = useState(false);
         const getImageFromMars = async () => {
             const results= await getImageMars(term);
             console.log(results);
@@ -24,7 +26,7 @@ const FormSearch: React.FC<FormProps>= ({term,value,onChangeText,navigation}) =>
     }
   return (
     <View style={styles.backgroundStyle}>
-      
+     
       <TextInput
         
         autoCorrect={false}
@@ -45,8 +47,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0EEEE',
     height: 50,
     borderRadius: 5,
+    borderColor:'black',
+    borderWidth:4,
+    
     marginHorizontal: 15,
-    flexDirection: 'row',
+    
     marginBottom: 10
   },
   inputStyle: {
@@ -57,6 +62,9 @@ const styles = StyleSheet.create({
     fontSize: 35,
     alignSelf: 'center',
     marginHorizontal: 15
+  },
+  checkbox: {
+    margin: 8,
   }
 });
 export default withNavigation(FormSearch);
