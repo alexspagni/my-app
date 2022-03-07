@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet,Text, Button } from 'react-native';
+import { View, StyleSheet,Text, Button } from 'react-native';
 import {getImageMars} from '../api/getImage';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavigationProvider, withNavigation } from 'react-navigation';
@@ -19,11 +19,11 @@ const FormSearch: React.FC<FormProps>= ({navigation}) => {
         const getImageFromMars = async () => {
           if(day && month &&year){
             const results= await getImageMars(roverName,day,month,year);
-            dispatch(dispatch(addElementsToLibrariesMars(results)))
+            dispatch(addElementsToLibrariesMars(results))
           }
           else{
             const results= await getImageMars(roverName);
-            dispatch(dispatch(addElementsToLibrariesMars(results)))
+            dispatch(addElementsToLibrariesMars(results))
           }
           navigation.navigate('Index');
     }
