@@ -1,12 +1,15 @@
 import { marsObject, nasaObject } from "../type/differentType";
 import {NasaApi} from "./getApi"
+import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
+import { useDispatch, useSelector } from 'react-redux';
 const DAY:string='3';
 const MONTH:string='6';
 const YEAR:string='2015';
- export const getImageMars = async (roverName:string,day=DAY,month=MONTH,year=YEAR): Promise<marsObject[]> => {
+const PAGE:number=1;
+ export const getImageMars = async (roverName:string,day=DAY,month=MONTH,year=YEAR,page=PAGE): Promise<marsObject[]> => {
     try {
       //quello che vado a fare quì è dire che i dati che sono in result drovà essere un array di tipo nasaObject
-      const response = await NasaApi.get<{ photos: marsObject[]}>(`/mars-photos/api/v1/rovers/${roverName}/photos?earth_date=${year}-${month}-${day}&page=1&api_key=XU7atD6DNBzEbPlouVUOfIWb7O04dBJwzvrF7JMX`);
+      const response = await NasaApi.get<{ photos: marsObject[]}>(`/mars-photos/api/v1/rovers/${roverName}/photos?earth_date=${year}-${month}-${day}&page=${page}&api_key=XU7atD6DNBzEbPlouVUOfIWb7O04dBJwzvrF7JMX`);
       
      return response.data.photos;
     } catch (err) {
@@ -22,4 +25,5 @@ const YEAR:string='2015';
       console.log("no data");
     }
   };
-  
+
+

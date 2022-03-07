@@ -1,5 +1,5 @@
 import {actionImageType,marsObject,nasaObject} from '../type/differentType'
-const initalState: any[] = [];
+const initalState: marsObject[] = [];
 
 type LibrariesAddActionType ={
     type: typeof LIBRARIES_ADD,
@@ -29,17 +29,8 @@ export const addElementsToLibraries = (object: nasaObject): LibrariesAddActionTy
     return;
    
 }
-/*
+
 export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddActionTypeMars => {
-    
-        return {
-            type: LIBRARIES_ADD_MARS,
-            payload: array
-        }
-    
-   
-}* */
-export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddActionTypeMars |undefined=> {
     
     if(array.length){
         return {
@@ -53,11 +44,10 @@ export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddAct
             payload:[]
         }
     }
-    return;
 
 }
-type AllLibrariesAction = LibrariesAddActionType | LibrariesRemoveActionType |  LibrariesResetActionType|LibrariesAddActionTypeMars;
-
+export type ActionFunction=typeof addElementsToLibrariesMars;
+ type AllLibrariesAction = LibrariesAddActionType | LibrariesRemoveActionType |  LibrariesResetActionType|LibrariesAddActionTypeMars;
 export const LIBRARIES_ADD :string= 'images_add'
 export const LIBRARIES_ADD_MARS :string= 'images_add_mars'
 export const LIBRARIES_REMOVE :string= 'images_remove'
@@ -74,6 +64,7 @@ export const getImagesReducer = (state= initalState, action:AllLibrariesAction) 
             //logica varia
             return state.pop();
         case LIBRARIES_ADD_MARS:
+          
             return action.payload
         default:
             return state;

@@ -5,24 +5,25 @@ import {View,Text,StyleSheet,FlatList,TouchableOpacity} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {getImageMars} from '../api/getImage'; 
 import PhotoComponent from '../components/PhotoComponent';
+import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
 import { Feather } from '@expo/vector-icons';
 ////////////COMPONENT////////////
+let pageNumber=1;
 const IndexScreen = ({ navigation }: any)=>{
     //////HOOKS//////////////
     const images=useSelector((store: any)=>store?.images);
     const dispatch = useDispatch();
     const [isChecked, setChecked] = useState(false);
-
-    const getImageFromMars = async () => {
-        const results= await getImageMars("curiosity");
-        dispatch({
-            type:'images_add_mars',
-            payload:results
-        })
+    
+    const getImageFromMars = async (pageNumber=0) => {
+        pageNumber++;
+        const results= await getImageMars("opportunity","3","6","2016",pageNumber);
+        dispatch(addElementsToLibrariesMars(results))
     }
 
     useEffect( () => {
         getImageFromMars();
+       
     },[])
 
     return (
@@ -35,7 +36,7 @@ const IndexScreen = ({ navigation }: any)=>{
         />
 
         {images.length?<Text style={styles.TextStyle}>Here you can find some photos about mars rover</Text>:<Text style={styles.TextStyle}>no photo found</Text>}
-        
+       
         <FlatList
            data={images}
            keyExtractor={(item)=>item.id}
@@ -46,16 +47,18 @@ const IndexScreen = ({ navigation }: any)=>{
             </TouchableOpacity>
            </View>
            }
-           
+           onEndReached={()=>{
+            console.log("end");
+           // getImageFromMars(pageNumber);
+           }
+           }
+           onEndReachedThreshold={0.5}
            />
           
         </View>
     );
     
 };
-
-    
-//<SearchBar term={term}  onTermChange={(newterm)=>setTerm(newterm)}/>
 
 const styles=StyleSheet.create({
     container :{
@@ -88,16 +91,3 @@ IndexScreen.navigationOptions=({navigation}:any)=>{
 
 
 export default IndexScreen;
-/*
-    const getImage = async () => {
-        const results= await getImageApi();
-        console.log(results);
-        
-        dispatch(addElementsToLibraries(results))
-    }
-    useEffect( () => {
-        getImage();
-       // console.log(results);
-        
-    },[])
-    */
