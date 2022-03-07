@@ -1,11 +1,11 @@
 ////////ALL IMPORT///////////////
 import React ,{useEffect, useState}from 'react';
 import Checkbox from 'expo-checkbox';
-import {View,Text,StyleSheet,FlatList,TouchableOpacity} from 'react-native';
+import {View,Text,StyleSheet,FlatList,TouchableOpacity,Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {getImageMars} from '../api/getImage'; 
 import PhotoComponent from '../components/PhotoComponent';
-import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
+import { addElementsToLibrariesMars,addElementsToLibrariesHide } from '../reducers/getImagesReducers';
 import { Feather } from '@expo/vector-icons';
 ////////////COMPONENT////////////
 let pageNumber=1;
@@ -13,6 +13,8 @@ const IndexScreen = ({ navigation }: any)=>{
     //////HOOKS//////////////
     const images=useSelector((store: any)=>store?.images);
     const dispatch = useDispatch();
+    const hide=useSelector((store: any)=>store?.imagesHide);
+    
     const [isChecked, setChecked] = useState(false);
     
     const getImageFromMars = async (pageNumber=0) => {
@@ -26,6 +28,19 @@ const IndexScreen = ({ navigation }: any)=>{
        
     },[])
 
+    const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Hiding",
+      "this image is now hided",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
     return (
        <View style={styles.containerPrincipal}>
            <Checkbox
@@ -45,6 +60,18 @@ const IndexScreen = ({ navigation }: any)=>{
             <TouchableOpacity onPress={()=>navigation.navigate('Show',{image:item})}>  
                 <PhotoComponent object={item}/>
             </TouchableOpacity>
+            
+            <TouchableOpacity onPress={()=> {
+                dispatch({
+                    type:'images_hide_one',
+                    payload:item
+                })
+                //console.log(item);
+                createTwoButtonAlert();
+                
+            }}>
+            <Feather name="trash" style={styles.icon} />
+            </TouchableOpacity>
            </View>
            }
            onEndReached={()=>{
@@ -63,11 +90,13 @@ const IndexScreen = ({ navigation }: any)=>{
 const styles=StyleSheet.create({
     container :{
         marginBottom:10,
-        alignItems:'center'
+        alignItems:'center',
+        flexDirection:'row',
+        paddingLeft:15
         
     },
     containerPrincipal:{
-        backgroundColor:'black',
+      backgroundColor:'#353839',
         flex:1
     },
     TextStyle:{
@@ -76,12 +105,22 @@ const styles=StyleSheet.create({
     },
     checkbox: {
         margin: 8,
-      }
+      },
+    icon:{
+        fontSize: 24,
+        color:'red',
+        paddingLeft:10
+    }
 });
 IndexScreen.navigationOptions=({navigation}:any)=>{
     return{
         headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+              <Feather name="search" size={30} />
+            </TouchableOpacity>
+          ),
+        headerLeft:()=>(
+            <TouchableOpacity onPress={() => navigation.navigate('ImagesH')}>
               <Feather name="search" size={30} />
             </TouchableOpacity>
           )
