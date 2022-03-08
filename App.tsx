@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import IndexScreen from './src/screens/IndexScreen';
@@ -9,7 +10,7 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducers from './src/reducers';
 import SearchScreen from './src/screens/SearchScreen';
-//const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 const Navigator = createStackNavigator(
   {
     Index: IndexScreen,

@@ -1,7 +1,7 @@
 ////////ALL IMPORT///////////////
 import React ,{useEffect, useState}from 'react';
 import Checkbox from 'expo-checkbox';
-import {View,Text,StyleSheet,FlatList,TouchableOpacity,Alert } from 'react-native';
+import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {getImageMars} from '../api/getImage'; 
 import PhotoComponent from '../components/PhotoComponent';
@@ -91,6 +91,11 @@ const styles=StyleSheet.create({
         fontSize: 24,
         color:'red',
         paddingLeft:10
+    },
+    imageHeader:{
+        width: 200,
+        height : 200,
+        borderRadius:4
     }
 });
 //vado a posizionare un icona per la ricerca in alto a destra nell'header dello schermo
@@ -100,6 +105,12 @@ IndexScreen.navigationOptions=({navigation}:any)=>{
             <TouchableOpacity onPress={() => navigation.navigate('Search')}>
               <Feather name="search" size={30} />
             </TouchableOpacity>
+          ),
+        headerLeft: () => (
+            <TouchableOpacity>
+                <Image source={{uri:'../Images/Novalab.jpg'}} style={styles.imageHeader}/>
+            </TouchableOpacity>
+            
           ),
        
     
