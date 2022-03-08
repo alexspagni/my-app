@@ -3,7 +3,7 @@ import { View, StyleSheet,Text, Button } from 'react-native';
 import {getImageMars} from '../api/getImage';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavigationProvider, withNavigation } from 'react-navigation';
-import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
+import { addElementsToLibrariesMars, addElementsToLibrariesMars2 } from '../reducers/getImagesReducers';
 import SearchImputText from './SearchImputText'
 import {hideImage} from '../filters/FIlters'
 import { useNavigation } from '@react-navigation/native';
@@ -40,7 +40,7 @@ const FormSearch: React.FC= () => {
           }
           
         });
-        dispatch(addElementsToLibrariesMars(imageFilter))
+        dispatch(addElementsToLibrariesMars2(imageFilter))
       }
       else{
         const results= await getImageMars(roverName);
@@ -57,7 +57,7 @@ const FormSearch: React.FC= () => {
           }
           
         });
-        dispatch(addElementsToLibrariesMars(imageFilter))
+        dispatch(addElementsToLibrariesMars2(imageFilter))
       }
       navigation.goBack();
     }
