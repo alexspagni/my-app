@@ -8,11 +8,13 @@ import PhotoComponent from '../components/PhotoComponent';
 import { addElementsToLibrariesMars,addElementsToLibrariesHide } from '../reducers/getImagesReducers';
 import { Feather } from '@expo/vector-icons';
 import {hideImage} from '../alertMessages/alertMessage'
+import { useNavigation } from '@react-navigation/native';
 ////////////COMPONENT////////////
 let pageNumber=1;
-const IndexScreen = ({ navigation }: any)=>{
+const IndexScreen = ()=>{
     //////HOOKS//////////////
     const images=useSelector((store: any)=>store?.images);
+    const navigation=useNavigation<any>();
     const dispatch = useDispatch();
     const [isChecked, setChecked] = useState(false);
     
@@ -38,7 +40,7 @@ const IndexScreen = ({ navigation }: any)=>{
            keyExtractor={(item)=>item.id}
            renderItem ={({item})=>
            <View style={styles.container}>
-            <TouchableOpacity onPress={()=>navigation.navigate('Show',{image:item})}>  
+            <TouchableOpacity onPress={()=>navigation.navigate('ShowScreen',{image:item})}>  
                 <PhotoComponent object={item}/>
             </TouchableOpacity>
             
@@ -98,30 +100,6 @@ const styles=StyleSheet.create({
         borderRadius:4
     }
 });
-//vado a posizionare un icona per la ricerca in alto a destra nell'header dello schermo
-IndexScreen.navigationOptions=({navigation}:any)=>{
-    return{
-        headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-              <Feather name="search" size={30} />
-            </TouchableOpacity>
-          ),
-        headerLeft: () => (
-            <TouchableOpacity>
-                <Image source={{uri:'../Images/Novalab.jpg'}} style={styles.imageHeader}/>
-            </TouchableOpacity>
-            
-          ),
-       
-    
-    };
-};
 
 
 export default IndexScreen;
-/**  <Checkbox
-          style={styles.checkbox}
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined}
-        /> */

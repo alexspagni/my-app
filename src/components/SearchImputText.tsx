@@ -11,9 +11,9 @@ type FormProps={
     term: string,
     value:string,
     onChangeText(s:string):void,
-    navigation:any
+
   }
-const SearchImputText: React.FC<FormProps>= ({term,value,onChangeText,navigation}) => {
+const SearchImputText: React.FC<FormProps>= ({term,value,onChangeText}) => {
     
     const images=useSelector((store: any)=>store?.images);
     const dispatch = useDispatch();
@@ -44,5 +44,5 @@ const styles = StyleSheet.create({
  
 
 });
-export default withNavigation(SearchImputText);
+export default SearchImputText;
 

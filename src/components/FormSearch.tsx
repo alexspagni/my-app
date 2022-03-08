@@ -6,12 +6,12 @@ import { NavigationProvider, withNavigation } from 'react-navigation';
 import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
 import SearchImputText from './SearchImputText'
 import {hideImage} from '../filters/FIlters'
-type FormProps={
-  navigation:any
-}
+import { useNavigation } from '@react-navigation/native';
 
-const FormSearch: React.FC<FormProps>= ({navigation}) => {
-  
+
+const FormSearch: React.FC= () => {
+  const navigation =useNavigation();
+
   const [roverName,setRoverName]=useState<string>('');
   const [day,setDay]=useState<string>('');
   const [month,setMonth]=useState<string>('');
@@ -58,7 +58,7 @@ const FormSearch: React.FC<FormProps>= ({navigation}) => {
         });
         dispatch(addElementsToLibrariesMars(imageFilter))
       }
-      navigation.navigate('Index');
+      navigation.goBack();
     }
   return (
   
@@ -103,4 +103,4 @@ ImputTextContainer: {
   flexDirection:'row'
 }
 });
-export default withNavigation(FormSearch);
+export default FormSearch;
