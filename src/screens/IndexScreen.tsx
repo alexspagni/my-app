@@ -1,39 +1,50 @@
 ////////ALL IMPORT///////////////
 import React ,{useEffect, useState}from 'react';
-import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image } from 'react-native';
+import {View,Text,StyleSheet,FlatList,TouchableOpacity,AccessibilityInfo, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {getImageMars} from '../api/getImage'; 
 import PhotoComponent from '../components/PhotoComponent';
 import { addElementsToLibrariesMars,addElementsToLibrariesHide } from '../reducers/getImagesReducers';
 import { Feather } from '@expo/vector-icons';
-import {hideImage} from '../alertMessages/alertMessage'
+import {hideImageAlert,imageNotFoundAlert} from '../alertMessages/alertMessage'
 import { useNavigation } from '@react-navigation/native';
+import { not } from 'react-native-reanimated';
 ////////////COMPONENT////////////
-let pageNumber=1;
-const IndexScreen = ()=>{
+let pageNumber=0;
+
+const IndexScreen= ()=>{
     //////HOOKS//////////////
+    const [pageNumber,setPageNumber]=useState(1);
+    const [loading,setLoading]=useState(true);
     const images=useSelector((store: any)=>store?.images);
     const navigation=useNavigation<any>();
     const dispatch = useDispatch();
   
     //funzione per fare la richiesta HTTP
     
-    const getImageFromMars = async (pageNumber=0) => {
-        pageNumber++;
-        const results= await getImageMars("opportunity","3","6","2016",pageNumber);
+    const getImageFromMars = async (page:number) => {
+       setPageNumber(page);
+       try{
+        const results= await getImageMars("opportunity","3","6","2016",page);
         dispatch(addElementsToLibrariesMars(results))
+       }
+       catch{
+
+       }
+       setLoading(false);
     }
 
     useEffect( () => {
-        getImageFromMars();
+        getImageFromMars(pageNumber);
     },[])
 
     
     return (
        <View style={styles.containerPrincipal}>
-         
-
-        {images.length?<Text style={styles.TextStyle}>Here you can find some photos about mars rover</Text>:<Text style={styles.TextStyle}>no photo found</Text>}
+           
+        {images.length ?<Text style={styles.TextStyle}>Here you can find some photos about mars rover</Text>:null}
+        {!images.length && !loading ?imageNotFoundAlert():null}
+        {loading ?<ActivityIndicator size={'large'} color={'red'}/>:null}
        
         <FlatList
            data={images}
@@ -50,7 +61,7 @@ const IndexScreen = ()=>{
                     payload:item
                 })
                 //console.log(item);
-                hideImage();
+                hideImageAlert();
                 
             }}>
             <Feather name="trash" style={styles.icon} />
@@ -58,10 +69,9 @@ const IndexScreen = ()=>{
            </View>
            }
            onEndReached={()=>{
-            //console.log("end");
-           // getImageFromMars(pageNumber);
-           }
-           }
+           const newPage=pageNumber+1;
+            getImageFromMars(newPage);
+           } }
            onEndReachedThreshold={0.5}
            />
           

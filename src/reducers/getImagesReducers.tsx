@@ -3,7 +3,7 @@ const initalState: marsObject[] = [];
 
 type LibrariesAddActionType ={
     type: typeof LIBRARIES_ADD,
-    payload: nasaObject
+    payload: marsObject
 }
 type LibrariesAddActionTypeMars ={
     type: typeof LIBRARIES_ADD_MARS,
@@ -23,18 +23,8 @@ type LibrariesResetActionHide ={
     payload: marsObject,
 }
 
-export const addElementsToLibraries = (object: nasaObject): LibrariesAddActionType | undefined => {
-    if(object.title.length){
-        return {
-            type: LIBRARIES_RESET,
-            payload: object
-        }
-    } 
-    return;
-   
-}
 
-export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddActionTypeMars => {
+export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddActionTypeMars|undefined => {
     
     if(array.length){
         return {
@@ -42,10 +32,20 @@ export const addElementsToLibrariesMars = (array: marsObject[]): LibrariesAddAct
             payload: array
         }
     }
+
+}
+export const addElementsToLibrariesMars2 = (array: marsObject[]): LibrariesAddActionTypeMars|undefined => {
+    
+    if(array.length){
+        return {
+            type: LIBRARIES_ADD,
+            payload: array
+        }
+    }
     else{
-        return{
-            type: LIBRARIES_RESET,
-            payload:[]
+        return {
+            type: LIBRARIES_ADD,
+            payload: []
         }
     }
 
@@ -69,7 +69,7 @@ export const LIBRARIES_HIDE_ONE: string = 'images_hide_one'
 export const getImagesReducer = (state= initalState, action:AllLibrariesAction) => {
     switch(action.type){
         case LIBRARIES_ADD:
-            return [...state, action.payload];
+            return  action.payload;
         case LIBRARIES_RESET: 
             return []
         case LIBRARIES_REMOVE:
@@ -77,7 +77,7 @@ export const getImagesReducer = (state= initalState, action:AllLibrariesAction) 
             return state.pop();
         case LIBRARIES_ADD_MARS:
            // getImagesHided(state,addElementsToLibrariesMars(state))
-            return action.payload
+            return [...state, ...(action.payload as marsObject[])];
 
         default:
             return state;

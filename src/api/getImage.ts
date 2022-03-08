@@ -13,6 +13,8 @@ const PAGE:number=1;
     } catch (err) {
       console.log("no data");
       return [];
+      throw err;
+      
     }
   };
   export const getImageApi = async () => {
