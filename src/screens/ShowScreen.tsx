@@ -5,12 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 type IndexScreenType={
     navigation:any
 }
-//import getApi from '../api/getApi';
-const ShowScreen :React.FC<any>= (props)=>{
+const ShowScreen :React.FC<IndexScreenType>= (props)=>{
     const hides=useSelector((store: any)=>store?.imagesHide);
     console.log(props);
+    //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
     const route=useRoute()
-    
     const image=(route.params as any)?.image;
     return (
        <View style={styles.container}> 

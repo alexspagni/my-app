@@ -1,6 +1,5 @@
 ////////ALL IMPORT///////////////
 import React ,{useEffect, useState}from 'react';
-import Checkbox from 'expo-checkbox';
 import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {getImageMars} from '../api/getImage'; 
@@ -16,7 +15,8 @@ const IndexScreen = ()=>{
     const images=useSelector((store: any)=>store?.images);
     const navigation=useNavigation<any>();
     const dispatch = useDispatch();
-    const [isChecked, setChecked] = useState(false);
+  
+    //funzione per fare la richiesta HTTP
     
     const getImageFromMars = async (pageNumber=0) => {
         pageNumber++;
@@ -69,7 +69,7 @@ const IndexScreen = ()=>{
     );
     
 };
-
+//Style del componente
 const styles=StyleSheet.create({
     container :{
         marginBottom:10,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, View, StatusBar, StyleSheet, Text } from 'react-native'
+import {  StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import DrawerNavigator from './src/Navigator/DrawerNavigationComponent'
 import { Provider } from 'react-redux'

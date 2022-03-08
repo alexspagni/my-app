@@ -3,7 +3,7 @@ import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image, Button} from 'reac
 import FormSearch from '../components/FormSearch';
 
 const SerchScreen:React.FC =()=>{
-    //const [roverName,setRoverName]=useState<string>('');
+
     return (
         <View>
             <FormSearch/>

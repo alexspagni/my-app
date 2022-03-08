@@ -19,41 +19,10 @@ const DrawerNavigator = () => {
       }}
       />
 
-      <Drawer.Screen name="ShowScreen" component={ShowScreen} options={{headerRight: () => (
-            <TouchableOpacity onPress={() => navigationContainerRef.current?.navigate('Search')}>
-              <Feather name="search" size={30} />
-            </TouchableOpacity>
-          ),
-      }}
-      />
+      <Drawer.Screen name="ShowScreen" component={ShowScreen} />
     </Drawer.Navigator>
   )
 }
 
 export default DrawerNavigator
 
-
-/*import React from "react";
-import { View,Button } from "react-native";
-type DrawerNavigationComponent ={
-    navigation:any
-}
-export const Bella:React.FC<DrawerNavigationComponent>=({ navigation }) =>{
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          onPress={() => navigation.navigate('Notifications')}
-          title="Go to notifications"
-        />
-      </View>
-    );
-  }
-  
-  export const NotificationsScreen :React.FC<DrawerNavigationComponent>=({ navigation }) =>{
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button onPress={() => navigation.goBack()} title="Go back home" />
-      </View>
-    );
-  }
-  */

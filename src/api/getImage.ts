@@ -1,9 +1,6 @@
 import { marsObject, nasaObject } from "../type/differentType";
-import {NasaApi} from "./getApi"
-import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
-import { useDispatch, useSelector } from 'react-redux';
-import { navigationContainerRef } from "../../App";
-import { NavigationActions } from "react-navigation";
+import {NasaApi} from "./getApi";
+
 const DAY:string='3';
 const MONTH:string='6';
 const YEAR:string='2015';

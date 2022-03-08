@@ -1,5 +1,5 @@
-import React ,{useEffect, useState}from 'react';
-import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image} from 'react-native';
+import React from 'react';
+import {StyleSheet,Image} from 'react-native';
 
 const PhotoComponent = ({object }:any)=>{
 
@@ -8,8 +8,6 @@ const PhotoComponent = ({object }:any)=>{
         );
     
 }
-
-
 const styles=StyleSheet.create({
     image: {
         width: 250,
