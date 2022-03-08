@@ -6,12 +6,13 @@ import { NavigationProvider, withNavigation } from 'react-navigation';
 import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
 import SearchImputText from './SearchImputText'
 import {hideImage} from '../filters/FIlters'
-type FormProps={
-  navigation:any
-}
+import { useNavigation } from '@react-navigation/native';
 
-const FormSearch: React.FC<FormProps>= ({navigation}) => {
-  
+
+const FormSearch: React.FC= () => {
+  //hook per prendere la props "navigation"
+  const navigation =useNavigation();
+//definisco i vari hook per andare a cambiare i vari valori dei textImput 
   const [roverName,setRoverName]=useState<string>('');
   const [day,setDay]=useState<string>('');
   const [month,setMonth]=useState<string>('');
@@ -23,7 +24,7 @@ const FormSearch: React.FC<FormProps>= ({navigation}) => {
 
 
   const getImageFromMars = async () => {
-    //console.log(hides);
+    
       if(day && month &&year){
         const results= await getImageMars(roverName,day,month,year);
         //Una volta ottenuto l'array di immagini mars object vado a filtrarlo in modo che non vengano mostrate le immagini che sono state nascoste
@@ -58,7 +59,7 @@ const FormSearch: React.FC<FormProps>= ({navigation}) => {
         });
         dispatch(addElementsToLibrariesMars(imageFilter))
       }
-      navigation.navigate('Index');
+      navigation.goBack();
     }
   return (
   
@@ -103,4 +104,4 @@ ImputTextContainer: {
   flexDirection:'row'
 }
 });
-export default withNavigation(FormSearch);
+export default FormSearch;

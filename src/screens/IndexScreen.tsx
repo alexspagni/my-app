@@ -1,20 +1,22 @@
 ////////ALL IMPORT///////////////
 import React ,{useEffect, useState}from 'react';
-import Checkbox from 'expo-checkbox';
-import {View,Text,StyleSheet,FlatList,TouchableOpacity,Alert } from 'react-native';
+import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {getImageMars} from '../api/getImage'; 
 import PhotoComponent from '../components/PhotoComponent';
 import { addElementsToLibrariesMars,addElementsToLibrariesHide } from '../reducers/getImagesReducers';
 import { Feather } from '@expo/vector-icons';
 import {hideImage} from '../alertMessages/alertMessage'
+import { useNavigation } from '@react-navigation/native';
 ////////////COMPONENT////////////
 let pageNumber=1;
-const IndexScreen = ({ navigation }: any)=>{
+const IndexScreen = ()=>{
     //////HOOKS//////////////
     const images=useSelector((store: any)=>store?.images);
+    const navigation=useNavigation<any>();
     const dispatch = useDispatch();
-    const [isChecked, setChecked] = useState(false);
+  
+    //funzione per fare la richiesta HTTP
     
     const getImageFromMars = async (pageNumber=0) => {
         pageNumber++;
@@ -38,7 +40,7 @@ const IndexScreen = ({ navigation }: any)=>{
            keyExtractor={(item)=>item.id}
            renderItem ={({item})=>
            <View style={styles.container}>
-            <TouchableOpacity onPress={()=>navigation.navigate('Show',{image:item})}>  
+            <TouchableOpacity onPress={()=>navigation.navigate('ShowScreen',{image:item})}>  
                 <PhotoComponent object={item}/>
             </TouchableOpacity>
             
@@ -67,7 +69,7 @@ const IndexScreen = ({ navigation }: any)=>{
     );
     
 };
-
+//Style del componente
 const styles=StyleSheet.create({
     container :{
         marginBottom:10,
@@ -91,26 +93,13 @@ const styles=StyleSheet.create({
         fontSize: 24,
         color:'red',
         paddingLeft:10
+    },
+    imageHeader:{
+        width: 200,
+        height : 200,
+        borderRadius:4
     }
 });
-//vado a posizionare un icona per la ricerca in alto a destra nell'header dello schermo
-IndexScreen.navigationOptions=({navigation}:any)=>{
-    return{
-        headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-              <Feather name="search" size={30} />
-            </TouchableOpacity>
-          ),
-       
-    
-    };
-};
 
 
 export default IndexScreen;
-/**  <Checkbox
-          style={styles.checkbox}
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined}
-        /> */

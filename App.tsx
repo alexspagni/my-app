@@ -1,38 +1,34 @@
-import 'react-native-gesture-handler';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import IndexScreen from './src/screens/IndexScreen';
-import ShowScreen from './src/screens/ShowScreen';
-import ImagesHide from './src/screens/ImagesHide';
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import reducers from './src/reducers';
-import SearchScreen from './src/screens/SearchScreen';
-//const Drawer = createDrawerNavigator();
-const Navigator = createStackNavigator(
-  {
-    Index: IndexScreen,
-    Show:ShowScreen,
-    Search:SearchScreen,
-  },
-  {
-    
-    initialRouteName: 'Index',
-    defaultNavigationOptions: {
-      title: 'Space application',
-    },
-  }
-);
-const App=createAppContainer(Navigator);
+import React from 'react'
+import {  StyleSheet } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import DrawerNavigator from './src/Navigator/DrawerNavigationComponent'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import reducers from './src/reducers'
+import { createStackNavigator } from '@react-navigation/stack'
+import SerchScreen from './src/screens/SearchScreen'
+import { navigationContainerRef } from './src/Navigator/ContainerRef'
 
-export default ()=>{
+const Stack=createStackNavigator();
+
+const App = () => {
   return (
     <Provider store={createStore(reducers)}>
-  
-        <App/>
-    
-     
-  </Provider>
-  );
-} ;
+      <NavigationContainer ref={navigationContainerRef}>
+        <Stack.Navigator initialRouteName='drawer'>
+          <Stack.Screen name="drawer" component={DrawerNavigator} options={{ headerShown: false}} />
+          <Stack.Screen name="Search" component={SerchScreen} options={{ presentation: 'modal' }}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+      </Provider>
+  )
+}
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    overflow: 'hidden',
+  },
+})
+
+export default App

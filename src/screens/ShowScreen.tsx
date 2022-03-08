@@ -1,18 +1,21 @@
+import { useRoute } from '@react-navigation/native';
 import React ,{useEffect, useState}from 'react';
 import {View,Text,StyleSheet,FlatList,Button,Image} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 type IndexScreenType={
     navigation:any
 }
-//import getApi from '../api/getApi';
-const IndexScreen :React.FC<IndexScreenType>= ({navigation})=>{
+const ShowScreen :React.FC<IndexScreenType>= (props)=>{
     const hides=useSelector((store: any)=>store?.imagesHide);
-const image=navigation.getParam("image");
+    console.log(props);
+    //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
+    const route=useRoute()
+    const image=(route.params as any)?.image;
     return (
        <View style={styles.container}> 
-        <Text style={styles.TextStyle}>Image id:{image.id}</Text>
-        <Text style={styles.TextStyle}>Rover name: {image.rover.name}</Text>
-        <Text style={styles.TextStyle}>Camera name: {image.camera.name}</Text>
+        <Text style={styles.TextStyle}>Image id:{image?.id}</Text>
+        <Text style={styles.TextStyle}>Rover name: {image?.rover.name}</Text>
+        <Text style={styles.TextStyle}>Camera name: {image?.camera.name}</Text>
         {hides.includes(image)?<Text style={styles.TextStyle}>This image has been hided</Text>:null}
         </View>
     );
@@ -29,4 +32,4 @@ const styles=StyleSheet.create({
         color:'white'
     }
 });
-export default IndexScreen;
+export default ShowScreen;
