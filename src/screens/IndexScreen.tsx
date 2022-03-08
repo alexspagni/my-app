@@ -1,6 +1,6 @@
 ////////ALL IMPORT///////////////
-import React ,{useEffect, useState}from 'react';
-import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image } from 'react-native';
+import React ,{useEffect}from 'react';
+import {View,Text,StyleSheet,FlatList,TouchableOpacity,AccessibilityInfo } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {getImageMars} from '../api/getImage'; 
 import PhotoComponent from '../components/PhotoComponent';
@@ -58,8 +58,8 @@ const IndexScreen = ()=>{
            </View>
            }
            onEndReached={()=>{
-            //console.log("end");
-           // getImageFromMars(pageNumber);
+            console.log("end");
+           getImageFromMars(pageNumber);
            }
            }
            onEndReachedThreshold={0.5}
