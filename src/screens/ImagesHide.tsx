@@ -1,10 +1,15 @@
+
+/**
+ * NOT USE ANYMORE
+ */
+
 import React from 'react';
 import {View,Text,StyleSheet,FlatList,TouchableOpacity} from 'react-native';
 import {  useSelector } from 'react-redux';
 import PhotoComponent from '../components/PhotoComponent';
 const ImagesHide=()=>{
     const images=useSelector((store: any)=>store?.imagesHide);
-    console.log(images);
+    //console.log(images);
     
     return (
         <View>

@@ -3,7 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import IndexScreen from './src/screens/IndexScreen';
-import ShowScreen from './src/components/ShowScreen';
+import ShowScreen from './src/screens/ShowScreen';
 import ImagesHide from './src/screens/ImagesHide';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
@@ -15,7 +15,6 @@ const Navigator = createStackNavigator(
     Index: IndexScreen,
     Show:ShowScreen,
     Search:SearchScreen,
-    ImagesH:ImagesHide
   },
   {
     

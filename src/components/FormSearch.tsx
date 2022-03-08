@@ -5,27 +5,60 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavigationProvider, withNavigation } from 'react-navigation';
 import { addElementsToLibrariesMars } from '../reducers/getImagesReducers';
 import SearchImputText from './SearchImputText'
+import {hideImage} from '../filters/FIlters'
 type FormProps={
   navigation:any
 }
+
 const FormSearch: React.FC<FormProps>= ({navigation}) => {
   
   const [roverName,setRoverName]=useState<string>('');
   const [day,setDay]=useState<string>('');
   const [month,setMonth]=useState<string>('');
   const [year,setYear]=useState<string>('');
+  //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa 
   const images=useSelector((store: any)=>store?.images);
+  const hides=useSelector((store: any)=>store?.imagesHide);
   const dispatch = useDispatch();
-        const getImageFromMars = async () => {
-          if(day && month &&year){
-            const results= await getImageMars(roverName,day,month,year);
-            dispatch(addElementsToLibrariesMars(results))
+
+
+  const getImageFromMars = async () => {
+    //console.log(hides);
+      if(day && month &&year){
+        const results= await getImageMars(roverName,day,month,year);
+        //Una volta ottenuto l'array di immagini mars object vado a filtrarlo in modo che non vengano mostrate le immagini che sono state nascoste
+        const imageFilter=results.filter((element)=>{
+          let temp=0;
+          for(let i=0;i<hides.length;i++){
+              if(element.id==hides[i].id){
+                  temp=1;
+              }
           }
-          else{
-            const results= await getImageMars(roverName);
-            dispatch(addElementsToLibrariesMars(results))
+          if(temp==0){
+              return element;
           }
-          navigation.navigate('Index');
+          
+        });
+        dispatch(addElementsToLibrariesMars(imageFilter))
+      }
+      else{
+        const results= await getImageMars(roverName);
+          //Una volta ottenuto l'array di immagini mars object vado a filtrarlo in modo che non vengano mostrate le immagini che sono state nascoste
+        const imageFilter=results.filter((element)=>{
+          let temp=0;
+          for(let i=0;i<hides.length;i++){
+              if(element.id==hides[i].id){
+                  temp=1;
+              }
+          }
+          if(temp==0){
+              return element;
+          }
+          
+        });
+        dispatch(addElementsToLibrariesMars(imageFilter))
+      }
+      navigation.navigate('Index');
     }
   return (
   

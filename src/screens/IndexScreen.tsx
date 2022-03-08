@@ -7,14 +7,13 @@ import {getImageMars} from '../api/getImage';
 import PhotoComponent from '../components/PhotoComponent';
 import { addElementsToLibrariesMars,addElementsToLibrariesHide } from '../reducers/getImagesReducers';
 import { Feather } from '@expo/vector-icons';
+import {hideImage} from '../alertMessages/alertMessage'
 ////////////COMPONENT////////////
 let pageNumber=1;
 const IndexScreen = ({ navigation }: any)=>{
     //////HOOKS//////////////
     const images=useSelector((store: any)=>store?.images);
     const dispatch = useDispatch();
-    const hide=useSelector((store: any)=>store?.imagesHide);
-    
     const [isChecked, setChecked] = useState(false);
     
     const getImageFromMars = async (pageNumber=0) => {
@@ -25,30 +24,12 @@ const IndexScreen = ({ navigation }: any)=>{
 
     useEffect( () => {
         getImageFromMars();
-       
     },[])
 
-    const createTwoButtonAlert = () =>
-    Alert.alert(
-      "Hiding",
-      "this image is now hided",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") }
-      ]
-    );
+    
     return (
        <View style={styles.containerPrincipal}>
-           <Checkbox
-          style={styles.checkbox}
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined}
-        />
+         
 
         {images.length?<Text style={styles.TextStyle}>Here you can find some photos about mars rover</Text>:<Text style={styles.TextStyle}>no photo found</Text>}
        
@@ -67,7 +48,7 @@ const IndexScreen = ({ navigation }: any)=>{
                     payload:item
                 })
                 //console.log(item);
-                createTwoButtonAlert();
+                hideImage();
                 
             }}>
             <Feather name="trash" style={styles.icon} />
@@ -75,7 +56,7 @@ const IndexScreen = ({ navigation }: any)=>{
            </View>
            }
            onEndReached={()=>{
-            console.log("end");
+            //console.log("end");
            // getImageFromMars(pageNumber);
            }
            }
@@ -112,6 +93,7 @@ const styles=StyleSheet.create({
         paddingLeft:10
     }
 });
+//vado a posizionare un icona per la ricerca in alto a destra nell'header dello schermo
 IndexScreen.navigationOptions=({navigation}:any)=>{
     return{
         headerRight: () => (
@@ -119,14 +101,16 @@ IndexScreen.navigationOptions=({navigation}:any)=>{
               <Feather name="search" size={30} />
             </TouchableOpacity>
           ),
-        headerLeft:()=>(
-            <TouchableOpacity onPress={() => navigation.navigate('ImagesH')}>
-              <Feather name="search" size={30} />
-            </TouchableOpacity>
-          )
+       
     
     };
 };
 
 
 export default IndexScreen;
+/**  <Checkbox
+          style={styles.checkbox}
+          value={isChecked}
+          onValueChange={setChecked}
+          color={isChecked ? '#4630EB' : undefined}
+        /> */
