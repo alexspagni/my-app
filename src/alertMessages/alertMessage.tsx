@@ -26,3 +26,9 @@ export const imageNotFoundAlert = () =>
     },
     { text: "OK" },
   ]);
+export const indexScreenFilterAlert = () =>
+  Alert.alert(
+    "Hello Message",
+    "In these screen i'll you can set some filter about \n images",
+    [{ text: "OK" }]
+  );
