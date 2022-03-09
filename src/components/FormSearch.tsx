@@ -3,7 +3,7 @@ import { View, StyleSheet,Text, Button } from 'react-native';
 import {getImageMars} from '../api/getImage';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavigationProvider, withNavigation } from 'react-navigation';
-import { addElementsToLibrariesMars, addElementsToLibrariesMars2 } from '../reducers/getImagesReducers';
+import { addElementsToLibrariesMars, addElementsToLibrariesMarsRefreshing, addRoverName, incrementPageNumber } from '../reducers/getImagesReducers';
 import SearchImputText from './SearchImputText'
 import {hideImage} from '../filters/FIlters'
 import { useNavigation } from '@react-navigation/native';
@@ -24,9 +24,10 @@ const FormSearch: React.FC= () => {
 
 
   const getImageFromMars = async () => {
-    
+    const pageNumber=1;
       if(day && month &&year){
-        const results= await getImageMars(roverName,day,month,year);
+        
+        const results= await getImageMars(roverName,pageNumber,day,month,year);
         //Una volta ottenuto l'array di immagini mars object vado a filtrarlo in modo che non vengano mostrate le immagini che sono state nascoste
         const imageFilter=results.filter((element)=>{
           let temp=0;
@@ -40,10 +41,11 @@ const FormSearch: React.FC= () => {
           }
           
         });
-        dispatch(addElementsToLibrariesMars2(imageFilter))
+        dispatch(addElementsToLibrariesMarsRefreshing(imageFilter))
+        dispatch(addRoverName(roverName))
       }
       else{
-        const results= await getImageMars(roverName);
+        const results= await getImageMars(roverName,pageNumber);
           //Una volta ottenuto l'array di immagini mars object vado a filtrarlo in modo che non vengano mostrate le immagini che sono state nascoste
         const imageFilter=results.filter((element)=>{
           let temp=0;
@@ -57,7 +59,9 @@ const FormSearch: React.FC= () => {
           }
           
         });
-        dispatch(addElementsToLibrariesMars2(imageFilter))
+        dispatch(addElementsToLibrariesMarsRefreshing(imageFilter))
+        dispatch(addRoverName(roverName))
+        dispatch(incrementPageNumber(1))
       }
       navigation.goBack();
     }
