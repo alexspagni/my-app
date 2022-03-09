@@ -7,6 +7,7 @@ export type actionImageType={
     type:string,
     payload : any
 };
+
 export type nasaObject= {
     copyright:string,
     date:string,

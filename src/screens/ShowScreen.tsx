@@ -7,7 +7,7 @@ type IndexScreenType={
 }
 const ShowScreen :React.FC<IndexScreenType>= (props)=>{
     const hides=useSelector((store: any)=>store?.imagesHide);
-    console.log(props);
+    
     //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
     const route=useRoute()
     const image=(route.params as any)?.image;
