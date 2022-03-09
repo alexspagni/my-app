@@ -25,9 +25,13 @@ const DrawerNavigator = () => {
         options={{
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => navigationContainerRef.current?.navigate("Search")}
+              onPress={() =>
+                navigationContainerRef.current?.navigate(
+                  "DrawerNavigationFilter"
+                )
+              }
             >
-              <Feather name="search" size={30} />
+              <Feather name="search" size={30} style={{ paddingRight: 10 }} />
             </TouchableOpacity>
           ),
           title: "Home",

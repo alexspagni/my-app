@@ -12,6 +12,7 @@ import {
 import SearchImputText from "./SearchImputText";
 
 import { useNavigation } from "@react-navigation/native";
+import { navigationContainerRef } from "../Navigator/ContainerRef";
 
 const FormSearch: React.FC = () => {
   //hook per prendere la props "navigation"
@@ -47,7 +48,7 @@ const FormSearch: React.FC = () => {
       dispatch(addRoverName(roverName));
       dispatch(incrementPageNumber(1));
     }
-    navigation.goBack();
+    navigationContainerRef.current?.navigate("drawer");
   };
   return (
     <View style={styles.backgroundStyle}>
