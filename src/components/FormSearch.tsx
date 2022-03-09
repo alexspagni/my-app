@@ -36,35 +36,14 @@ const FormSearch: React.FC = () => {
         month,
         year
       );
-      //Una volta ottenuto l'array di immagini mars object vado a filtrarlo in modo che non vengano mostrate le immagini che sono state nascoste
-      const imageFilter = results.filter((element) => {
-        let temp = 0;
-        for (let i = 0; i < hides.length; i++) {
-          if (element.id == hides[i].id) {
-            temp = 1;
-          }
-        }
-        if (temp == 0) {
-          return element;
-        }
-      });
-      dispatch(addElementsToLibrariesMarsRefreshing(imageFilter));
+
+      dispatch(addElementsToLibrariesMarsRefreshing(results));
       dispatch(addRoverName(roverName));
+      dispatch(incrementPageNumber(1));
     } else {
       const results = await getImageMars(roverName, pageNumber);
-      //Una volta ottenuto l'array di immagini mars object vado a filtrarlo in modo che non vengano mostrate le immagini che sono state nascoste
-      const imageFilter = results.filter((element) => {
-        let temp = 0;
-        for (let i = 0; i < hides.length; i++) {
-          if (element.id == hides[i].id) {
-            temp = 1;
-          }
-        }
-        if (temp == 0) {
-          return element;
-        }
-      });
-      dispatch(addElementsToLibrariesMarsRefreshing(imageFilter));
+
+      dispatch(addElementsToLibrariesMarsRefreshing(results));
       dispatch(addRoverName(roverName));
       dispatch(incrementPageNumber(1));
     }
