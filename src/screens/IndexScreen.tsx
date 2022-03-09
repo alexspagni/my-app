@@ -26,7 +26,6 @@ import {
 } from "../alertMessages/alertMessage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { imagesHided } from "../filters/FIlters";
-import { StatusBar } from "expo-status-bar";
 
 ////////////COMPONENT////////////
 
@@ -86,7 +85,7 @@ const IndexScreen = () => {
       ) : null}
       {!images.length && !loading ? imageNotFoundAlert() : null}
       {loading ? <ActivityIndicator size={30} color={"red"} /> : null}
-      <StatusBar hidden={true} />
+
       <FlatList
         ref={flatListRef}
         data={images}
