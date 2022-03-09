@@ -9,6 +9,7 @@ import {
   AccessibilityInfo,
   ActivityIndicator,
 } from "react-native";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
@@ -24,6 +25,7 @@ import {
   imageNotFoundAlert,
 } from "../alertMessages/alertMessage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { imagesHided } from "../filters/FIlters";
 
 ////////////COMPONENT////////////
 
@@ -37,8 +39,7 @@ const IndexScreen = () => {
   const navigation = useNavigation<any>();
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
-  //console.log(images.length);
-
+  const hides = useSelector((store: any) => store?.imagesHide);
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
 
   const getImageFromMars = async (
@@ -48,13 +49,11 @@ const IndexScreen = () => {
     month?: string,
     year?: string
   ) => {
-    // setPageNumber(page);
     dispatch(incrementPageNumber(page));
-    console.log(page);
-
     try {
       const results = await getImageMars(roverName, page, day, month, year);
-      dispatch(addElementsToLibrariesMars(results));
+      const imagesToRender = imagesHided(results, hides);
+      dispatch(addElementsToLibrariesMars(imagesToRender));
     } catch {}
     setLoading(false);
   };
@@ -64,15 +63,19 @@ const IndexScreen = () => {
       getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
     } catch {}
   }, []);
-
-  useFocusEffect(
+  useEffect(
     React.useCallback(() => {
-      if (images.length && !loading) {
-        flatListRef.current?.scrollToIndex({ animated: true, index: 0 });
+      if (images.length) {
+        //console.log("sono qui");
+        flatListRef.current?.scrollToIndex({
+          animated: true,
+          index: 0,
+          viewPosition: 0,
+        });
       }
     }, [roverNameQueryng])
-  );
-
+  ),
+    [];
   return (
     <View style={styles.containerPrincipal}>
       {images.length ? (
@@ -90,7 +93,10 @@ const IndexScreen = () => {
         renderItem={({ item }) => (
           <View style={styles.container}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("ShowScreen", { image: item })}
+              onPress={() => {
+                setLoading(false);
+                navigation.navigate("ShowScreen", { image: item });
+              }}
             >
               <PhotoComponent object={item} />
             </TouchableOpacity>

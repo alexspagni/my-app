@@ -2,6 +2,7 @@ import { marsObject } from "../type/differentType";
 const initalStateRover: marsObject[] = [];
 const initalStateNameRover: string = "opportunity";
 const intialPageNumber: number = 1;
+const intizialLoadingValue: boolean = true;
 type LibrariesAddActionType = {
   type: typeof LIBRARIES_ADD;
   payload: marsObject;
@@ -23,6 +24,7 @@ type LibrestSetPageNumber = {
   type: typeof LIBRARIES_PAGE_NUMBER;
   payload: number;
 };
+
 export const addElementsToLibrariesMars = (
   array: marsObject[]
 ): LibrariesAddActionTypeMars | undefined => {
