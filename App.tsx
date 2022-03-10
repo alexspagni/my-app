@@ -26,11 +26,6 @@ const App = () => {
             component={SerchScreen}
             options={{ presentation: "modal" }}
           />
-          <Stack.Screen
-            name="DrawerNavigationFilter"
-            component={DrawerNavigatorFilter}
-            options={{ headerShown: false }}
-          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

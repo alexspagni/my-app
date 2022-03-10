@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Image } from "react-native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerView } from "@react-navigation/drawer";
 import { Feather } from "@expo/vector-icons";
 import IndexScreen from "../screens/IndexScreen";
 import ShowScreen from "../screens/ShowScreen";
 import { TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "./ContainerRef";
-
+import FormSearch from "../components/FormSearch";
+import CustomSidebarMenu from "./CustomSidebarMenu";
 const Drawer = createDrawerNavigator();
 const LogoTitle: React.FC<any> = () => {
   return (
@@ -16,6 +17,19 @@ const LogoTitle: React.FC<any> = () => {
     />
   );
 };
+export const drawerItemsMain = [
+  {
+    key: "Home",
+    title: "Home",
+    route: { nav: "MainDrawer", routeName: "Home", title: "Home" },
+  },
+  {
+    key: "Settings",
+    title: "Settings",
+    route: { nav: "MainDrawer", routeName: "Settings", title: "Settings" },
+  },
+];
+
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator initialRouteName="IndexScreen">
@@ -23,18 +37,29 @@ const DrawerNavigator = () => {
         name="IndexScreen"
         component={IndexScreen}
         options={{
+          drawerLabel: "Home",
+          title: "section1",
+          drawerActiveTintColor: "#e91e63",
+
           headerRight: () => (
             <TouchableOpacity
-              onPress={() =>
-                navigationContainerRef.current?.navigate(
-                  "DrawerNavigationFilter"
-                )
-              }
+              onPress={() => navigationContainerRef.current?.navigate("Search")}
             >
               <Feather name="search" size={30} style={{ paddingRight: 10 }} />
             </TouchableOpacity>
           ),
-          title: "Home",
+          drawerIcon: (): any => {
+            return <LogoTitle />;
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="ShowScreen"
+        component={ShowScreen}
+        options={{
+          drawerLabel: "ShowScreen",
+          title: "section1",
+          drawerActiveTintColor: "#e91e63",
           drawerIcon: (): any => {
             return <LogoTitle />;
           },
@@ -42,9 +67,12 @@ const DrawerNavigator = () => {
       />
 
       <Drawer.Screen
-        name="ShowScreen"
-        component={ShowScreen}
+        name="filter"
+        component={FormSearch}
         options={{
+          drawerLabel: "Fiters",
+          title: "section2",
+          drawerActiveTintColor: "#e91e63",
           drawerIcon: (): any => {
             return <LogoTitle />;
           },

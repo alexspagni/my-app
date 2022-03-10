@@ -31,7 +31,6 @@ import { imagesHided } from "../filters/FIlters";
 
 const IndexScreen = () => {
   //////HOOKS//////////////
-  //const [pageNumber,setPageNumber]=useState(1);
   const pageNumber = useSelector((store: any) => store?.pageNumber);
   const [loading, setLoading] = useState(true);
   const images = useSelector((store: any) => store?.images);
@@ -40,6 +39,7 @@ const IndexScreen = () => {
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
   const hides = useSelector((store: any) => store?.imagesHide);
+
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
 
   const getImageFromMars = async (
@@ -85,7 +85,6 @@ const IndexScreen = () => {
       ) : null}
       {!images.length && !loading ? imageNotFoundAlert() : null}
       {loading ? <ActivityIndicator size={30} color={"red"} /> : null}
-
       <FlatList
         ref={flatListRef}
         data={images}
