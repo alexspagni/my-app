@@ -32,7 +32,9 @@ export const drawerItemsMain = [
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator initialRouteName="IndexScreen">
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomSidebarMenu {...props} />}
+    >
       <Drawer.Screen
         name="IndexScreen"
         component={IndexScreen}
@@ -67,10 +69,10 @@ const DrawerNavigator = () => {
       />
 
       <Drawer.Screen
-        name="filter"
+        name="filters"
         component={FormSearch}
         options={{
-          drawerLabel: "Fiters",
+          drawerLabel: "Filters",
           title: "section2",
           drawerActiveTintColor: "#e91e63",
           drawerIcon: (): any => {

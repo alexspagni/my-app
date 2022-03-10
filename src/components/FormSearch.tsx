@@ -13,6 +13,7 @@ import SearchImputText from "./SearchImputText";
 
 import { useNavigation } from "@react-navigation/native";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
+import { imagesHided } from "../filters/FIlters";
 
 const FormSearch: React.FC = () => {
   //hook per prendere la props "navigation"
@@ -37,14 +38,14 @@ const FormSearch: React.FC = () => {
         month,
         year
       );
-
-      dispatch(addElementsToLibrariesMarsRefreshing(results));
+      const imagesToRender = imagesHided(results, hides);
+      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
       dispatch(addRoverName(roverName));
       dispatch(incrementPageNumber(1));
     } else {
       const results = await getImageMars(roverName, pageNumber);
-
-      dispatch(addElementsToLibrariesMarsRefreshing(results));
+      const imagesToRender = imagesHided(results, hides);
+      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
       dispatch(addRoverName(roverName));
       dispatch(incrementPageNumber(1));
     }

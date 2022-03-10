@@ -23,17 +23,19 @@ const CustomSidebarMenu = (props: any) => {
             lastGroupName = title;
           } else newGroup = false;
           return (
-            <>
+            <View key={drawerLabel + "-" + Math.random() * 2000}>
               {newGroup ? (
                 <View style={styles.sectionContainer}>
-                  <Text key={title} style={{ marginLeft: 16 }}>
+                  <Text
+                    key={title + "-" + Math.random() * 2000}
+                    style={{ marginLeft: 16 }}
+                  >
                     {title}
                   </Text>
                   <View style={styles.sectionLine} />
                 </View>
               ) : null}
               <DrawerItem
-                key={route.key}
                 label={({ color }) => (
                   <Text style={{ color }}>{drawerLabel}</Text>
                 )}
@@ -43,7 +45,7 @@ const CustomSidebarMenu = (props: any) => {
                 }
                 onPress={() => navigation.navigate(route.name)}
               />
-            </>
+            </View>
           );
         })}
       </DrawerContentScrollView>
