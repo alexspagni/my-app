@@ -1,11 +1,7 @@
 import React from "react";
 import { SafeAreaView, View, StyleSheet, Text } from "react-native";
 
-import {
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
-} from "@react-navigation/drawer";
+import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 const CustomSidebarMenu = (props: any) => {
   const { state, descriptors, navigation } = props;

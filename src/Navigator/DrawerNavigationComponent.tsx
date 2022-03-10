@@ -35,26 +35,30 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerContent={(props) => <CustomSidebarMenu {...props} />}
     >
-      <Drawer.Screen
-        name="IndexScreen"
-        component={IndexScreen}
-        options={{
-          drawerLabel: "Home",
-          title: "section1",
-          drawerActiveTintColor: "#e91e63",
+      <Drawer.Group screenOptions={{ title: "Home" }}>
+        <Drawer.Screen
+          name="IndexScreen"
+          component={IndexScreen}
+          options={{
+            drawerLabel: "Home",
+            title: "section1",
+            drawerActiveTintColor: "#e91e63",
 
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigationContainerRef.current?.navigate("Search")}
-            >
-              <Feather name="search" size={30} style={{ paddingRight: 10 }} />
-            </TouchableOpacity>
-          ),
-          drawerIcon: (): any => {
-            return <LogoTitle />;
-          },
-        }}
-      />
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigationContainerRef.current?.navigate("Search")
+                }
+              >
+                <Feather name="search" size={30} style={{ paddingRight: 10 }} />
+              </TouchableOpacity>
+            ),
+            drawerIcon: (): any => {
+              return <LogoTitle />;
+            },
+          }}
+        />
+      </Drawer.Group>
       <Drawer.Screen
         name="ShowScreen"
         component={ShowScreen}

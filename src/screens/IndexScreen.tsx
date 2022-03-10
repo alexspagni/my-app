@@ -26,7 +26,8 @@ import {
 } from "../alertMessages/alertMessage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { imagesHided } from "../filters/FIlters";
-
+import { Skeleton } from "../skeleton/Skeleton";
+import { SkeletonList } from "../skeleton/SkeletonList";
 ////////////COMPONENT////////////
 
 const IndexScreen = () => {
@@ -84,7 +85,7 @@ const IndexScreen = () => {
         </Text>
       ) : null}
       {!images.length && !loading ? imageNotFoundAlert() : null}
-      {loading ? <ActivityIndicator size={30} color={"red"} /> : null}
+      {loading ? <SkeletonList /> : null}
       <FlatList
         ref={flatListRef}
         data={images}
