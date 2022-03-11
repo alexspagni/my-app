@@ -17,55 +17,41 @@ const LogoTitle: React.FC<any> = () => {
     />
   );
 };
-export const drawerItemsMain = [
-  {
-    key: "Home",
-    title: "Home",
-    route: { nav: "MainDrawer", routeName: "Home", title: "Home" },
-  },
-  {
-    key: "Settings",
-    title: "Settings",
-    route: { nav: "MainDrawer", routeName: "Settings", title: "Settings" },
-  },
-];
 
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomSidebarMenu {...props} />}
     >
-      <Drawer.Group screenOptions={{ title: "Home" }}>
-        <Drawer.Screen
-          name="IndexScreen"
-          component={IndexScreen}
-          options={{
-            drawerLabel: "Home",
-            title: "section1",
-            drawerActiveTintColor: "#e91e63",
+      <Drawer.Screen
+        name="IndexScreen"
+        component={IndexScreen}
+        options={{
+          drawerLabel: "Home",
 
-            headerRight: () => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigationContainerRef.current?.navigate("Search")
-                }
-              >
-                <Feather name="search" size={30} style={{ paddingRight: 10 }} />
-              </TouchableOpacity>
-            ),
-            drawerIcon: (): any => {
-              return <LogoTitle />;
-            },
-          }}
-        />
-      </Drawer.Group>
+          title: "Home",
+          drawerActiveTintColor: "section1",
+
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigationContainerRef.current?.navigate("Search")}
+            >
+              <Feather name="search" size={30} style={{ paddingRight: 10 }} />
+            </TouchableOpacity>
+          ),
+          drawerIcon: (): any => {
+            return <LogoTitle />;
+          },
+        }}
+      />
+
       <Drawer.Screen
         name="ShowScreen"
         component={ShowScreen}
         options={{
           drawerLabel: "ShowScreen",
-          title: "section1",
-          drawerActiveTintColor: "#e91e63",
+          title: "Details",
+          drawerActiveTintColor: "section1",
           drawerIcon: (): any => {
             return <LogoTitle />;
           },
@@ -77,8 +63,8 @@ const DrawerNavigator = () => {
         component={FormSearch}
         options={{
           drawerLabel: "Filters",
-          title: "section2",
-          drawerActiveTintColor: "#e91e63",
+          title: "Filters",
+          drawerActiveTintColor: "section2",
           drawerIcon: (): any => {
             return <LogoTitle />;
           },

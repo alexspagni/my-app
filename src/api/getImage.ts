@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addElementsToLibrariesMars } from "../reducers/getImagesReducers";
+import { imagesHided } from "../filters/FIlters";
+import { addElementsToLibrariesMars, addElementsToLibrariesMarsRefreshing, addRoverName, incrementPageNumber } from "../reducers/getImagesReducers";
 import { marsObject, nasaObject } from "../type/differentType";
 import {NasaApi} from "./getApi";
 
@@ -26,5 +27,3 @@ const YEAR:string='2016';
       console.log("no data");
     }
   };
-
-

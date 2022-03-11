@@ -8,12 +8,14 @@ import {
   addElementsToLibrariesMarsRefreshing,
   addRoverName,
   incrementPageNumber,
+  resetImages,
 } from "../reducers/getImagesReducers";
 import SearchImputText from "./SearchImputText";
 
 import { useNavigation } from "@react-navigation/native";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { imagesHided } from "../filters/FIlters";
+import { setLoadingReducer } from "../reducers/setLoadingReducer";
 
 const FormSearch: React.FC = () => {
   //hook per prendere la props "navigation"
@@ -26,8 +28,17 @@ const FormSearch: React.FC = () => {
   //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa
   const images = useSelector((store: any) => store?.images);
   const hides = useSelector((store: any) => store?.imagesHide);
+  const loading = useSelector((store: any) => store?.loading);
   const dispatch = useDispatch();
 
+  const backToIndexScreen = () => {
+    dispatch(addRoverName(roverName));
+    dispatch(incrementPageNumber(1));
+    dispatch(setLoadingReducer(true));
+    dispatch({ type: "images_reset", payload: [] });
+    //navigation.navigate("IndexScreen");
+    navigationContainerRef.current?.navigate("IndexScreen");
+  };
   const getImageFromMars = async () => {
     const pageNumber = 1;
     if (day && month && year) {
@@ -42,14 +53,18 @@ const FormSearch: React.FC = () => {
       dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
       dispatch(addRoverName(roverName));
       dispatch(incrementPageNumber(1));
+      dispatch(setLoadingReducer(true));
     } else {
       const results = await getImageMars(roverName, pageNumber);
       const imagesToRender = imagesHided(results, hides);
       dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
       dispatch(addRoverName(roverName));
       dispatch(incrementPageNumber(1));
+      dispatch(setLoadingReducer(true));
     }
-    navigationContainerRef.current?.navigate("drawer");
+    navigation.goBack;
+    navigation.navigate({ key: "IndexScreen", merge: true });
+    //navigationContainerRef.current?.navigate("IndexScreen");
   };
   return (
     <View style={styles.backgroundStyle}>
@@ -77,7 +92,7 @@ const FormSearch: React.FC = () => {
           onChangeText={(newTerm) => setYear(newTerm)}
         />
       </View>
-      <Button title="Search photo" onPress={() => getImageFromMars()} />
+      <Button title="Search photo" onPress={() => backToIndexScreen()} />
     </View>
   );
 };

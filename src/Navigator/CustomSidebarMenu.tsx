@@ -1,8 +1,15 @@
 import React from "react";
-import { SafeAreaView, View, StyleSheet, Text } from "react-native";
+import { SafeAreaView, View, StyleSheet, Text, Image } from "react-native";
 
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-
+const LogoTitle: React.FC<any> = () => {
+  return (
+    <Image
+      style={{ width: 40, height: 40 }}
+      source={require("../Images/unipr_logo.jpg")}
+    />
+  );
+};
 const CustomSidebarMenu = (props: any) => {
   const { state, descriptors, navigation } = props;
   let lastGroupName = "";
@@ -14,19 +21,19 @@ const CustomSidebarMenu = (props: any) => {
         {state.routes.map((route: any) => {
           const { drawerLabel, drawerActiveTintColor, title } =
             descriptors[route.key].options;
-          if (lastGroupName !== title) {
+          if (lastGroupName !== drawerActiveTintColor) {
             newGroup = true;
-            lastGroupName = title;
+            lastGroupName = drawerActiveTintColor;
           } else newGroup = false;
           return (
             <View key={drawerLabel + "-" + Math.random() * 2000}>
               {newGroup ? (
                 <View style={styles.sectionContainer}>
                   <Text
-                    key={title + "-" + Math.random() * 2000}
+                    key={drawerActiveTintColor + "-" + Math.random() * 2000}
                     style={{ marginLeft: 16 }}
                   >
-                    {title}
+                    {drawerActiveTintColor}
                   </Text>
                   <View style={styles.sectionLine} />
                 </View>
@@ -39,7 +46,11 @@ const CustomSidebarMenu = (props: any) => {
                   state.index ===
                   state.routes.findIndex((e: any) => e.name === route.name)
                 }
-                onPress={() => navigation.navigate(route.name)}
+                icon={() => <LogoTitle />}
+                onPress={() => {
+                  navigation.navigate(route.name);
+                  // navigation.toggleDrawer();
+                }}
               />
             </View>
           );
