@@ -1,6 +1,6 @@
 import { marsObject } from "../type/differentType";
 const initalStateRover: marsObject[] = [];
-const initalStateNameRover: string = "opportunity";
+const initalStateNameRover: string = "Opportunity";
 const intialPageNumber: number = 1;
 const intizialLoadingValue: boolean = true;
 type LibrariesAddActionType = {
@@ -24,7 +24,16 @@ type LibrestSetPageNumber = {
   type: typeof LIBRARIES_PAGE_NUMBER;
   payload: number;
 };
-
+type LibrariesSetEmptyArray = {
+  type: typeof LIBRARIES_RESET;
+  payload: [];
+};
+export const resetImages = (array: any): LibrariesSetEmptyArray => {
+  return {
+    type: LIBRARIES_PAGE_NUMBER,
+    payload: array,
+  };
+};
 export const addElementsToLibrariesMars = (
   array: marsObject[]
 ): LibrariesAddActionTypeMars | undefined => {
@@ -64,20 +73,26 @@ export const addRoverName = (string: string): LibrestsetRoverName => {
     payload: string,
   };
 };
+
 export const incrementPageNumber = (number: number): LibrestSetPageNumber => {
   return {
     type: LIBRARIES_PAGE_NUMBER,
     payload: number,
   };
 };
+
 export type ActionFunction = typeof addElementsToLibrariesMars;
 
-type AllLibrariesAction = LibrariesAddActionType | LibrariesAddActionTypeMars;
+type AllLibrariesAction =
+  | LibrariesAddActionType
+  | LibrariesAddActionTypeMars
+  | LibrariesSetEmptyArray;
 export const LIBRARIES_ADD: string = "images_add";
 export const LIBRARIES_ADD_MARS: string = "images_add_mars";
 export const LIBRARIES_HIDE_ONE: string = "images_hide_one";
 export const LIBRARIES_ROVER_NAME: string = "rover_name";
 export const LIBRARIES_PAGE_NUMBER: string = "page_number";
+export const LIBRARIES_RESET: string = "images_reset";
 
 //REDUCERS FUNCTION
 export const getImagesReducer = (
@@ -91,7 +106,8 @@ export const getImagesReducer = (
     case LIBRARIES_ADD_MARS:
       // getImagesHided(state,addElementsToLibrariesMars(state))
       return [...state, ...(action.payload as marsObject[])];
-
+    case LIBRARIES_RESET:
+      return [];
     default:
       return state;
   }

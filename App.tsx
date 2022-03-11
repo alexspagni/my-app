@@ -7,7 +7,6 @@ import reducers from "./src/reducers";
 import { createStackNavigator } from "@react-navigation/stack";
 import SerchScreen from "./src/screens/SearchScreen";
 import { navigationContainerRef } from "./src/Navigator/ContainerRef";
-import DrawerNavigatorFilter from "./src/Navigator/DrawerNavigatorFilter";
 
 const Stack = createStackNavigator();
 

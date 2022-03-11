@@ -6,8 +6,6 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  AccessibilityInfo,
-  ActivityIndicator,
 } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +13,6 @@ import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
 import {
   addElementsToLibrariesMars,
-  addElementsToLibrariesHide,
-  addRoverName,
   incrementPageNumber,
 } from "../reducers/getImagesReducers";
 import { Feather } from "@expo/vector-icons";
@@ -26,44 +22,24 @@ import {
 } from "../alertMessages/alertMessage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { imagesHided } from "../filters/FIlters";
-import { Skeleton } from "../skeleton/Skeleton";
 import { SkeletonList } from "../skeleton/SkeletonList";
-////////////COMPONENT////////////
+import { setLoadingReducer } from "../reducers/setLoadingReducer";
 
+////////////COMPONENT////////////
+let temp = 0;
 const IndexScreen = () => {
-  //////HOOKS//////////////
+  //////HOOKS+REF//////////////
   const pageNumber = useSelector((store: any) => store?.pageNumber);
-  const [loading, setLoading] = useState(true);
+  //const [loading, setLoading] = useState(true);
   const images = useSelector((store: any) => store?.images);
   const roverNameQueryng = useSelector((store: any) => store?.roverName);
   const navigation = useNavigation<any>();
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
   const hides = useSelector((store: any) => store?.imagesHide);
+  const loading = useSelector((store: any) => store?.loading);
 
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
-
-  const getImageFromMars = async (
-    roverName: string,
-    page: number,
-    day?: string,
-    month?: string,
-    year?: string
-  ) => {
-    dispatch(incrementPageNumber(page));
-    try {
-      const results = await getImageMars(roverName, page, day, month, year);
-      const imagesToRender = imagesHided(results, hides);
-      dispatch(addElementsToLibrariesMars(imagesToRender));
-    } catch {}
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    try {
-      getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
-    } catch {}
-  }, []);
   useEffect(
     React.useCallback(() => {
       if (images.length) {
@@ -77,12 +53,43 @@ const IndexScreen = () => {
     }, [roverNameQueryng])
   ),
     [];
+  const getImageFromMars = async (
+    roverName: string,
+    page: number,
+    day?: string,
+    month?: string,
+    year?: string
+  ) => {
+    dispatch(incrementPageNumber(page));
+    try {
+      const results = await getImageMars(roverName, page, day, month, year);
+      const imagesToRender = imagesHided(results, hides);
+      dispatch(addElementsToLibrariesMars(imagesToRender));
+    } catch {}
+    dispatch(setLoadingReducer(false));
+  };
+
+  useEffect(() => {
+    try {
+      console.log(roverNameQueryng);
+      console.log("sono qui");
+      getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
+    } catch {}
+  }, [roverNameQueryng]);
+  /*
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(roverNameQueryng);
+
+      console.log("sono qui");
+      getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
+    }, [roverNameQueryng])
+  );
+*/
   return (
     <View style={styles.containerPrincipal}>
       {images.length ? (
-        <Text style={styles.TextStyle}>
-          Here you can find some photos about mars rover
-        </Text>
+        <Text style={styles.TextStyle}>{images.length}</Text>
       ) : null}
       {!images.length && !loading ? imageNotFoundAlert() : null}
       {loading ? <SkeletonList /> : null}
@@ -94,7 +101,6 @@ const IndexScreen = () => {
           <View style={styles.container}>
             <TouchableOpacity
               onPress={() => {
-                setLoading(false);
                 navigation.navigate("ShowScreen", { image: item });
               }}
             >
@@ -117,8 +123,7 @@ const IndexScreen = () => {
         )}
         onEndReached={() => {
           const newPage = pageNumber + 1;
-          console.log(roverNameQueryng);
-
+          // console.log(roverNameQueryng);
           getImageFromMars(roverNameQueryng, newPage);
         }}
         onEndReachedThreshold={0.5}
