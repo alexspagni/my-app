@@ -89,7 +89,9 @@ const IndexScreen = () => {
   return (
     <View style={styles.containerPrincipal}>
       {images.length ? (
-        <Text style={styles.TextStyle}>{images.length}</Text>
+        <Text style={styles.TextStyle}>
+          Here there are some photos about mars rover
+        </Text>
       ) : null}
       {!images.length && !loading ? imageNotFoundAlert() : null}
       {loading ? <SkeletonList /> : null}
@@ -106,24 +108,10 @@ const IndexScreen = () => {
             >
               <PhotoComponent object={item} />
             </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                dispatch({
-                  type: "images_hide_one",
-                  payload: item,
-                });
-                //console.log(item);
-                hideImageAlert();
-              }}
-            >
-              <Feather name="trash" style={styles.icon} />
-            </TouchableOpacity>
           </View>
         )}
         onEndReached={() => {
           const newPage = pageNumber + 1;
-          // console.log(roverNameQueryng);
           getImageFromMars(roverNameQueryng, newPage);
         }}
         onEndReachedThreshold={0.5}
@@ -145,13 +133,14 @@ const styles = StyleSheet.create({
   },
   TextStyle: {
     color: "white",
+    fontSize: 16,
   },
   checkbox: {
     margin: 8,
   },
   icon: {
     fontSize: 24,
-    color: "red",
+    color: "white",
     paddingLeft: 10,
   },
   imageHeader: {

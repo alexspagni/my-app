@@ -2,15 +2,17 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Button, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { hideImageAlert } from "../alertMessages/alertMessage";
 type IndexScreenType = {
   navigation: any;
 };
 const ShowScreen: React.FC<IndexScreenType> = (props) => {
   const hides = useSelector((store: any) => store?.imagesHide);
 
-  //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const route = useRoute();
+  //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
   const image = (route.params as any)?.image;
   return (
     <View style={styles.container}>
@@ -20,6 +22,18 @@ const ShowScreen: React.FC<IndexScreenType> = (props) => {
       {hides.includes(image) ? (
         <Text style={styles.TextStyle}>This image has been hided</Text>
       ) : null}
+      <Button
+        title="Hide this image"
+        onPress={() => {
+          dispatch({
+            type: "images_hide_one",
+            payload: image,
+          });
+          //console.log(item);
+          hideImageAlert();
+        }}
+        disabled={image?.id ? false : true}
+      />
     </View>
   );
 };

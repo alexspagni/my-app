@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text, Button, Switch } from "react-native";
 import { getImageMars } from "../api/getImage";
 import { useDispatch, useSelector } from "react-redux";
-import { NavigationProvider, withNavigation } from "react-navigation";
 import {
   addElementsToLibrariesMars,
   addElementsToLibrariesMarsRefreshing,
@@ -25,6 +24,7 @@ const FormSearch: React.FC = () => {
   const [day, setDay] = useState<string>("");
   const [month, setMonth] = useState<string>("");
   const [year, setYear] = useState<string>("");
+  const [isEnabled, setIsEnabled] = useState(false);
   //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa
   const images = useSelector((store: any) => store?.images);
   const hides = useSelector((store: any) => store?.imagesHide);
@@ -92,7 +92,32 @@ const FormSearch: React.FC = () => {
           onChangeText={(newTerm) => setYear(newTerm)}
         />
       </View>
-      <Button title="Search photo" onPress={() => backToIndexScreen()} />
+
+      <View style={styles.switchContainer}>
+        <Text style={styles.TextStyleSwicth}>Hide all current image:</Text>
+        <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={isEnabled ? "#FFFFFF" : "#000000"}
+          onValueChange={(newValue) => setIsEnabled(newValue)}
+          onChange={() => console.log("toglle button")}
+          value={isEnabled}
+          style={styles.SwitchStle}
+        />
+      </View>
+      <Button
+        title="Search photo"
+        onPress={() => {
+          //if toggle button is enable==> hide all images
+          if (isEnabled) {
+            dispatch({
+              type: "images_hide_all",
+              payload: images,
+            });
+          }
+          //then go back to the index screen
+          backToIndexScreen();
+        }}
+      />
     </View>
   );
 };
@@ -109,6 +134,19 @@ const styles = StyleSheet.create({
   },
   ImputTextContainer: {
     flexDirection: "row",
+  },
+  switchContainer: {
+    flexDirection: "row",
+  },
+  TextStyleSwicth: {
+    paddingRight: 15,
+    paddingBottom: 15,
+  },
+  SwitchStle: {
+    position: "absolute",
+
+    right: 120,
+    bottom: 1,
   },
 });
 export default FormSearch;

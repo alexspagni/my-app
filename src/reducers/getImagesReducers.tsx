@@ -16,6 +16,10 @@ type LibrariesResetActionHide = {
   type: typeof LIBRARIES_HIDE_ONE;
   payload: marsObject;
 };
+type LibrariesResetActionHideAll = {
+  type: typeof LIBRARIES_HIDE_ALL;
+  payload: marsObject[];
+};
 type LibrestsetRoverName = {
   type: typeof LIBRARIES_ROVER_NAME;
   payload: string;
@@ -90,6 +94,7 @@ type AllLibrariesAction =
 export const LIBRARIES_ADD: string = "images_add";
 export const LIBRARIES_ADD_MARS: string = "images_add_mars";
 export const LIBRARIES_HIDE_ONE: string = "images_hide_one";
+export const LIBRARIES_HIDE_ALL: string = "images_hide_all";
 export const LIBRARIES_ROVER_NAME: string = "rover_name";
 export const LIBRARIES_PAGE_NUMBER: string = "page_number";
 export const LIBRARIES_RESET: string = "images_reset";
@@ -113,7 +118,9 @@ export const getImagesReducer = (
   }
 };
 
-type AllLibrariesActionHide = LibrariesResetActionHide;
+type AllLibrariesActionHide =
+  | LibrariesResetActionHide
+  | LibrariesResetActionHideAll;
 export const getImagesHided = (
   state = initalStateRover,
   action: AllLibrariesActionHide
@@ -126,6 +133,8 @@ export const getImagesHided = (
         }
       }
       return [...state, action.payload];
+    case LIBRARIES_HIDE_ALL:
+      return [...state, ...(action.payload as marsObject[])];
     default:
       return state;
   }
