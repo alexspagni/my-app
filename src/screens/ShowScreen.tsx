@@ -8,12 +8,12 @@ type IndexScreenType = {
 };
 const ShowScreen: React.FC<IndexScreenType> = (props) => {
   const hides = useSelector((store: any) => store?.imagesHide);
-
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
   const route = useRoute();
   //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
-  const image = (route.params as any)?.image;
+  let image = (route.params as any)?.image;
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.container}>
       <Text style={styles.TextStyle}>Image id:{image?.id}</Text>
@@ -32,7 +32,7 @@ const ShowScreen: React.FC<IndexScreenType> = (props) => {
           //console.log(item);
           hideImageAlert();
         }}
-        disabled={image?.id ? false : true}
+        disabled={image?.id && !hides.includes(image) ? false : true}
       />
     </View>
   );
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   },
   TextStyle: {
     color: "white",
+    fontSize: 18,
   },
 });
 export default ShowScreen;

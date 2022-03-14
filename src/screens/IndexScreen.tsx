@@ -15,12 +15,9 @@ import {
   addElementsToLibrariesMars,
   incrementPageNumber,
 } from "../reducers/getImagesReducers";
-import { Feather } from "@expo/vector-icons";
-import {
-  hideImageAlert,
-  imageNotFoundAlert,
-} from "../alertMessages/alertMessage";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+
+import { imageNotFoundAlert } from "../alertMessages/alertMessage";
+import { useNavigation } from "@react-navigation/native";
 import { imagesHided } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
 import {
@@ -52,7 +49,7 @@ const IndexScreen = () => {
           viewPosition: 0,
         });
       }
-    }, [roverNameQueryng])
+    }, [search])
   ),
     [];
   const getImageFromMars = async (
@@ -73,8 +70,6 @@ const IndexScreen = () => {
 
   useEffect(() => {
     try {
-      console.log(roverNameQueryng);
-      console.log("sono qui");
       getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
     } catch {}
   }, [search]);
