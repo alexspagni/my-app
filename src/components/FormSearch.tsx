@@ -14,7 +14,10 @@ import SearchImputText from "./SearchImputText";
 import { useNavigation } from "@react-navigation/native";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { imagesHided } from "../filters/FIlters";
-import { setLoadingReducer } from "../reducers/setLoadingReducer";
+import {
+  setLoadingReducer,
+  setSearchReducer,
+} from "../reducers/setLoadingReducer";
 
 const FormSearch: React.FC = () => {
   //hook per prendere la props "navigation"
@@ -29,12 +32,14 @@ const FormSearch: React.FC = () => {
   const images = useSelector((store: any) => store?.images);
   const hides = useSelector((store: any) => store?.imagesHide);
   const loading = useSelector((store: any) => store?.loading);
+  const search = useSelector((store: any) => store?.search);
   const dispatch = useDispatch();
 
   const backToIndexScreen = () => {
     dispatch(addRoverName(roverName));
     dispatch(incrementPageNumber(1));
     dispatch(setLoadingReducer(true));
+    dispatch(setSearchReducer(!search));
     dispatch({ type: "images_reset", payload: [] });
     //navigation.navigate("IndexScreen");
     navigationContainerRef.current?.navigate("IndexScreen");
@@ -63,7 +68,6 @@ const FormSearch: React.FC = () => {
       dispatch(setLoadingReducer(true));
     }
     navigation.goBack;
-    navigation.navigate({ key: "IndexScreen", merge: true });
     //navigationContainerRef.current?.navigate("IndexScreen");
   };
   return (
@@ -74,7 +78,9 @@ const FormSearch: React.FC = () => {
         value="Insert rover Name"
         onChangeText={(newTerm) => setRoverName(newTerm)}
       />
-      <Text style={styles.TextStyle}>Insert Year you want to search</Text>
+      <Text style={styles.TextStyle}>
+        Insert Day-Month-Year you want to search
+      </Text>
       <View style={styles.ImputTextContainer}>
         <SearchImputText
           term={day}
@@ -115,6 +121,7 @@ const FormSearch: React.FC = () => {
             });
           }
           //then go back to the index screen
+
           backToIndexScreen();
         }}
       />

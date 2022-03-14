@@ -23,14 +23,16 @@ import {
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { imagesHided } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
-import { setLoadingReducer } from "../reducers/setLoadingReducer";
+import {
+  setLoadingReducer,
+  setSearchReducer,
+} from "../reducers/setLoadingReducer";
 
 ////////////COMPONENT////////////
 let temp = 0;
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
   const pageNumber = useSelector((store: any) => store?.pageNumber);
-  //const [loading, setLoading] = useState(true);
   const images = useSelector((store: any) => store?.images);
   const roverNameQueryng = useSelector((store: any) => store?.roverName);
   const navigation = useNavigation<any>();
@@ -38,7 +40,7 @@ const IndexScreen = () => {
   const flatListRef = React.createRef<FlatList>();
   const hides = useSelector((store: any) => store?.imagesHide);
   const loading = useSelector((store: any) => store?.loading);
-
+  const search = useSelector((store: any) => store?.search);
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
   useEffect(
     React.useCallback(() => {
@@ -75,17 +77,8 @@ const IndexScreen = () => {
       console.log("sono qui");
       getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
     } catch {}
-  }, [roverNameQueryng]);
-  /*
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log(roverNameQueryng);
+  }, [search]);
 
-      console.log("sono qui");
-      getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
-    }, [roverNameQueryng])
-  );
-*/
   return (
     <View style={styles.containerPrincipal}>
       {images.length ? (
