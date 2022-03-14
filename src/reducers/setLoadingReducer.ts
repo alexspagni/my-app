@@ -5,6 +5,10 @@ type loadingType={
     type:typeof LOADING_SET,
     payload:boolean
 };
+type formType={
+    type:typeof FORM_SEARCH,
+    payload:boolean
+};
 const LOADING_SET='set_loading';
 type AllActionLoadingtype=loadingType;
 export const setLoadingReducer =(booleanValue:boolean)=>{
@@ -23,3 +27,20 @@ switch(action.type)
     return state;
 }
 }
+const FORM_SEARCH='set_search';
+type AllActionSearchtype=formType;
+export const setSearchReducer =(booleanValue:boolean)=>{
+    return {
+        type: FORM_SEARCH,
+        payload:booleanValue
+    };
+};
+export const makeASearch=(state=initialValue,action:AllActionSearchtype)=>{
+    switch(action.type)
+    {
+        case FORM_SEARCH:
+            return action.payload;
+        default :
+        return state;
+    }
+    }

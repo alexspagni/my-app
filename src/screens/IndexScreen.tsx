@@ -23,14 +23,16 @@ import {
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { imagesHided } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
-import { setLoadingReducer } from "../reducers/setLoadingReducer";
+import {
+  setLoadingReducer,
+  setSearchReducer,
+} from "../reducers/setLoadingReducer";
 
 ////////////COMPONENT////////////
 let temp = 0;
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
   const pageNumber = useSelector((store: any) => store?.pageNumber);
-  //const [loading, setLoading] = useState(true);
   const images = useSelector((store: any) => store?.images);
   const roverNameQueryng = useSelector((store: any) => store?.roverName);
   const navigation = useNavigation<any>();
@@ -38,7 +40,7 @@ const IndexScreen = () => {
   const flatListRef = React.createRef<FlatList>();
   const hides = useSelector((store: any) => store?.imagesHide);
   const loading = useSelector((store: any) => store?.loading);
-
+  const search = useSelector((store: any) => store?.search);
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
   useEffect(
     React.useCallback(() => {
@@ -75,21 +77,14 @@ const IndexScreen = () => {
       console.log("sono qui");
       getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
     } catch {}
-  }, [roverNameQueryng]);
-  /*
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log(roverNameQueryng);
+  }, [search]);
 
-      console.log("sono qui");
-      getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
-    }, [roverNameQueryng])
-  );
-*/
   return (
     <View style={styles.containerPrincipal}>
       {images.length ? (
-        <Text style={styles.TextStyle}>{images.length}</Text>
+        <Text style={styles.TextStyle}>
+          Here there are some photos about mars rover
+        </Text>
       ) : null}
       {!images.length && !loading ? imageNotFoundAlert() : null}
       {loading ? <SkeletonList /> : null}
@@ -106,24 +101,10 @@ const IndexScreen = () => {
             >
               <PhotoComponent object={item} />
             </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                dispatch({
-                  type: "images_hide_one",
-                  payload: item,
-                });
-                //console.log(item);
-                hideImageAlert();
-              }}
-            >
-              <Feather name="trash" style={styles.icon} />
-            </TouchableOpacity>
           </View>
         )}
         onEndReached={() => {
           const newPage = pageNumber + 1;
-          // console.log(roverNameQueryng);
           getImageFromMars(roverNameQueryng, newPage);
         }}
         onEndReachedThreshold={0.5}
@@ -145,13 +126,14 @@ const styles = StyleSheet.create({
   },
   TextStyle: {
     color: "white",
+    fontSize: 16,
   },
   checkbox: {
     margin: 8,
   },
   icon: {
     fontSize: 24,
-    color: "red",
+    color: "white",
     paddingLeft: 10,
   },
   imageHeader: {

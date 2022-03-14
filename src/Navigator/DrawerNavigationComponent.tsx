@@ -20,9 +20,7 @@ const LogoTitle: React.FC<any> = () => {
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator
-      drawerContent={(props) => <CustomSidebarMenu {...props} />}
-    >
+    <Drawer.Navigator>
       <Drawer.Screen
         name="IndexScreen"
         component={IndexScreen}
@@ -30,7 +28,7 @@ const DrawerNavigator = () => {
           drawerLabel: "Home",
 
           title: "Home",
-          drawerActiveTintColor: "section1",
+          //drawerActiveTintColor: "section1",
 
           headerRight: () => (
             <TouchableOpacity
@@ -51,20 +49,7 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: "ShowScreen",
           title: "Details",
-          drawerActiveTintColor: "section1",
-          drawerIcon: (): any => {
-            return <LogoTitle />;
-          },
-        }}
-      />
-
-      <Drawer.Screen
-        name="filters"
-        component={FormSearch}
-        options={{
-          drawerLabel: "Filters",
-          title: "Filters",
-          drawerActiveTintColor: "section2",
+          // drawerActiveTintColor: "section1",
           drawerIcon: (): any => {
             return <LogoTitle />;
           },

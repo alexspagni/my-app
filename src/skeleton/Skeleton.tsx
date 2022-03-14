@@ -4,7 +4,7 @@ import { StyleSheet, View, Animated, useWindowDimensions } from "react-native";
 export const Skeleton = () => {
   const dimensions = useWindowDimensions();
   const animatedValue = React.useRef(new Animated.Value(0)).current;
-
+  //Attraverso questa funzione faccio iniziare l'animazione
   const startAnimation = () => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -12,7 +12,7 @@ export const Skeleton = () => {
       useNativeDriver: true,
     }).start();
   };
-
+  //Use effect che fa partire l'animazione
   useEffect(() => {
     startAnimation();
 
