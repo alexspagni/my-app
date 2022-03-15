@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
 import {
+  getDateRover,
   getImagesReducer,
   getNameOfRover,
   setPageNumber,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   images: getImagesReducer,
   imagesHide: getImagesHided,
   roverName: getNameOfRover,
+  dateRover: getDateRover,
   pageNumber: setPageNumber,
   loading: LoadingReducer,
   search: makeASearch,

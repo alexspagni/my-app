@@ -1,11 +1,22 @@
 import { marsObject } from "../type/differentType";
+import { dateObject } from "../type/differentType";
 const initalStateRover: marsObject[] = [];
 const initalStateNameRover: string = "Opportunity";
 const intialPageNumber: number = 1;
 const intizialLoadingValue: boolean = true;
+const intialeEarthDate: dateObject = {
+  earth_day: "3",
+  earth_month: "6",
+  earth_year: "2016",
+};
+//ACTION TYPE///////////////////////////////////////
 type LibrariesAddActionType = {
   type: typeof LIBRARIES_ADD;
   payload: marsObject;
+};
+type LibrariesActionDate = {
+  type: typeof LIBRARIES_DATE;
+  payload: dateObject;
 };
 type LibrariesAddActionTypeMars = {
   type: typeof LIBRARIES_ADD_MARS;
@@ -32,6 +43,8 @@ type LibrariesSetEmptyArray = {
   type: typeof LIBRARIES_RESET;
   payload: [];
 };
+////////////////////////////////////////////
+//ACTION FUNCTION//////////////////////////////////////////
 export const resetImages = (array: any): LibrariesSetEmptyArray => {
   return {
     type: LIBRARIES_PAGE_NUMBER,
@@ -84,13 +97,20 @@ export const incrementPageNumber = (number: number): LibrestSetPageNumber => {
     payload: number,
   };
 };
-
+export const setDateRover = (object: dateObject): LibrariesActionDate => {
+  return {
+    type: LIBRARIES_DATE,
+    payload: object,
+  };
+};
+//////////////////////////////////////////////////////////
 export type ActionFunction = typeof addElementsToLibrariesMars;
 
 type AllLibrariesAction =
   | LibrariesAddActionType
   | LibrariesAddActionTypeMars
   | LibrariesSetEmptyArray;
+//////ACTIONE TYPE//////////////////////////////////
 export const LIBRARIES_ADD: string = "images_add";
 export const LIBRARIES_ADD_MARS: string = "images_add_mars";
 export const LIBRARIES_HIDE_ONE: string = "images_hide_one";
@@ -98,8 +118,9 @@ export const LIBRARIES_HIDE_ALL: string = "images_hide_all";
 export const LIBRARIES_ROVER_NAME: string = "rover_name";
 export const LIBRARIES_PAGE_NUMBER: string = "page_number";
 export const LIBRARIES_RESET: string = "images_reset";
-
-//REDUCERS FUNCTION
+export const LIBRARIES_DATE: string = "image_date";
+/////////////////////////////////////////////////
+//REDUCERS FUNCTION////////////////////////////////////////////
 export const getImagesReducer = (
   state = initalStateRover,
   action: AllLibrariesAction
@@ -163,3 +184,17 @@ export const setPageNumber = (
       return state;
   }
 };
+
+type AllLibrariesActionDateRover = LibrariesActionDate;
+export const getDateRover = (
+  state = intialeEarthDate,
+  action: AllLibrariesActionDateRover
+) => {
+  switch (action.type) {
+    case LIBRARIES_DATE:
+      return { ...action.payload };
+    default:
+      return state;
+  }
+};
+/////////////////////////////////////////////////

@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Button, Switch } from "react-native";
-import { getImageMars } from "../api/getImage";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addElementsToLibrariesMars,
-  addElementsToLibrariesMarsRefreshing,
   addRoverName,
   incrementPageNumber,
-  resetImages,
+  setDateRover,
 } from "../reducers/getImagesReducers";
 import SearchImputText from "./SearchImputText";
-
 import { useNavigation } from "@react-navigation/native";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
-import { imagesHided } from "../filters/FIlters";
 import {
   setLoadingReducer,
   setSearchReducer,
@@ -30,8 +25,8 @@ const FormSearch: React.FC = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa
   const images = useSelector((store: any) => store?.images);
-  const hides = useSelector((store: any) => store?.imagesHide);
-  const loading = useSelector((store: any) => store?.loading);
+  //const hides = useSelector((store: any) => store?.imagesHide);
+  // const loading = useSelector((store: any) => store?.loading);
   const search = useSelector((store: any) => store?.search);
   const dispatch = useDispatch();
 
@@ -40,10 +35,14 @@ const FormSearch: React.FC = () => {
     dispatch(incrementPageNumber(1));
     dispatch(setLoadingReducer(true));
     dispatch(setSearchReducer(!search));
+    dispatch(
+      setDateRover({ earth_day: day, earth_month: month, earth_year: year })
+    );
     dispatch({ type: "images_reset", payload: [] });
     //navigation.navigate("IndexScreen");
     navigationContainerRef.current?.navigate("IndexScreen");
   };
+  /*
   const getImageFromMars = async () => {
     const pageNumber = 1;
     if (day && month && year) {
@@ -70,6 +69,7 @@ const FormSearch: React.FC = () => {
     navigation.goBack;
     //navigationContainerRef.current?.navigate("IndexScreen");
   };
+  */
   return (
     <View style={styles.backgroundStyle}>
       <Text style={styles.TextStyle}>Insert Rover Name</Text>
