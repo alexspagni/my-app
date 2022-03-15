@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -24,14 +25,16 @@ import {
   setLoadingReducer,
   setSearchReducer,
 } from "../reducers/setLoadingReducer";
+import { dateObject } from "../type/differentType";
 
 ////////////COMPONENT////////////
-let temp = 0;
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
   const pageNumber = useSelector((store: any) => store?.pageNumber);
   const images = useSelector((store: any) => store?.images);
   const roverNameQueryng = useSelector((store: any) => store?.roverName);
+  const roverDate: dateObject = useSelector((store: any) => store?.dateRover);
+
   const navigation = useNavigation<any>();
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
@@ -65,18 +68,24 @@ const IndexScreen = () => {
       const imagesToRender = imagesHided(results, hides);
       dispatch(addElementsToLibrariesMars(imagesToRender));
     } catch {}
-    dispatch(setLoadingReducer(false));
+    setTimeout(() => dispatch(setLoadingReducer(false)), 1000);
   };
 
   useEffect(() => {
     try {
-      getImageFromMars(roverNameQueryng, pageNumber, "3", "6", "2016");
+      getImageFromMars(
+        roverNameQueryng,
+        pageNumber,
+        roverDate.earth_day,
+        roverDate.earth_month,
+        roverDate.earth_year
+      );
     } catch {}
   }, [search]);
 
   return (
     <View style={styles.containerPrincipal}>
-      {images.length ? (
+      {images.length && !loading ? (
         <Text style={styles.TextStyle}>
           Here there are some photos about mars rover
         </Text>
@@ -89,18 +98,18 @@ const IndexScreen = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.container}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("ShowScreen", { image: item });
-              }}
-            >
-              <PhotoComponent object={item} />
-            </TouchableOpacity>
+            <PhotoComponent object={item} />
           </View>
         )}
         onEndReached={() => {
           const newPage = pageNumber + 1;
-          getImageFromMars(roverNameQueryng, newPage);
+          getImageFromMars(
+            roverNameQueryng,
+            newPage,
+            roverDate.earth_day,
+            roverDate.earth_month,
+            roverDate.earth_year
+          );
         }}
         onEndReachedThreshold={0.5}
       />
