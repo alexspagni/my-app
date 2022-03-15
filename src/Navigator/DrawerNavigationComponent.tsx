@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "./ContainerRef";
 import FormSearch from "../components/FormSearch";
 import CustomSidebarMenu from "./CustomSidebarMenu";
+import { SignOut } from "../screens/SIgnOut";
 const Drawer = createDrawerNavigator();
 const LogoTitle: React.FC<any> = () => {
   return (
@@ -20,7 +21,7 @@ const LogoTitle: React.FC<any> = () => {
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator initialRouteName="IndexScreen">
       <Drawer.Screen
         name="IndexScreen"
         component={IndexScreen}
@@ -50,6 +51,16 @@ const DrawerNavigator = () => {
           drawerLabel: "ShowScreen",
           title: "Details",
           // drawerActiveTintColor: "section1",
+          drawerIcon: (): any => {
+            return <LogoTitle />;
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="LogOut"
+        component={SignOut}
+        options={{
+          title: "SignOut",
           drawerIcon: (): any => {
             return <LogoTitle />;
           },
