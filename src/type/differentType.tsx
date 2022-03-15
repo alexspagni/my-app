@@ -45,3 +45,7 @@ export type dateObject = {
   earth_month: string;
   earth_year: string;
 };
+export type sign = {
+  signIn: boolean;
+  error_message: string;
+};

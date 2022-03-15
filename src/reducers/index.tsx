@@ -8,6 +8,7 @@ import {
 } from "./getImagesReducers";
 import { getImagesHided } from "./getImagesReducers";
 import { LoadingReducer, makeASearch } from "./setLoadingReducer";
+import { signReducer } from "./singReducer";
 const rootReducer = combineReducers({
   images: getImagesReducer,
   imagesHide: getImagesHided,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   pageNumber: setPageNumber,
   loading: LoadingReducer,
   search: makeASearch,
+  sing: signReducer,
 });
 
 export default rootReducer;
