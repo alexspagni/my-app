@@ -1,19 +1,18 @@
 import { View, StyleSheet } from "react-native";
 import { expressApi } from "../api/getApi";
 import { useDispatch, useSelector } from "react-redux";
-import { addError, addToken } from "../reducers/singReducer";
-import { sign } from "../type/differentType";
+import { addError, addToken, removeError } from "../reducers/singReducer";
+import { signType, state } from "../type/differentType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { SignScreen } from "../components/SignScreen";
-type SignUpType = {
-  email: string;
-  password: string;
-};
-export const SignUp = () => {
-  const signState: sign = useSelector((store: any) => store?.sing);
+import React from "react";
+
+export const SignUp = ({ navigation }: any) => {
+  const signState: state = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
-  const signUp = async ({ email, password }: SignUpType) => {
+  //fucnction to signUp a new user
+  const signUp = async ({ email, password }: signType) => {
     try {
       const response = await expressApi.post("/signup", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
@@ -21,16 +20,25 @@ export const SignUp = () => {
       navigationContainerRef.current?.navigate("drawer");
     } catch (err: any) {
       console.log(err.message);
-      dispatch(addError("something is gone wrong"));
+      dispatch(addError("Something is gone wrong with Sign Up"));
     }
   };
+  //Every time i go to signIn screen i want to clear error message appear at the bottom of the screnn
+  const clearErrorMessage = () => {
+    dispatch(removeError(""));
+  };
+  //Every time i left this screen i'm going to call clearErrorMessage function
+  React.useEffect(
+    () => navigation.addListener("blur", () => clearErrorMessage()),
+    [navigation]
+  );
   return (
     <View style={styles.ContainerStyle}>
       <SignScreen
-        HeaderScreen="Sing Up to use App"
+        HeaderScreen="Sign Up to use App"
         ButtonTitle="Sign Up"
         BottomText={`Do you already have an account?\nSign in`}
-        pageToNavigate="Sign In"
+        pageToNavigate="SignIn"
         error_message={signState.error_message}
         onSubmit={signUp}
       />

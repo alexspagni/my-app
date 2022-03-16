@@ -25,8 +25,6 @@ const FormSearch: React.FC = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa
   const images = useSelector((store: any) => store?.images);
-  //const hides = useSelector((store: any) => store?.imagesHide);
-  // const loading = useSelector((store: any) => store?.loading);
   const search = useSelector((store: any) => store?.search);
   const dispatch = useDispatch();
 
@@ -42,34 +40,7 @@ const FormSearch: React.FC = () => {
     //navigation.navigate("IndexScreen");
     navigationContainerRef.current?.navigate("IndexScreen");
   };
-  /*
-  const getImageFromMars = async () => {
-    const pageNumber = 1;
-    if (day && month && year) {
-      const results = await getImageMars(
-        roverName,
-        pageNumber,
-        day,
-        month,
-        year
-      );
-      const imagesToRender = imagesHided(results, hides);
-      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
-      dispatch(addRoverName(roverName));
-      dispatch(incrementPageNumber(1));
-      dispatch(setLoadingReducer(true));
-    } else {
-      const results = await getImageMars(roverName, pageNumber);
-      const imagesToRender = imagesHided(results, hides);
-      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
-      dispatch(addRoverName(roverName));
-      dispatch(incrementPageNumber(1));
-      dispatch(setLoadingReducer(true));
-    }
-    navigation.goBack;
-    //navigationContainerRef.current?.navigate("IndexScreen");
-  };
-  */
+
   return (
     <View style={styles.backgroundStyle}>
       <Text style={styles.TextStyle}>Insert Rover Name</Text>
@@ -157,3 +128,32 @@ const styles = StyleSheet.create({
   },
 });
 export default FormSearch;
+
+/*
+  const getImageFromMars = async () => {
+    const pageNumber = 1;
+    if (day && month && year) {
+      const results = await getImageMars(
+        roverName,
+        pageNumber,
+        day,
+        month,
+        year
+      );
+      const imagesToRender = imagesHided(results, hides);
+      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
+      dispatch(addRoverName(roverName));
+      dispatch(incrementPageNumber(1));
+      dispatch(setLoadingReducer(true));
+    } else {
+      const results = await getImageMars(roverName, pageNumber);
+      const imagesToRender = imagesHided(results, hides);
+      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
+      dispatch(addRoverName(roverName));
+      dispatch(incrementPageNumber(1));
+      dispatch(setLoadingReducer(true));
+    }
+    navigation.goBack;
+    //navigationContainerRef.current?.navigate("IndexScreen");
+  };
+  */

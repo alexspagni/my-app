@@ -7,14 +7,14 @@ const Stack = createStackNavigator();
 
 export const SigningStackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Sign Up">
+    <Stack.Navigator initialRouteName="SignUp">
       <Stack.Screen
-        name="Sign In"
+        name="SignIn"
         component={SignIn}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Sign Up"
+        name="SignUp"
         component={SignUp}
         options={{ headerShown: false }}
       />

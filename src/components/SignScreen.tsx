@@ -1,9 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
 import SearchImputText from "../components/SearchImputText";
-import { addError } from "../reducers/singReducer";
+import { navigationContainerRef } from "../Navigator/ContainerRef";
+
 type props = {
   HeaderScreen: string;
   ButtonTitle: string;
@@ -26,7 +25,6 @@ export const SignScreen = ({
 }: props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigation = useNavigation<any>();
 
   return (
     <View>
@@ -52,11 +50,8 @@ export const SignScreen = ({
       >
         <Text style={styles.textButton}>{ButtonTitle}</Text>
       </TouchableOpacity>
-
       <TouchableOpacity
-        onPress={() => {
-          navigation.navigate(pageToNavigate);
-        }}
+        onPress={() => navigationContainerRef.current?.navigate(pageToNavigate)}
       >
         <Text style={styles.TextSignIn}>{BottomText}</Text>
       </TouchableOpacity>

@@ -45,7 +45,11 @@ export type dateObject = {
   earth_month: string;
   earth_year: string;
 };
-export type sign = {
+export type state = {
   token: string;
   error_message: string;
+};
+export type signType = {
+  email: string;
+  password: string;
 };
