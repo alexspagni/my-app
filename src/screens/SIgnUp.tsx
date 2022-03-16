@@ -1,66 +1,53 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
-import SearchImputText from "../components/SearchImputText";
+import { View, StyleSheet } from "react-native";
 import { expressApi } from "../api/getApi";
 import { useDispatch, useSelector } from "react-redux";
-import { addError } from "../reducers/singReducer";
-import { sign } from "../type/differentType";
-type SignUpType = {
-  email: string;
-  password: string;
-};
-export const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigation = useNavigation<any>();
-  const signState: sign = useSelector((store: any) => store?.sing);
+import { addError, addToken, removeError } from "../reducers/singReducer";
+import { signType, state } from "../type/differentType";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { navigationContainerRef } from "../Navigator/ContainerRef";
+import { SignScreen } from "../components/SignScreen";
+import React from "react";
+
+export const SignUp = ({ navigation }: any) => {
+  const signState: state = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
-  const signUp = async ({ email, password }: SignUpType) => {
+  //fucnction to signUp a new user
+  const signUp = async ({ email, password }: signType) => {
     try {
       const response = await expressApi.post("/signup", { email, password });
-      console.log(response.data);
+      await AsyncStorage.setItem("token", response.data.token);
+      dispatch(addToken(response.data.token));
+      navigationContainerRef.current?.navigate("drawer");
     } catch (err: any) {
       console.log(err.message);
-      dispatch(addError("somothing is gone wrong"));
+      dispatch(addError("Something is gone wrong with Sign Up"));
     }
   };
+  //Every time i go to signIn screen i want to clear error message appear at the bottom of the screnn
+  const clearErrorMessage = () => {
+    dispatch(removeError(""));
+  };
+  //Every time i left this screen i'm going to call clearErrorMessage function
+  React.useEffect(
+    () => navigation.addListener("blur", () => clearErrorMessage()),
+    [navigation]
+  );
   return (
-    <View style={styles.containerPrincipal}>
-      <Text style={styles.TextStyle}>Insert your email</Text>
-      <SearchImputText
-        term={email}
-        value="Insert Email"
-        onChangeText={(newTerm) => setEmail(newTerm)}
+    <View style={styles.ContainerStyle}>
+      <SignScreen
+        HeaderScreen="Sign Up to use App"
+        ButtonTitle="Sign Up"
+        BottomText={`Do you already have an account?\nSign in`}
+        pageToNavigate="SignIn"
+        error_message={signState.error_message}
+        onSubmit={signUp}
       />
-      <Text style={styles.TextStyle}>Insert your password</Text>
-      <SearchImputText
-        term={password}
-        value="Insert password"
-        onChangeText={(newTerm) => setPassword(newTerm)}
-      />
-      <Button title="signUp" onPress={() => signUp({ email, password })} />
-      <Button
-        title="go to sign in"
-        onPress={() => navigation.navigate("SignIn")}
-      />
-      {signState.error_message ? <Text>{signState.error_message}</Text> : null}
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  containerPrincipal: {
-    marginBottom: 10,
-    justifyContent: "center",
-    backgroundColor: "#353839",
-    flex: 1,
-  },
-  TextStyle: {
-    fontSize: 18,
-    color: "white",
-    padding: 10,
-  },
-  InnerContainer: {
-    paddingBottom: 300,
+  ContainerStyle: {
+    paddingTop: 50,
   },
 });

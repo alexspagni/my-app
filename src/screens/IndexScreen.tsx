@@ -1,13 +1,6 @@
 ////////ALL IMPORT///////////////
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
@@ -70,7 +63,7 @@ const IndexScreen = () => {
     } catch {}
     setTimeout(() => dispatch(setLoadingReducer(false)), 1000);
   };
-
+  //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca
   useEffect(() => {
     try {
       getImageFromMars(

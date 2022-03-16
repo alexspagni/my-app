@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SerchScreen from "./src/screens/SearchScreen";
 import { navigationContainerRef } from "./src/Navigator/ContainerRef";
 import { SigningStackNavigator } from "./src/Navigator/SigningStackNavigator";
+import { LoadingScreen } from "./src/screens/LoadingScreen";
 
 const Stack = createStackNavigator();
 
@@ -15,7 +16,7 @@ const App = () => {
   return (
     <Provider store={createStore(reducers)}>
       <NavigationContainer ref={navigationContainerRef}>
-        <Stack.Navigator initialRouteName="SignStackNavigator">
+        <Stack.Navigator initialRouteName="loading">
           <Stack.Screen
             name="drawer"
             component={DrawerNavigator}
@@ -27,9 +28,14 @@ const App = () => {
             options={{ presentation: "modal" }}
           />
           <Stack.Screen
-            name="SignStackNavigator"
+            name="SigningStackNavigator"
             component={SigningStackNavigator}
-            options={{ headerShown: false }}
+            options={{ headerShown: false, presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="loading"
+            component={LoadingScreen}
+            options={{ headerShown: false, presentation: "modal" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
