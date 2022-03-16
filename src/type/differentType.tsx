@@ -46,6 +46,6 @@ export type dateObject = {
   earth_year: string;
 };
 export type sign = {
-  signIn: boolean;
+  token: string;
   error_message: string;
 };

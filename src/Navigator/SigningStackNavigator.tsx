@@ -7,9 +7,17 @@ const Stack = createStackNavigator();
 
 export const SigningStackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="SignUp">
-      <Stack.Screen name="SignIn" component={SignIn} />
-      <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Navigator initialRouteName="Sign Up">
+      <Stack.Screen
+        name="Sign In"
+        component={SignIn}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Sign Up"
+        component={SignUp}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };

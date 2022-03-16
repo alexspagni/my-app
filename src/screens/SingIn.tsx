@@ -1,46 +1,29 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import SearchImputText from "../components/SearchImputText";
+import { View, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
+
+import { SignScreen } from "../components/SignScreen";
+
+import { sign } from "../type/differentType";
 
 export const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigation = useNavigation<any>();
+  const signState: sign = useSelector((store: any) => store?.sing);
+
   return (
-    <View style={styles.containerPrincipal}>
-      <Text style={styles.TextStyle}>Insert your email</Text>
-      <SearchImputText
-        term={email}
-        value="Insert Email"
-        onChangeText={(newTerm) => setEmail(newTerm)}
-      />
-      <Text style={styles.TextStyle}>Insert your password</Text>
-      <SearchImputText
-        term={password}
-        value="Insert password"
-        onChangeText={(newTerm) => setPassword(newTerm)}
-      />
-      <Button
-        title="go to sign up"
-        onPress={() => navigation.navigate("SignUp")}
+    <View style={styles.ContainerStyle}>
+      <SignScreen
+        HeaderScreen="Sing In to your account"
+        ButtonTitle="Sign In"
+        BottomText={`Don't you have an account?\nSign Up`}
+        pageToNavigate="Sign Up"
+        error_message={""}
+        onSubmit={() => {}}
       />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  containerPrincipal: {
-    marginBottom: 10,
-    justifyContent: "center",
-    backgroundColor: "#353839",
-    flex: 1,
-  },
-  TextStyle: {
-    fontSize: 18,
-    color: "white",
-    padding: 10,
-  },
-  InnerContainer: {
-    paddingBottom: 300,
+  ContainerStyle: {
+    paddingTop: 50,
   },
 });

@@ -1,7 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
-import { imagesHided } from "../filters/FIlters";
-import { addElementsToLibrariesMars, addElementsToLibrariesMarsRefreshing, addRoverName, incrementPageNumber } from "../reducers/getImagesReducers";
-import { marsObject, nasaObject } from "../type/differentType";
+import { marsObject } from "../type/differentType";
 import {NasaApi} from "./getApi";
 
 const DAY:string='3';
