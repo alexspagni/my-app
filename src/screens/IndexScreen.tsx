@@ -14,10 +14,7 @@ import { imageNotFoundAlert } from "../alertMessages/alertMessage";
 import { useNavigation } from "@react-navigation/native";
 import { imagesHided } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
-import {
-  setLoadingReducer,
-  setSearchReducer,
-} from "../reducers/setLoadingReducer";
+import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { dateObject } from "../type/differentType";
 
 ////////////COMPONENT////////////

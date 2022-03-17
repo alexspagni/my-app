@@ -3,7 +3,6 @@ import { dateObject } from "../type/differentType";
 const initalStateRover: marsObject[] = [];
 const initalStateNameRover: string = "Opportunity";
 const intialPageNumber: number = 1;
-const intizialLoadingValue: boolean = true;
 const intialeEarthDate: dateObject = {
   earth_day: "3",
   earth_month: "6",
