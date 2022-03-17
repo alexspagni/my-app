@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import SearchImputText from "../components/SearchImputText";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
-
+import { Input } from "react-native-elements";
 type props = {
   HeaderScreen: string;
   ButtonTitle: string;
@@ -25,28 +24,50 @@ export const SignScreen = ({
 }: props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const checkPattern = (word: string) => {
+    const globalRegex = new RegExp(`[a-z0-9]{1,}@[a-z0-9]{1,}\\.[a-z]{1,}`);
+    const result = globalRegex.test(word);
+    return result;
+  };
+  const input = React.createRef<any>();
 
   return (
     <View>
       <Text style={styles.HeaderScreenStyle}>{HeaderScreen}</Text>
-      <Text style={styles.TextStyle}>Insert your email</Text>
-      <SearchImputText
-        term={email}
-        value="Insert Email"
+
+      <Input
+        ref={input}
+        label="Email"
+        value={email}
+        placeholder="Insert your email"
         onChangeText={(newTerm) => setEmail(newTerm)}
+        autoCapitalize="none"
+        autoCorrect={false}
       />
-      <Text style={styles.TextStyle}>Insert your password</Text>
-      <SearchImputText
-        term={password}
-        value="Insert Password"
+      {checkPattern(email) ? (
+        <Text>email correct</Text>
+      ) : (
+        <Text style={styles.ErrorEmailStyle}>check your email</Text>
+      )}
+      <Input
+        label="Password"
+        value={password}
+        placeholder="Insert your password"
         onChangeText={(newTerm) => setPassword(newTerm)}
+        secureTextEntry
+        autoCapitalize="none"
+        autoCorrect={false}
       />
-      {error_message ? (
+      {error_message != "" ? (
         <Text style={styles.ErrorMessageStyle}>{error_message}</Text>
       ) : null}
       <TouchableOpacity
         style={styles.Button}
-        onPress={() => onSubmit({ email, password })}
+        onPress={() => {
+          if (checkPattern(email)) {
+            onSubmit({ email, password });
+          }
+        }}
       >
         <Text style={styles.textButton}>{ButtonTitle}</Text>
       </TouchableOpacity>
@@ -59,11 +80,6 @@ export const SignScreen = ({
   );
 };
 const styles = StyleSheet.create({
-  TextStyle: {
-    fontSize: 18,
-    color: "black",
-    padding: 10,
-  },
   InnerContainer: {
     paddingBottom: 300,
   },
@@ -97,9 +113,16 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   HeaderScreenStyle: {
+    marginBottom: 10,
     position: "relative",
     left: 15,
     fontSize: 30,
     fontWeight: "bold",
+  },
+  ErrorEmailStyle: {
+    color: "red",
+    position: "relative",
+    bottom: 10,
+    marginLeft: 8,
   },
 });

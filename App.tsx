@@ -4,11 +4,15 @@ import DrawerNavigator from "./src/Navigator/DrawerNavigationComponent";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./src/reducers";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import SerchScreen from "./src/screens/SearchScreen";
 import { navigationContainerRef } from "./src/Navigator/ContainerRef";
 import { SigningStackNavigator } from "./src/Navigator/SigningStackNavigator";
 import { LoadingScreen } from "./src/screens/LoadingScreen";
+import ShowScreen from "./src/screens/ShowScreen";
 
 const Stack = createStackNavigator();
 
@@ -16,7 +20,7 @@ const App = () => {
   return (
     <Provider store={createStore(reducers)}>
       <NavigationContainer ref={navigationContainerRef}>
-        <Stack.Navigator initialRouteName="loading">
+        <Stack.Navigator initialRouteName="SigningStackNavigator">
           <Stack.Screen
             name="drawer"
             component={DrawerNavigator}
@@ -26,6 +30,13 @@ const App = () => {
             name="Search"
             component={SerchScreen}
             options={{ presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="ShowScreen"
+            component={ShowScreen}
+            options={{
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }}
           />
           <Stack.Screen
             name="SigningStackNavigator"

@@ -18,6 +18,11 @@ type LibrariesRemoveError = {
   type: typeof LIBRARIES_REMOVE_ERROR;
   payload: string;
 };
+type LibrariesResetToken = {
+  type: typeof LIBRARIES_RESET_TOKEN;
+  payload: string;
+};
+
 ////////////////////////////////////////
 export const addError = (string: string): LibrariesAddError => {
   return {
@@ -38,14 +43,22 @@ export const removeError = (string: string): LibrariesRemoveError => {
     payload: string,
   };
 };
+export const resetToken = (string: string): LibrariesResetToken => {
+  return {
+    type: LIBRARIES_RESET_TOKEN,
+    payload: string,
+  };
+};
 //////////////////////////////////////
 export const LIBRARIES_ERROR = "add_error";
 export const LIBRARIES_REMOVE_ERROR = "remove_error";
 export const LIBRARIES_TOKEN = "signin";
+export const LIBRARIES_RESET_TOKEN = "log_out";
 type AllTypeAction =
   | LibrariesAddError
   | LibrariesAddToken
-  | LibrariesRemoveError;
+  | LibrariesRemoveError
+  | LibrariesResetToken;
 export const signReducer = (
   state = initialState,
   action: AllTypeAction
@@ -63,6 +76,8 @@ export const signReducer = (
         ...state,
         error_message: "",
       };
+    case LIBRARIES_RESET_TOKEN:
+      return { ...state, token: "" };
     default:
       return state;
   }

@@ -6,12 +6,11 @@ import { hideImageAlert } from "../alertMessages/alertMessage";
 type IndexScreenType = {
   navigation: any;
 };
-const ShowScreen: React.FC<IndexScreenType> = (props) => {
+const ShowScreen: React.FC<IndexScreenType> = ({ navigation }) => {
   const hides = useSelector((store: any) => store?.imagesHide);
   const route = useRoute();
   //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
-  let image = (route.params as any)?.image;
-  const navigation = useNavigation();
+  const image = (route.params as any)?.image;
   const dispatch = useDispatch();
 
   return (
@@ -29,7 +28,6 @@ const ShowScreen: React.FC<IndexScreenType> = (props) => {
             type: "images_hide_one",
             payload: image,
           });
-          //console.log(item);
           hideImageAlert();
         }}
         disabled={image?.id && !hides.includes(image) ? false : true}
