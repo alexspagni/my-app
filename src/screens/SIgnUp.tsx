@@ -7,10 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { SignScreen } from "../components/SignScreen";
 import React from "react";
-
 export const SignUp = ({ navigation }: any) => {
   const signState: state = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
+
   //fucnction to signUp a new user
   const signUp = async ({ email, password }: signType) => {
     try {
@@ -23,6 +23,7 @@ export const SignUp = ({ navigation }: any) => {
       dispatch(addError("Something is gone wrong with Sign Up"));
     }
   };
+
   //Every time i go to signIn screen i want to clear error message appear at the bottom of the screnn
   const clearErrorMessage = () => {
     dispatch(removeError(""));

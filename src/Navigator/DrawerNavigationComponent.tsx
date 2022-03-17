@@ -8,7 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "./ContainerRef";
 import FormSearch from "../components/FormSearch";
 import CustomSidebarMenu from "./CustomSidebarMenu";
-import { SignOut } from "../screens/SIgnOut";
+import { LogOut } from "../screens/LogOut";
 const Drawer = createDrawerNavigator();
 const LogoTitle: React.FC<any> = () => {
   return (
@@ -29,7 +29,6 @@ const DrawerNavigator = () => {
           drawerLabel: "Home",
 
           title: "Home",
-          //drawerActiveTintColor: "section1",
 
           headerRight: () => (
             <TouchableOpacity
@@ -45,22 +44,10 @@ const DrawerNavigator = () => {
       />
 
       <Drawer.Screen
-        name="ShowScreen"
-        component={ShowScreen}
-        options={{
-          drawerLabel: "ShowScreen",
-          title: "Details",
-          // drawerActiveTintColor: "section1",
-          drawerIcon: (): any => {
-            return <LogoTitle />;
-          },
-        }}
-      />
-      <Drawer.Screen
         name="LogOut"
-        component={SignOut}
+        component={LogOut}
         options={{
-          title: "SignOut",
+          title: "Log Out",
           drawerIcon: (): any => {
             return <LogoTitle />;
           },

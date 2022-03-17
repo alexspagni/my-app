@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
-import { View } from "react-native";
+import React from "react";
 import { SkeletonList } from "../skeleton/SkeletonList";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import { signType, state } from "../type/differentType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
@@ -16,7 +13,7 @@ export const LoadingScreen = () => {
       navigation.navigate("SigningStackNavigator");
     }
   };
-  useEffect(() => {
+  useFocusEffect(() => {
     setTimeout(autoLogin, 2000);
   });
   return <SkeletonList />;
