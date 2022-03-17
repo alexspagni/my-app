@@ -44,7 +44,7 @@ export const SignScreen = ({
         autoCapitalize="none"
         autoCorrect={false}
       />
-      {checkPattern(email) ? (
+      {checkPattern(email) && !(email == " ") ? (
         <Text>email correct</Text>
       ) : (
         <Text style={styles.ErrorEmailStyle}>check your email</Text>

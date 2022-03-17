@@ -1,14 +1,12 @@
 import * as React from "react";
-import { Image } from "react-native";
-import { createDrawerNavigator, DrawerView } from "@react-navigation/drawer";
-import { Feather } from "@expo/vector-icons";
+import { Image, View } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import IndexScreen from "../screens/IndexScreen";
-import ShowScreen from "../screens/ShowScreen";
 import { TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "./ContainerRef";
-import FormSearch from "../components/FormSearch";
-import CustomSidebarMenu from "./CustomSidebarMenu";
 import { LogOut } from "../screens/LogOut";
+
 const Drawer = createDrawerNavigator();
 const LogoTitle: React.FC<any> = () => {
   return (
@@ -31,11 +29,26 @@ const DrawerNavigator = () => {
           title: "Home",
 
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigationContainerRef.current?.navigate("Search")}
-            >
-              <Feather name="search" size={30} style={{ paddingRight: 10 }} />
-            </TouchableOpacity>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigationContainerRef.current?.navigate("InfoScreenHome")
+                }
+              >
+                <MaterialCommunityIcons
+                  name="information-variant"
+                  size={30}
+                  style={{ paddingRight: 15 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigationContainerRef.current?.navigate("Search")
+                }
+              >
+                <Feather name="search" size={30} style={{ paddingRight: 10 }} />
+              </TouchableOpacity>
+            </View>
           ),
           drawerIcon: (): any => {
             return <LogoTitle />;

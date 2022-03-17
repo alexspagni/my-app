@@ -1,4 +1,4 @@
-import { InitialState } from "@react-navigation/native";
+
 
 const initialValue:boolean=true;
 type loadingType={

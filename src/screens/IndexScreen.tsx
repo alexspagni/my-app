@@ -1,7 +1,6 @@
 ////////ALL IMPORT///////////////
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
@@ -9,15 +8,10 @@ import {
   addElementsToLibrariesMars,
   incrementPageNumber,
 } from "../reducers/getImagesReducers";
-
 import { imageNotFoundAlert } from "../alertMessages/alertMessage";
-import { useNavigation } from "@react-navigation/native";
 import { imagesHided } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
-import {
-  setLoadingReducer,
-  setSearchReducer,
-} from "../reducers/setLoadingReducer";
+import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { dateObject } from "../type/differentType";
 
 ////////////COMPONENT////////////
@@ -27,8 +21,6 @@ const IndexScreen = () => {
   const images = useSelector((store: any) => store?.images);
   const roverNameQueryng = useSelector((store: any) => store?.roverName);
   const roverDate: dateObject = useSelector((store: any) => store?.dateRover);
-
-  const navigation = useNavigation<any>();
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
   const hides = useSelector((store: any) => store?.imagesHide);
