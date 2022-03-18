@@ -6,6 +6,7 @@ import IndexScreen from "../screens/IndexScreen";
 import { TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "./ContainerRef";
 import { LogOut } from "../screens/LogOut";
+import ImagesHide from "../screens/ImagesHide";
 
 const Drawer = createDrawerNavigator();
 const LogoTitle: React.FC<any> = () => {
@@ -61,6 +62,16 @@ const DrawerNavigator = () => {
         component={LogOut}
         options={{
           title: "Log Out",
+          drawerIcon: (): any => {
+            return <LogoTitle />;
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="ImagesHided"
+        component={ImagesHide}
+        options={{
+          title: "ImagesHide",
           drawerIcon: (): any => {
             return <LogoTitle />;
           },

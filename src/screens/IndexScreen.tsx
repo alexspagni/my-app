@@ -4,16 +4,17 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
+
 import {
   addElementsToLibrariesMars,
   incrementPageNumber,
 } from "../reducers/getImagesReducers";
 import { imageNotFoundAlert } from "../alertMessages/alertMessage";
-import { imagesHided } from "../filters/FIlters";
+import { imagesFilter } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { dateObject } from "../type/differentType";
-
+let temp = 0;
 ////////////COMPONENT////////////
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
@@ -26,6 +27,7 @@ const IndexScreen = () => {
   const hides = useSelector((store: any) => store?.imagesHide);
   const loading = useSelector((store: any) => store?.loading);
   const search = useSelector((store: any) => store?.search);
+
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
   useEffect(
     React.useCallback(() => {
@@ -50,12 +52,12 @@ const IndexScreen = () => {
     dispatch(incrementPageNumber(page));
     try {
       const results = await getImageMars(roverName, page, day, month, year);
-      const imagesToRender = imagesHided(results, hides);
+      const imagesToRender = imagesFilter(results, hides);
       dispatch(addElementsToLibrariesMars(imagesToRender));
     } catch {}
     setTimeout(() => dispatch(setLoadingReducer(false)), 1000);
   };
-  //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca
+  //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
   useEffect(() => {
     try {
       getImageFromMars(

@@ -30,7 +30,7 @@ const ShowScreen: React.FC<IndexScreenType> = ({ navigation }) => {
           });
           hideImageAlert();
         }}
-        disabled={image?.id && !hides.includes(image) ? false : true}
+        disabled={!hides.includes(image) ? false : true}
       />
     </View>
   );

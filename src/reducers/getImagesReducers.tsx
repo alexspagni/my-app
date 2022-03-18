@@ -1,6 +1,8 @@
+import { imagesFilter, storeImagesHidedDevice } from "../filters/FIlters";
 import { marsObject } from "../type/differentType";
 import { dateObject } from "../type/differentType";
-const initalStateRover: marsObject[] = [];
+
+export const initalStateRover: marsObject[] = [];
 const initalStateNameRover: string = "Opportunity";
 const intialPageNumber: number = 1;
 const intialeEarthDate: dateObject = {
@@ -8,7 +10,16 @@ const intialeEarthDate: dateObject = {
   earth_month: "6",
   earth_year: "2016",
 };
+///ASYNC FUNCTION////////////
+//function to store images hided into the device
+
+//const response: any = getStoredImagesHidedDevice();
+//const initalStateImageHided = response.image;
+
 //ACTION TYPE///////////////////////////////////////
+export type LibrariesImageObjectToStore = {
+  image: marsObject[];
+};
 type LibrariesAddActionType = {
   type: typeof LIBRARIES_ADD;
   payload: marsObject;
@@ -42,7 +53,6 @@ type LibrariesSetEmptyArray = {
   type: typeof LIBRARIES_RESET;
   payload: [];
 };
-////////////////////////////////////////////
 //ACTION FUNCTION//////////////////////////////////////////
 export const resetImages = (array: any): LibrariesSetEmptyArray => {
   return {
@@ -112,8 +122,7 @@ type AllLibrariesAction =
 //////ACTIONE TYPE//////////////////////////////////
 export const LIBRARIES_ADD: string = "images_add";
 export const LIBRARIES_ADD_MARS: string = "images_add_mars";
-export const LIBRARIES_HIDE_ONE: string = "images_hide_one";
-export const LIBRARIES_HIDE_ALL: string = "images_hide_all";
+
 export const LIBRARIES_ROVER_NAME: string = "rover_name";
 export const LIBRARIES_PAGE_NUMBER: string = "page_number";
 export const LIBRARIES_RESET: string = "images_reset";
@@ -129,8 +138,11 @@ export const getImagesReducer = (
       return action.payload;
 
     case LIBRARIES_ADD_MARS:
-      // getImagesHided(state,addElementsToLibrariesMars(state))
-      return [...state, ...(action.payload as marsObject[])];
+      const imagesToRender = imagesFilter(
+        action.payload as marsObject[],
+        state
+      );
+      return [...state, ...(imagesToRender as marsObject[])];
     case LIBRARIES_RESET:
       return [];
     default:
@@ -138,6 +150,8 @@ export const getImagesReducer = (
   }
 };
 
+export const LIBRARIES_HIDE_ONE: string = "images_hide_one";
+export const LIBRARIES_HIDE_ALL: string = "images_hide_all";
 type AllLibrariesActionHide =
   | LibrariesResetActionHide
   | LibrariesResetActionHideAll;
@@ -148,10 +162,12 @@ export const getImagesHided = (
   switch (action.type) {
     case LIBRARIES_HIDE_ONE:
       for (let i = 0; i < state.length; i++) {
-        if (state[i].id == action.payload.id) {
+        if (state[i].id == (action.payload as marsObject).id) {
           return state;
         }
       }
+      const arr = [...state, action.payload];
+      storeImagesHidedDevice(arr as marsObject[]);
       return [...state, action.payload];
     case LIBRARIES_HIDE_ALL:
       return [...state, ...(action.payload as marsObject[])];
