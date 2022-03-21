@@ -31,9 +31,7 @@ export const storeImagesHidedDevice = async (images: marsObject[]) => {
     const jsonValue = JSON.stringify(imageObjectToStore);
     await AsyncStorage.setItem("images", jsonValue);
   } catch (e) {
-    console.log(
-      "si è verificato un errore nel setttare le immagini e sono qui"
-    );
+    console.log("Error uploading images");
   }
 };
 export const getStoredImagesHidedDevice = async (): Promise<marsObject[]> => {
@@ -46,9 +44,7 @@ export const getStoredImagesHidedDevice = async (): Promise<marsObject[]> => {
       return [];
     }
   } catch (e) {
-    console.log(
-      "si è verificato un errore nel prenderre le immagini e sono qui"
-    );
+    console.log("Error getting images from your device");
     return [];
   }
 };
