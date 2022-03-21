@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ErrorInfo, useEffect } from "react";
 import { SkeletonList } from "../skeleton/SkeletonList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -8,9 +8,9 @@ import { useDispatch } from "react-redux";
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
   const dispatch = useDispatch();
-  const prova = async () => {
+  const getImageFromDeviceMemory = async () => {
     const result3 = await getStoredImagesHidedDevice();
-    console.log(result3);
+
     dispatch({
       type: "images_hide_all",
       payload: result3,
@@ -18,9 +18,11 @@ export const LoadingScreen = () => {
   };
   useEffect(() => {
     try {
-      prova();
-    } catch {
-      console.log("sono qui");
+      getImageFromDeviceMemory();
+    } catch (e) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
     }
   }, []);
   const autoLogin = async () => {

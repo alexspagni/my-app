@@ -10,7 +10,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
-
 import {
   addElementsToLibrariesMars,
   incrementPageNumber,
@@ -20,7 +19,7 @@ import { imagesFilter } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { dateObject } from "../type/differentType";
-let temp = 0;
+
 ////////////COMPONENT////////////
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
@@ -38,7 +37,6 @@ const IndexScreen = () => {
   useEffect(
     React.useCallback(() => {
       if (images.length) {
-        //console.log("sono qui");
         flatListRef.current?.scrollToIndex({
           animated: true,
           index: 0,
