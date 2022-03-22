@@ -1,6 +1,6 @@
 ////////ALL IMPORT///////////////
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
@@ -76,7 +76,7 @@ const IndexScreen = () => {
       <FlatList
         style={styles.FlatListStyle}
         ref={flatListRef}
-        data={images}
+        data={imagesFilter(images, hides)}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.container}>

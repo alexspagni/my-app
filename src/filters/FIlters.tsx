@@ -48,3 +48,8 @@ export const getStoredImagesHidedDevice = async (): Promise<marsObject[]> => {
     return [];
   }
 };
+export const setStoredImagesHideReset = async () => {
+  try {
+    await AsyncStorage.removeItem("images");
+  } catch {}
+};

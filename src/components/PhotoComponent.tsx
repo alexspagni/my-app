@@ -11,11 +11,7 @@ const PhotoComponent = ({ object }: any) => {
     <View style={styles.containerStyle}>
       <TouchableOpacity
         onPress={() => {
-          if (hides.includes(object)) {
-            navigation.navigate("InfoScreenImagesHide");
-          } else {
-            navigation.navigate("ShowScreen", { image: object });
-          }
+          navigation.navigate("ShowScreen", { image: object });
         }}
       >
         <Image source={{ uri: object.img_src }} style={styles.image} />
