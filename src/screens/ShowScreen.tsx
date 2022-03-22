@@ -1,6 +1,6 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, Button, Image } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import React from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { hideImageAlert } from "../alertMessages/alertMessage";
 type IndexScreenType = {

@@ -1,9 +1,9 @@
-import React, { ErrorInfo, useEffect } from "react";
-import { SkeletonList } from "../skeleton/SkeletonList";
+import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { getStoredImagesHidedDevice } from "../filters/FIlters";
 import { useDispatch } from "react-redux";
+import { GravitazionalWave } from "../skeleton/GravitazionalWave";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
@@ -33,8 +33,9 @@ export const LoadingScreen = () => {
       navigation.navigate("SigningStackNavigator");
     }
   };
+
   useFocusEffect(() => {
-    setTimeout(autoLogin, 2000);
+    setTimeout(autoLogin, 4000);
   });
-  return <SkeletonList />;
+  return <GravitazionalWave />;
 };

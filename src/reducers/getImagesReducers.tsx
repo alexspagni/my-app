@@ -10,11 +10,6 @@ const intialeEarthDate: dateObject = {
   earth_month: "6",
   earth_year: "2016",
 };
-///ASYNC FUNCTION////////////
-//function to store images hided into the device
-
-//const response: any = getStoredImagesHidedDevice();
-//const initalStateImageHided = response.image;
 
 //ACTION TYPE///////////////////////////////////////
 export type LibrariesImageObjectToStore = {
@@ -51,6 +46,10 @@ type LibrestSetPageNumber = {
 };
 type LibrariesSetEmptyArray = {
   type: typeof LIBRARIES_RESET;
+  payload: [];
+};
+type LibrariesResetImagesHide = {
+  type: typeof LIBRARIES_HIDE_RESET;
   payload: [];
 };
 //ACTION FUNCTION//////////////////////////////////////////
@@ -112,6 +111,12 @@ export const setDateRover = (object: dateObject): LibrariesActionDate => {
     payload: object,
   };
 };
+export const resetImagesHide = (array: any): LibrariesResetImagesHide => {
+  return {
+    type: LIBRARIES_HIDE_RESET,
+    payload: [],
+  };
+};
 //////////////////////////////////////////////////////////
 export type ActionFunction = typeof addElementsToLibrariesMars;
 
@@ -152,6 +157,7 @@ export const getImagesReducer = (
 
 export const LIBRARIES_HIDE_ONE: string = "images_hide_one";
 export const LIBRARIES_HIDE_ALL: string = "images_hide_all";
+export const LIBRARIES_HIDE_RESET: string = "images_hide_reset";
 type AllLibrariesActionHide =
   | LibrariesResetActionHide
   | LibrariesResetActionHideAll;
@@ -171,6 +177,8 @@ export const getImagesHided = (
       return [...state, action.payload];
     case LIBRARIES_HIDE_ALL:
       return [...state, ...(action.payload as marsObject[])];
+    case LIBRARIES_HIDE_RESET:
+      return [];
     default:
       return state;
   }
@@ -182,7 +190,12 @@ export const getNameOfRover = (
 ) => {
   switch (action.type) {
     case LIBRARIES_ROVER_NAME:
-      return action.payload;
+      if (action.payload == "") {
+        return state;
+      } else {
+        return action.payload;
+      }
+
     default:
       return state;
   }
@@ -207,7 +220,16 @@ export const getDateRover = (
 ) => {
   switch (action.type) {
     case LIBRARIES_DATE:
-      return { ...action.payload };
+      if (
+        action.payload.earth_day == "" ||
+        action.payload.earth_month == "" ||
+        action.payload.earth_year == ""
+      ) {
+        return state;
+      } else {
+        return { ...action.payload };
+      }
+
     default:
       return state;
   }

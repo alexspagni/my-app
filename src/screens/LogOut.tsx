@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Button, Text, Input } from "react-native-elements";
+import { Button, Text } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { resetToken } from "../reducers/singReducer";
