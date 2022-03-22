@@ -70,14 +70,11 @@ const IndexScreen = () => {
 
   return (
     <View style={styles.containerPrincipal}>
-      {images.length && !loading ? (
-        <Text style={styles.TextStyle}>
-          Here there are some photos about mars rover
-        </Text>
-      ) : null}
+      {images.length && !loading ? null : null}
       {!images.length && !loading ? imageNotFoundAlert() : null}
       {loading ? <SkeletonList /> : null}
       <FlatList
+        style={styles.FlatListStyle}
         ref={flatListRef}
         data={images}
         keyExtractor={(item) => item.id}
@@ -129,6 +126,9 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 4,
+  },
+  FlatListStyle: {
+    paddingTop: 10,
   },
 });
 

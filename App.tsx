@@ -17,6 +17,7 @@ import { InfoScreenSearch } from "./src/InfoPointScreen/InfoScreenSearch";
 import { InfoScreenHome } from "./src/InfoPointScreen/InfoScreenHome";
 import { TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { InfoScreenImagesHide } from "./src/InfoPointScreen/InfoScreenImagesHide";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -82,6 +83,15 @@ const App = () => {
           <Stack.Screen
             name="InfoSearchScreen"
             component={InfoScreenSearch}
+            options={{
+              headerShown: false,
+              presentation: "transparentModal",
+              cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+            }}
+          />
+          <Stack.Screen
+            name="InfoScreenImagesHide"
+            component={InfoScreenImagesHide}
             options={{
               headerShown: false,
               presentation: "transparentModal",

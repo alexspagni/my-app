@@ -2,14 +2,20 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 const PhotoComponent = ({ object }: any) => {
   const navigation = useNavigation<any>();
   const [heartIcon, setHeartIcon] = useState(true);
+  const hides = useSelector((store: any) => store?.imagesHide);
   return (
     <View style={styles.containerStyle}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("ShowScreen", { image: object });
+          if (hides.includes(object)) {
+            navigation.navigate("InfoScreenImagesHide");
+          } else {
+            navigation.navigate("ShowScreen", { image: object });
+          }
         }}
       >
         <Image source={{ uri: object.img_src }} style={styles.image} />
