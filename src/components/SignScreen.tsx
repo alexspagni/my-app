@@ -44,11 +44,9 @@ export const SignScreen = ({
         autoCapitalize="none"
         autoCorrect={false}
       />
-      {checkPattern(email) && !(email == " ") ? (
-        <Text>email correct</Text>
-      ) : (
-        <Text style={styles.ErrorEmailStyle}>check your email</Text>
-      )}
+      {checkPattern(email) ? (
+        <Text style={styles.CorrectEmail}>email pattern correct</Text>
+      ) : null}
       <Input
         label="Password"
         value={password}
@@ -121,6 +119,13 @@ const styles = StyleSheet.create({
   },
   ErrorEmailStyle: {
     color: "red",
+    position: "relative",
+    bottom: 10,
+    marginLeft: 8,
+  },
+  CorrectEmail: {
+    color: "black",
+    fontWeight: "bold",
     position: "relative",
     bottom: 10,
     marginLeft: 8,

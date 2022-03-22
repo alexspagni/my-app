@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addRoverName,
   incrementPageNumber,
+  resetImagesHide,
   setDateRover,
 } from "../reducers/getImagesReducers";
 import SearchImputText from "./SearchImputText";
@@ -13,6 +14,7 @@ import {
   setLoadingReducer,
   setSearchReducer,
 } from "../reducers/setLoadingReducer";
+import { SwitchButton } from "./SwitchButton";
 
 const FormSearch: React.FC = () => {
   //hook per prendere la props "navigation"
@@ -22,7 +24,9 @@ const FormSearch: React.FC = () => {
   const [day, setDay] = useState<string>("");
   const [month, setMonth] = useState<string>("");
   const [year, setYear] = useState<string>("");
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabledHideAllImages, setIsEnabledHideAllImages] = useState(false);
+  const [isEnabledRestoreImagesHided, setIsEnableRestoreImagesHided] =
+    useState(false);
   //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa
   const images = useSelector((store: any) => store?.images);
   const search = useSelector((store: any) => store?.search);
@@ -47,49 +51,61 @@ const FormSearch: React.FC = () => {
       <SearchImputText
         term={roverName}
         value="Insert rover Name"
-        onChangeText={(newTerm) => setRoverName(newTerm)}
+        onChangeText={(newTerm) => setRoverName(newTerm.trim())}
       />
       <Text style={styles.TextStyle}>
-        Insert Day-Month-Year you want to search
+        Insert Day-Month-Year you want to search by
       </Text>
       <View style={styles.ImputTextContainer}>
         <SearchImputText
           term={day}
           value="Insert day"
-          onChangeText={(newTerm) => setDay(newTerm)}
+          onChangeText={(newTerm) => setDay(newTerm.trim())}
         />
         <SearchImputText
           term={month}
           value="Insert month"
-          onChangeText={(newTerm) => setMonth(newTerm)}
+          onChangeText={(newTerm) => setMonth(newTerm.trim())}
         />
         <SearchImputText
           term={year}
           value="Insert Year"
-          onChangeText={(newTerm) => setYear(newTerm)}
+          onChangeText={(newTerm) => setYear(newTerm.trim())}
         />
       </View>
 
-      <View style={styles.switchContainer}>
-        <Text style={styles.TextStyleSwicth}>Hide all current image:</Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isEnabled ? "#FFFFFF" : "#000000"}
-          onValueChange={(newValue) => setIsEnabled(newValue)}
-          onChange={() => console.log("toglle button")}
-          value={isEnabled}
-          style={styles.SwitchStle}
+      <View style={styles.switchContainerImagesHide}>
+        <SwitchButton
+          valueText="Hide all current images"
+          isEnabled={isEnabledHideAllImages}
+          setIsEnabled={(newValue: boolean) => {
+            setIsEnableRestoreImagesHided(false);
+            setIsEnabledHideAllImages(newValue);
+          }}
+        />
+      </View>
+      <View style={styles.switchContainerImagesRestore}>
+        <SwitchButton
+          valueText="Restore Images hided"
+          isEnabled={isEnabledRestoreImagesHided}
+          setIsEnabled={(newValue: boolean) => {
+            setIsEnableRestoreImagesHided(newValue);
+            setIsEnabledHideAllImages(false);
+          }}
         />
       </View>
       <Button
         title="Search photo"
         onPress={() => {
           //if toggle button is enable==> hide all images
-          if (isEnabled) {
+          if (isEnabledHideAllImages) {
             dispatch({
               type: "images_hide_all",
               payload: images,
             });
+          }
+          if (isEnabledRestoreImagesHided) {
+            dispatch(resetImagesHide([]));
           }
           //then go back to the index screen
 
@@ -113,7 +129,13 @@ const styles = StyleSheet.create({
   ImputTextContainer: {
     flexDirection: "row",
   },
-  switchContainer: {
+  switchContainerImagesHide: {
+    marginTop: 10,
+    flexDirection: "row",
+  },
+  switchContainerImagesRestore: {
+    marginTop: 10,
+    marginBottom: 25,
     flexDirection: "row",
   },
   TextStyleSwicth: {
