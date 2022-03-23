@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Animated } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
-import PhotoComponent from "../components/PhotoComponent";
 import { imagesFilter } from "../filters/FIlters";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import {
@@ -12,6 +11,7 @@ import {
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { dateObject } from "../type/differentType";
 export const ImagesLoading = () => {
+  const animatedValue1 = React.useRef(new Animated.Value(0)).current;
   const pageNumber = useSelector((store: any) => store?.pageNumber);
   const roverNameQueryng = useSelector((store: any) => store?.roverName);
   const roverDate: dateObject = useSelector((store: any) => store?.dateRover);
@@ -34,7 +34,9 @@ export const ImagesLoading = () => {
     dispatch(setLoadingReducer(false));
     navigationContainerRef.current?.navigate("drawer");
   };
+
   //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
+
   useEffect(() => {
     setTimeout(
       () =>
@@ -49,15 +51,45 @@ export const ImagesLoading = () => {
     );
   }, []);
 
+  const transformX = animatedValue1.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [0.4, 1, 0.4],
+  });
+  const animation = () => {
+    Animated.timing(animatedValue1, {
+      toValue: 1,
+      duration: 2000,
+
+      useNativeDriver: true,
+    }).start();
+  };
+  useEffect(() => {
+    animation();
+
+    const interval = setInterval(() => {
+      animatedValue1.setValue(0);
+      animation();
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         style={styles.FlatListStyle}
         data={images}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.container}>
-            <PhotoComponent object={item} />
+            <Animated.Image
+              source={{ uri: item.img_src }}
+              style={[
+                styles.image,
+                {
+                  opacity: transformX,
+                },
+              ]}
+            />
           </View>
         )}
       />
@@ -67,11 +99,24 @@ export const ImagesLoading = () => {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
+
     alignItems: "center",
-    flexDirection: "row",
-    paddingLeft: 15,
+
+    backgroundColor: "#353839",
+  },
+  containerViewAnimated: {
+    width: 320,
+    height: 170,
+    borderWidth: 3,
+    borderColor: "red",
   },
   FlatListStyle: {
     paddingTop: 10,
+  },
+  image: {
+    width: 300,
+    height: 150,
+    borderRadius: 4,
+    opacity: 1,
   },
 });

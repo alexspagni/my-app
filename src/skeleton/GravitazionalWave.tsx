@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Animated, useWindowDimensions } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View, Animated } from "react-native";
 import { Easing } from "react-native-reanimated";
 
 export const GravitazionalWave = () => {

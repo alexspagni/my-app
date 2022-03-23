@@ -13,11 +13,13 @@ import { LoadingScreen } from "./src/screens/LoadingScreen";
 import ShowScreen from "./src/screens/ShowScreen";
 import { InfoScreenSearch } from "./src/InfoPointScreen/InfoScreenSearch";
 import { InfoScreenHome } from "./src/InfoPointScreen/InfoScreenHome";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ConfiguereStore from "./src/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import { ImagesLoading } from "./src/skeleton/ImagesLoading";
+import { InfoScreenImageNotFound } from "./src/InfoPointScreen/InfoScreenImageNotFound";
+
 const { store, persistor } = ConfiguereStore();
 const Stack = createStackNavigator();
 
@@ -92,12 +94,34 @@ const App = () => {
               }}
             />
             <Stack.Screen
+              name="InfoScreenImageNotFound"
+              component={InfoScreenImageNotFound}
+              options={{
+                headerShown: false,
+                presentation: "transparentModal",
+                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+              }}
+            />
+            <Stack.Screen
               name="ImagesLoading"
               component={ImagesLoading}
               options={{
-                headerShown: false,
                 presentation: "modal",
-                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                headerMode: "screen",
+                headerStyle: {
+                  height: 80, // Specify the height of your custom header
+                },
+                header: () => {
+                  return (
+                    <View style={{ height: 60 }}>
+                      <Text
+                        style={{ marginLeft: 120, marginTop: 25, fontSize: 18 }}
+                      >
+                        Cached Images
+                      </Text>
+                    </View>
+                  );
+                },
               }}
             />
           </Stack.Navigator>

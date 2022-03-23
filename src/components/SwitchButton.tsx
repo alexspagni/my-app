@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Switch, StyleSheet, Text } from "react-native";
+import React from "react";
+import { Switch, StyleSheet, Text } from "react-native";
 type SwitchProps = {
   valueText: string;
   isEnabled: boolean;

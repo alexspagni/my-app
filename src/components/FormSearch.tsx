@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Button, Switch } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { Button } from "react-native-elements";
 import {
   addRoverName,
   incrementPageNumber,
@@ -17,8 +18,6 @@ import {
 import { SwitchButton } from "./SwitchButton";
 
 const FormSearch: React.FC = () => {
-  //hook per prendere la props "navigation"
-  const navigation = useNavigation();
   //definisco i vari hook per andare a cambiare i vari valori dei textImput
   const [roverName, setRoverName] = useState<string>("");
   const [day, setDay] = useState<string>("");
@@ -96,6 +95,18 @@ const FormSearch: React.FC = () => {
       </View>
       <Button
         title="Search photo"
+        buttonStyle={{
+          backgroundColor: "black",
+          borderWidth: 2,
+          borderColor: "black",
+          borderRadius: 30,
+        }}
+        containerStyle={{
+          width: 200,
+          marginVertical: 20,
+          marginLeft: 62,
+        }}
+        titleStyle={{ fontWeight: "bold", color: "white" }}
         onPress={() => {
           //if toggle button is enable==> hide all images
           if (isEnabledHideAllImages) {

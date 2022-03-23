@@ -6,15 +6,12 @@ import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
 import {
   addElementsToLibrariesMars,
-  addElementsToLibrariesMarsRefreshing,
   incrementPageNumber,
 } from "../reducers/getImagesReducers";
-import { imageNotFoundAlert } from "../alertMessages/alertMessage";
 import { imagesFilter } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { dateObject } from "../type/differentType";
-import { ImagesLoading } from "../skeleton/ImagesLoading";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 
 ////////////COMPONENT////////////
@@ -68,12 +65,16 @@ const IndexScreen = () => {
         roverDate.earth_month,
         roverDate.earth_year
       );
+    } else {
+      setTimeout(() => dispatch(setLoadingReducer(false)), 2000);
     }
   }, [search]);
   return (
     <View style={styles.containerPrincipal}>
       {images.length && !loading ? null : null}
-      {!images.length && !loading ? imageNotFoundAlert() : null}
+      {!images.length && !loading
+        ? navigationContainerRef.current?.navigate("InfoScreenImageNotFound")
+        : null}
       {loading ? <SkeletonList /> : null}
       <FlatList
         style={styles.FlatListStyle}

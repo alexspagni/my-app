@@ -1,8 +1,4 @@
-import {
-  imagesFilter,
-  setStoredImagesHideReset,
-  storeImagesHidedDevice,
-} from "../filters/FIlters";
+import { imagesFilter, setStoredImagesHideReset } from "../filters/FIlters";
 import { marsObject } from "../type/differentType";
 import { dateObject } from "../type/differentType";
 
