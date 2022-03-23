@@ -16,14 +16,6 @@ const PhotoComponent = ({ object }: any) => {
       >
         <Image source={{ uri: object.img_src }} style={styles.image} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setHeartIcon(!heartIcon)}>
-        <AntDesign
-          name={heartIcon ? "hearto" : "heart"}
-          size={24}
-          color="white"
-          style={styles.likeStyle}
-        />
-      </TouchableOpacity>
     </View>
   );
 };
@@ -41,3 +33,14 @@ const styles = StyleSheet.create({
   },
 });
 export default PhotoComponent;
+
+/**
+ * <TouchableOpacity onPress={() => setHeartIcon(!heartIcon)}>
+        <AntDesign
+          name={heartIcon ? "hearto" : "heart"}
+          size={24}
+          color="white"
+          style={styles.likeStyle}
+        />
+      </TouchableOpacity>
+ */

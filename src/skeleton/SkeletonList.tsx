@@ -1,6 +1,7 @@
 import React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Skeleton } from "./Skeleton";
+
 export const SkeletonList = () => {
   return (
     <View>
@@ -14,3 +15,15 @@ export const SkeletonList = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 10,
+    alignItems: "center",
+    flexDirection: "row",
+    paddingLeft: 15,
+  },
+  FlatListStyle: {
+    paddingTop: 10,
+  },
+});
