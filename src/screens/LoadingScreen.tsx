@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { getStoredImagesHidedDevice } from "../filters/FIlters";
-import { useDispatch } from "react-redux";
 import { GravitazionalWave } from "../skeleton/GravitazionalWave";
+import { useSelector } from "react-redux";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
-  const dispatch = useDispatch();
+  const images = useSelector((store: any) => store?.images);
+  /*
   const getImageFromDeviceMemory = async () => {
     const result3 = await getStoredImagesHidedDevice();
 
@@ -25,10 +25,15 @@ export const LoadingScreen = () => {
       }
     }
   }, []);
+  */
   const autoLogin = async () => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
-      navigation.navigate("drawer");
+      if (images.length) {
+        navigation.navigate("ImagesLoading");
+      } else {
+        navigation.navigate("drawer");
+      }
     } else {
       navigation.navigate("SigningStackNavigator");
     }

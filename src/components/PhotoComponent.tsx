@@ -2,11 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
 const PhotoComponent = ({ object }: any) => {
   const navigation = useNavigation<any>();
   const [heartIcon, setHeartIcon] = useState(true);
-  const hides = useSelector((store: any) => store?.imagesHide);
+
   return (
     <View style={styles.containerStyle}>
       <TouchableOpacity
@@ -16,14 +15,6 @@ const PhotoComponent = ({ object }: any) => {
       >
         <Image source={{ uri: object.img_src }} style={styles.image} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setHeartIcon(!heartIcon)}>
-        <AntDesign
-          name={heartIcon ? "hearto" : "heart"}
-          size={24}
-          color="white"
-          style={styles.likeStyle}
-        />
-      </TouchableOpacity>
     </View>
   );
 };
@@ -32,12 +23,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   image: {
-    width: 250,
-    height: 120,
+    width: 300,
+    height: 150,
     borderRadius: 4,
+    marginLeft: 10,
   },
   likeStyle: {
-    marginLeft: 15,
+    marginLeft: 12,
   },
 });
 export default PhotoComponent;
+
+/**
+ * <TouchableOpacity onPress={() => setHeartIcon(!heartIcon)}>
+        <AntDesign
+          name={heartIcon ? "hearto" : "heart"}
+          size={24}
+          color="white"
+          style={styles.likeStyle}
+        />
+      </TouchableOpacity>
+ */

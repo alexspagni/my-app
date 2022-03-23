@@ -1,8 +1,4 @@
-import {
-  imagesFilter,
-  setStoredImagesHideReset,
-  storeImagesHidedDevice,
-} from "../filters/FIlters";
+import { imagesFilter, setStoredImagesHideReset } from "../filters/FIlters";
 import { marsObject } from "../type/differentType";
 import { dateObject } from "../type/differentType";
 
@@ -176,8 +172,8 @@ export const getImagesHided = (
           return state;
         }
       }
-      const arr = [...state, action.payload];
-      storeImagesHidedDevice(arr as marsObject[]);
+      //const arr = [...state, action.payload];
+      //storeImagesHidedDevice(arr as marsObject[]);
       return [...state, action.payload];
     case LIBRARIES_HIDE_ALL:
       return [...state, ...(action.payload as marsObject[])];

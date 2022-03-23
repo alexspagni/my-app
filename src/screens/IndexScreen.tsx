@@ -8,11 +8,11 @@ import {
   addElementsToLibrariesMars,
   incrementPageNumber,
 } from "../reducers/getImagesReducers";
-import { imageNotFoundAlert } from "../alertMessages/alertMessage";
 import { imagesFilter } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { dateObject } from "../type/differentType";
+import { navigationContainerRef } from "../Navigator/ContainerRef";
 
 ////////////COMPONENT////////////
 const IndexScreen = () => {
@@ -53,11 +53,11 @@ const IndexScreen = () => {
       const imagesToRender = imagesFilter(results, hides);
       dispatch(addElementsToLibrariesMars(imagesToRender));
     } catch {}
-    setTimeout(() => dispatch(setLoadingReducer(false)), 1000);
+    setTimeout(() => dispatch(setLoadingReducer(false)), 2000);
   };
   //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
   useEffect(() => {
-    try {
+    if (!images.length) {
       getImageFromMars(
         roverNameQueryng,
         pageNumber,
@@ -65,13 +65,16 @@ const IndexScreen = () => {
         roverDate.earth_month,
         roverDate.earth_year
       );
-    } catch {}
+    } else {
+      setTimeout(() => dispatch(setLoadingReducer(false)), 2000);
+    }
   }, [search]);
-
   return (
     <View style={styles.containerPrincipal}>
       {images.length && !loading ? null : null}
-      {!images.length && !loading ? imageNotFoundAlert() : null}
+      {!images.length && !loading
+        ? navigationContainerRef.current?.navigate("InfoScreenImageNotFound")
+        : null}
       {loading ? <SkeletonList /> : null}
       <FlatList
         style={styles.FlatListStyle}
