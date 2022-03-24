@@ -1,7 +1,3 @@
-import {
-  initalStateRover,
-  LibrariesImageObjectToStore,
-} from "../reducers/getImagesReducers";
 import { marsObject } from "../type/differentType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export const imagesFilter = (
@@ -22,7 +18,7 @@ export const imagesFilter = (
   });
   return newArray;
 };
-
+/*
 export const storeImagesHidedDevice = async (images: marsObject[]) => {
   const imageObjectToStore: LibrariesImageObjectToStore = {
     image: images,
@@ -48,6 +44,7 @@ export const getStoredImagesHidedDevice = async (): Promise<marsObject[]> => {
     return [];
   }
 };
+*/
 export const setStoredImagesHideReset = async () => {
   try {
     await AsyncStorage.removeItem("images");

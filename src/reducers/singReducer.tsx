@@ -1,5 +1,5 @@
-import { state } from "../type/differentType";
-const initialState: state = {
+import { stateUser } from "../type/differentType";
+const initialState: stateUser = {
   token: "",
   error_message: "",
 };
@@ -59,10 +59,7 @@ type AllTypeAction =
   | LibrariesAddToken
   | LibrariesRemoveError
   | LibrariesResetToken;
-export const signReducer = (
-  state = initialState,
-  action: AllTypeAction
-): state => {
+export const signReducer = (state = initialState, action: AllTypeAction) => {
   switch (action.type) {
     case LIBRARIES_ERROR:
       return { ...state, error_message: action.payload };

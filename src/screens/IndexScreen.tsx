@@ -4,29 +4,27 @@ import { View, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
-import {
-  addElementsToLibrariesMars,
-  incrementPageNumber,
-} from "../reducers/getImagesReducers";
+import { addElementsToLibrariesMars } from "../reducers/getImagesReducers";
 import { imagesFilter } from "../filters/FIlters";
 import { SkeletonList } from "../skeleton/SkeletonList";
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
-import { dateObject } from "../type/differentType";
+import { roverDataType } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
+import { LIBRARIES_PAGE_NUMBER } from "../reducers/DataReducer";
+import { GravitazionalWave } from "../skeleton/GravitazionalWave";
 
 ////////////COMPONENT////////////
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
-  const pageNumber = useSelector((store: any) => store?.pageNumber);
   const images = useSelector((store: any) => store?.images);
-  const roverNameQueryng = useSelector((store: any) => store?.roverName);
-  const roverDate: dateObject = useSelector((store: any) => store?.dateRover);
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
   const hides = useSelector((store: any) => store?.imagesHide);
   const loading = useSelector((store: any) => store?.loading);
   const search = useSelector((store: any) => store?.search);
-
+  const roverData: roverDataType = useSelector(
+    (store: any) => store?.dataRover
+  );
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
   useEffect(
     React.useCallback(() => {
@@ -47,23 +45,28 @@ const IndexScreen = () => {
     month?: string,
     year?: string
   ) => {
-    dispatch(incrementPageNumber(page));
+    console.log("sono qui");
+
     try {
       const results = await getImageMars(roverName, page, day, month, year);
       const imagesToRender = imagesFilter(results, hides);
       dispatch(addElementsToLibrariesMars(imagesToRender));
     } catch {}
-    setTimeout(() => dispatch(setLoadingReducer(false)), 2000);
+    dispatch({
+      type: LIBRARIES_PAGE_NUMBER,
+      payload: { ...roverData, page_number: page },
+    });
+    setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
   };
   //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
   useEffect(() => {
     if (!images.length) {
       getImageFromMars(
-        roverNameQueryng,
-        pageNumber,
-        roverDate.earth_day,
-        roverDate.earth_month,
-        roverDate.earth_year
+        roverData.rover_name,
+        roverData.page_number,
+        roverData.earth_day,
+        roverData.earth_month,
+        roverData.earth_year
       );
     } else {
       setTimeout(() => dispatch(setLoadingReducer(false)), 2000);
@@ -75,29 +78,34 @@ const IndexScreen = () => {
       {!images.length && !loading
         ? navigationContainerRef.current?.navigate("InfoScreenImageNotFound")
         : null}
-      {loading ? <SkeletonList /> : null}
-      <FlatList
-        style={styles.FlatListStyle}
-        ref={flatListRef}
-        data={imagesFilter(images, hides)}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.container}>
-            <PhotoComponent object={item} />
-          </View>
-        )}
-        onEndReached={() => {
-          const newPage = pageNumber + 1;
-          getImageFromMars(
-            roverNameQueryng,
-            newPage,
-            roverDate.earth_day,
-            roverDate.earth_month,
-            roverDate.earth_year
-          );
-        }}
-        onEndReachedThreshold={0.5}
-      />
+      {loading ? (
+        <GravitazionalWave />
+      ) : (
+        <FlatList
+          style={styles.FlatListStyle}
+          ref={flatListRef}
+          data={imagesFilter(images, hides)}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.container}>
+              <PhotoComponent object={item} />
+            </View>
+          )}
+          onEndReached={() => {
+            const newPage = roverData.page_number + 1;
+            console.log(newPage);
+
+            getImageFromMars(
+              roverData.rover_name,
+              newPage,
+              roverData.earth_day,
+              roverData.earth_month,
+              roverData.earth_year
+            );
+          }}
+          onEndReachedThreshold={0.5}
+        />
+      )}
     </View>
   );
 };

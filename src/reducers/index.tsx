@@ -1,20 +1,13 @@
 import { combineReducers } from "redux";
-
-import {
-  getDateRover,
-  getImagesReducer,
-  getNameOfRover,
-  setPageNumber,
-} from "./getImagesReducers";
+import { roverDataReducer } from "./DataReducer";
+import { getImagesReducer } from "./getImagesReducers";
 import { getImagesHided } from "./getImagesReducers";
 import { LoadingReducer, makeASearch } from "./setLoadingReducer";
 import { signReducer } from "./singReducer";
 const rootReducer = combineReducers({
+  dataRover: roverDataReducer,
   images: getImagesReducer,
   imagesHide: getImagesHided,
-  roverName: getNameOfRover,
-  dateRover: getDateRover,
-  pageNumber: setPageNumber,
   loading: LoadingReducer,
   search: makeASearch,
   sing: signReducer,

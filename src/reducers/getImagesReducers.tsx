@@ -1,28 +1,14 @@
-import { imagesFilter, setStoredImagesHideReset } from "../filters/FIlters";
+import { imagesFilter } from "../filters/FIlters";
 import { marsObject } from "../type/differentType";
-import { dateObject } from "../type/differentType";
 
 export const initalStateRover: marsObject[] = [];
-const initalStateNameRover: string = "Opportunity";
-const intialPageNumber: number = 1;
-const intialeEarthDate: dateObject = {
-  earth_day: "3",
-  earth_month: "6",
-  earth_year: "2016",
-};
 
 //ACTION TYPE///////////////////////////////////////
-export type LibrariesImageObjectToStore = {
-  image: marsObject[];
-};
 type LibrariesAddActionType = {
   type: typeof LIBRARIES_ADD;
   payload: marsObject;
 };
-type LibrariesActionDate = {
-  type: typeof LIBRARIES_DATE;
-  payload: dateObject;
-};
+
 type LibrariesAddActionTypeMars = {
   type: typeof LIBRARIES_ADD_MARS;
   payload: marsObject[];
@@ -36,14 +22,7 @@ type LibrariesResetActionHideAll = {
   type: typeof LIBRARIES_HIDE_ALL;
   payload: marsObject[];
 };
-type LibrestsetRoverName = {
-  type: typeof LIBRARIES_ROVER_NAME;
-  payload: string;
-};
-type LibrestSetPageNumber = {
-  type: typeof LIBRARIES_PAGE_NUMBER;
-  payload: number;
-};
+
 type LibrariesSetEmptyArray = {
   type: typeof LIBRARIES_RESET;
   payload: [];
@@ -53,12 +32,7 @@ type LibrariesResetImagesHide = {
   payload: [];
 };
 //ACTION FUNCTION//////////////////////////////////////////
-export const resetImages = (array: any): LibrariesSetEmptyArray => {
-  return {
-    type: LIBRARIES_PAGE_NUMBER,
-    payload: array,
-  };
-};
+
 export const addElementsToLibrariesMars = (
   array: marsObject[]
 ): LibrariesAddActionTypeMars | undefined => {
@@ -92,25 +66,7 @@ export const addElementsToLibrariesHide = (
     payload: object,
   };
 };
-export const addRoverName = (string: string): LibrestsetRoverName => {
-  return {
-    type: LIBRARIES_ROVER_NAME,
-    payload: string,
-  };
-};
 
-export const incrementPageNumber = (number: number): LibrestSetPageNumber => {
-  return {
-    type: LIBRARIES_PAGE_NUMBER,
-    payload: number,
-  };
-};
-export const setDateRover = (object: dateObject): LibrariesActionDate => {
-  return {
-    type: LIBRARIES_DATE,
-    payload: object,
-  };
-};
 export const resetImagesHide = (array: any): LibrariesResetImagesHide => {
   return {
     type: LIBRARIES_HIDE_RESET,
@@ -127,12 +83,8 @@ type AllLibrariesAction =
 //////ACTIONE TYPE//////////////////////////////////
 export const LIBRARIES_ADD: string = "images_add";
 export const LIBRARIES_ADD_MARS: string = "images_add_mars";
-
-export const LIBRARIES_ROVER_NAME: string = "rover_name";
-export const LIBRARIES_PAGE_NUMBER: string = "page_number";
 export const LIBRARIES_RESET: string = "images_reset";
-export const LIBRARIES_DATE: string = "image_date";
-/////////////////////////////////////////////////
+
 //REDUCERS FUNCTION////////////////////////////////////////////
 export const getImagesReducer = (
   state = initalStateRover,
@@ -158,6 +110,7 @@ export const getImagesReducer = (
 export const LIBRARIES_HIDE_ONE: string = "images_hide_one";
 export const LIBRARIES_HIDE_ALL: string = "images_hide_all";
 export const LIBRARIES_HIDE_RESET: string = "images_hide_reset";
+
 type AllLibrariesActionHide =
   | LibrariesResetActionHide
   | LibrariesResetActionHideAll;
@@ -172,67 +125,16 @@ export const getImagesHided = (
           return state;
         }
       }
-      //const arr = [...state, action.payload];
-      //storeImagesHidedDevice(arr as marsObject[]);
+
       return [...state, action.payload];
     case LIBRARIES_HIDE_ALL:
       return [...state, ...(action.payload as marsObject[])];
     case LIBRARIES_HIDE_RESET:
-      setStoredImagesHideReset();
+      // setStoredImagesHideReset();
       return [];
     default:
       return state;
   }
 };
-type AllLibrariesActionRoverName = LibrestsetRoverName;
-export const getNameOfRover = (
-  state = initalStateNameRover,
-  action: AllLibrariesActionRoverName
-) => {
-  switch (action.type) {
-    case LIBRARIES_ROVER_NAME:
-      if (action.payload == "") {
-        return state;
-      } else {
-        return action.payload;
-      }
 
-    default:
-      return state;
-  }
-};
-type AllLibrariesActionPageNumber = LibrestSetPageNumber;
-export const setPageNumber = (
-  state = intialPageNumber,
-  action: AllLibrariesActionPageNumber
-) => {
-  switch (action.type) {
-    case LIBRARIES_PAGE_NUMBER:
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-type AllLibrariesActionDateRover = LibrariesActionDate;
-export const getDateRover = (
-  state = intialeEarthDate,
-  action: AllLibrariesActionDateRover
-) => {
-  switch (action.type) {
-    case LIBRARIES_DATE:
-      if (
-        action.payload.earth_day == "" ||
-        action.payload.earth_month == "" ||
-        action.payload.earth_year == ""
-      ) {
-        return state;
-      } else {
-        return { ...action.payload };
-      }
-
-    default:
-      return state;
-  }
-};
 /////////////////////////////////////////////////

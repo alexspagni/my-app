@@ -1,24 +1,3 @@
-export type actionLibrariesType = {
-  type: string;
-  payload: any;
-};
-
-export type actionImageType = {
-  type: string;
-  payload: any;
-};
-
-export type nasaObject = {
-  copyright: string;
-  date: string;
-  explanation: string;
-  hdurl: string;
-  media_type: string;
-  service_version: string;
-  type: string;
-  url: string;
-  title: string;
-};
 export type cameraType = {
   id: number;
   name: string;
@@ -45,11 +24,19 @@ export type dateObject = {
   earth_month: string;
   earth_year: string;
 };
-export type state = {
+export type stateUser = {
   token: string;
   error_message: string;
 };
 export type signType = {
   email: string;
   password: string;
+};
+
+export type roverDataType = {
+  rover_name: string;
+  page_number: number;
+  earth_day: string;
+  earth_month: string;
+  earth_year: string;
 };
