@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import { imagesFilter } from "../filters/FIlters";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
-import {
-  incrementPageNumber,
-  LIBRARIES_PAGE_NUMBER,
-} from "../reducers/DataReducer";
+import { LIBRARIES_PAGE_NUMBER } from "../reducers/DataReducer";
 import { addElementsToLibrariesMarsRefreshing } from "../reducers/getImagesReducers";
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { roverDataType } from "../type/differentType";

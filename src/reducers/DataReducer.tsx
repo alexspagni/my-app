@@ -1,7 +1,4 @@
 import { roverDataType } from "../type/differentType";
-export const LIBRARIES_ROVER_NAME: string = "rover_name";
-export const LIBRARIES_PAGE_NUMBER: string = "page_number";
-export const LIBRARIES_DATE: string = "image_date";
 const intialStateRoverData: roverDataType = {
   rover_name: "Opportunity",
   page_number: 1,
@@ -9,6 +6,9 @@ const intialStateRoverData: roverDataType = {
   earth_month: "6",
   earth_year: "2016",
 };
+export const LIBRARIES_ROVER_NAME: string = "rover_name";
+export const LIBRARIES_PAGE_NUMBER: string = "page_number";
+export const LIBRARIES_DATE: string = "image_date";
 type LibrariesActionRoverData = {
   type:
     | typeof LIBRARIES_DATE
@@ -23,17 +23,6 @@ type LibrariesActionRoverData = {
   };
 };
 
-type LibrestSetPageNumber = {
-  type: typeof LIBRARIES_PAGE_NUMBER;
-  payload: number;
-};
-
-export const incrementPageNumber = (number: number): LibrestSetPageNumber => {
-  return {
-    type: LIBRARIES_PAGE_NUMBER,
-    payload: number,
-  };
-};
 export const roverDataReducer = (
   state = intialStateRoverData,
   action: LibrariesActionRoverData

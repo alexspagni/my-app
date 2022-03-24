@@ -1,12 +1,9 @@
-import { imagesFilter, setStoredImagesHideReset } from "../filters/FIlters";
+import { imagesFilter } from "../filters/FIlters";
 import { marsObject } from "../type/differentType";
 
 export const initalStateRover: marsObject[] = [];
 
 //ACTION TYPE///////////////////////////////////////
-export type LibrariesImageObjectToStore = {
-  image: marsObject[];
-};
 type LibrariesAddActionType = {
   type: typeof LIBRARIES_ADD;
   payload: marsObject;
@@ -133,7 +130,7 @@ export const getImagesHided = (
     case LIBRARIES_HIDE_ALL:
       return [...state, ...(action.payload as marsObject[])];
     case LIBRARIES_HIDE_RESET:
-      setStoredImagesHideReset();
+      // setStoredImagesHideReset();
       return [];
     default:
       return state;

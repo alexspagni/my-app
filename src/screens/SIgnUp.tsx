@@ -2,13 +2,15 @@ import { View, StyleSheet } from "react-native";
 import { expressApi } from "../api/getApi";
 import { useDispatch, useSelector } from "react-redux";
 import { addError, addToken, removeError } from "../reducers/singReducer";
-import { signType, state } from "../type/differentType";
+import { signType, stateUser } from "../type/differentType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { SignScreen } from "../components/SignScreen";
 import React from "react";
+import { getImageMars } from "../api/getImage";
+import { imagesFilter } from "../filters/FIlters";
 export const SignUp = ({ navigation }: any) => {
-  const signState: state = useSelector((store: any) => store?.sing);
+  const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
 
   //fucnction to signUp a new user

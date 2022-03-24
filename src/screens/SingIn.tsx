@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { expressApi } from "../api/getApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SignScreen } from "../components/SignScreen";
-import { signType, state } from "../type/differentType";
+import { signType, stateUser } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { addError, addToken, removeError } from "../reducers/singReducer";
 import React from "react";
 
 export const SignIn = ({ navigation }: any) => {
-  const signState: state = useSelector((store: any) => store?.sing);
+  const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch<any>();
   //Function to sign in a user that already exist on mongoDB database
   const signIn = async ({ email, password }: signType) => {
