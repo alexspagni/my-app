@@ -5,16 +5,17 @@ import { getImageMars } from "../api/getImage";
 import { imagesFilter } from "../filters/FIlters";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import {
-  addElementsToLibrariesMarsRefreshing,
   incrementPageNumber,
-} from "../reducers/getImagesReducers";
+  LIBRARIES_PAGE_NUMBER,
+} from "../reducers/DataReducer";
+import { addElementsToLibrariesMarsRefreshing } from "../reducers/getImagesReducers";
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
-import { dateObject } from "../type/differentType";
+import { roverDataType } from "../type/differentType";
 export const ImagesLoading = () => {
   const animatedValue1 = React.useRef(new Animated.Value(0)).current;
-  const pageNumber = useSelector((store: any) => store?.pageNumber);
-  const roverNameQueryng = useSelector((store: any) => store?.roverName);
-  const roverDate: dateObject = useSelector((store: any) => store?.dateRover);
+  const roverData: roverDataType = useSelector(
+    (store: any) => store?.dataRover
+  );
   const dispatch = useDispatch();
   const hides = useSelector((store: any) => store?.imagesHide);
   const images = useSelector((store: any) => store?.images);
@@ -25,7 +26,10 @@ export const ImagesLoading = () => {
     month?: string,
     year?: string
   ) => {
-    dispatch(incrementPageNumber(page));
+    dispatch({
+      type: LIBRARIES_PAGE_NUMBER,
+      payload: { ...roverData, page_number: page },
+    });
     try {
       const results = await getImageMars(roverName, page, day, month, year);
       const imagesToRender = imagesFilter(results, hides);
@@ -41,11 +45,11 @@ export const ImagesLoading = () => {
     setTimeout(
       () =>
         getImageFromMars(
-          roverNameQueryng,
-          pageNumber,
-          roverDate.earth_day,
-          roverDate.earth_month,
-          roverDate.earth_year
+          roverData.rover_name,
+          roverData.page_number,
+          roverData.earth_day,
+          roverData.earth_month,
+          roverData.earth_year
         ),
       8000
     );
@@ -99,17 +103,11 @@ export const ImagesLoading = () => {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
-
     alignItems: "center",
-
+    flex: 1,
     backgroundColor: "#353839",
   },
-  containerViewAnimated: {
-    width: 320,
-    height: 170,
-    borderWidth: 3,
-    borderColor: "red",
-  },
+
   FlatListStyle: {
     paddingTop: 10,
   },

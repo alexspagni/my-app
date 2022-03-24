@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-native-elements";
-import {
-  addRoverName,
-  incrementPageNumber,
-  resetImagesHide,
-  setDateRover,
-} from "../reducers/getImagesReducers";
+import { resetImagesHide } from "../reducers/getImagesReducers";
 import SearchImputText from "./SearchImputText";
-import { useNavigation } from "@react-navigation/native";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import {
   setLoadingReducer,
   setSearchReducer,
 } from "../reducers/setLoadingReducer";
 import { SwitchButton } from "./SwitchButton";
+import { roverDataType } from "../type/differentType";
+import {
+  LIBRARIES_DATE,
+  LIBRARIES_PAGE_NUMBER,
+  LIBRARIES_ROVER_NAME,
+} from "../reducers/DataReducer";
 
 const FormSearch: React.FC = () => {
   //definisco i vari hook per andare a cambiare i vari valori dei textImput
@@ -26,19 +26,35 @@ const FormSearch: React.FC = () => {
   const [isEnabledHideAllImages, setIsEnabledHideAllImages] = useState(false);
   const [isEnabledRestoreImagesHided, setIsEnableRestoreImagesHided] =
     useState(false);
+
+  const roverData: roverDataType = useSelector(
+    (store: any) => store?.dataRover
+  );
   //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa
   const images = useSelector((store: any) => store?.images);
   const search = useSelector((store: any) => store?.search);
   const dispatch = useDispatch();
 
   const backToIndexScreen = () => {
-    dispatch(addRoverName(roverName));
-    dispatch(incrementPageNumber(1));
+    dispatch({
+      type: LIBRARIES_PAGE_NUMBER,
+      payload: { ...roverData, page_number: 1 },
+    });
+    dispatch({
+      type: LIBRARIES_ROVER_NAME,
+      payload: { ...roverData, rover_name: roverName },
+    });
     dispatch(setLoadingReducer(true));
     dispatch(setSearchReducer(!search));
-    dispatch(
-      setDateRover({ earth_day: day, earth_month: month, earth_year: year })
-    );
+    dispatch({
+      type: LIBRARIES_DATE,
+      payload: {
+        ...roverData,
+        earth_day: day,
+        earth_month: month,
+        earth_year: year,
+      },
+    });
     dispatch({ type: "images_reset", payload: [] });
     //navigation.navigate("IndexScreen");
     navigationContainerRef.current?.navigate("IndexScreen");
@@ -161,32 +177,3 @@ const styles = StyleSheet.create({
   },
 });
 export default FormSearch;
-
-/*
-  const getImageFromMars = async () => {
-    const pageNumber = 1;
-    if (day && month && year) {
-      const results = await getImageMars(
-        roverName,
-        pageNumber,
-        day,
-        month,
-        year
-      );
-      const imagesToRender = imagesHided(results, hides);
-      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
-      dispatch(addRoverName(roverName));
-      dispatch(incrementPageNumber(1));
-      dispatch(setLoadingReducer(true));
-    } else {
-      const results = await getImageMars(roverName, pageNumber);
-      const imagesToRender = imagesHided(results, hides);
-      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
-      dispatch(addRoverName(roverName));
-      dispatch(incrementPageNumber(1));
-      dispatch(setLoadingReducer(true));
-    }
-    navigation.goBack;
-    //navigationContainerRef.current?.navigate("IndexScreen");
-  };
-  */
