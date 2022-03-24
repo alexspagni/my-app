@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Button, Text } from "react-native-elements";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { resetToken } from "../reducers/singReducer";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
+import { getTokenFromStore } from "../filters/FIlters";
+import { LIBRARIES_USER_IMAGES } from "../reducers/UserImagesReducer";
+
 export const LogOut = () => {
   const dispatch = useDispatch<any>();
+  const images = useSelector((store: any) => store?.images);
+  const [token, setToken] = useState("");
   const logOut = async () => {
     await AsyncStorage.removeItem("token");
     dispatch(resetToken(""));
@@ -14,6 +19,18 @@ export const LogOut = () => {
     navigationContainerRef.current?.navigate("loading");
   };
 
+  const getToken = async () => {
+    try {
+      const tokenStore = await getTokenFromStore();
+      console.log(tokenStore);
+      setToken(tokenStore as string);
+    } catch {
+      console.log("some error1");
+    }
+  };
+  useEffect(() => {
+    getToken();
+  }, []);
   return (
     <View style={styles.container}>
       <Text h4 style={styles.TextStyle}>
@@ -34,7 +51,13 @@ export const LogOut = () => {
           marginLeft: 100,
         }}
         titleStyle={{ fontWeight: "bold" }}
-        onPress={() => logOut()}
+        onPress={() => {
+          dispatch({
+            type: LIBRARIES_USER_IMAGES,
+            payload: { images: images, token: token },
+          });
+          logOut();
+        }}
       />
     </View>
   );

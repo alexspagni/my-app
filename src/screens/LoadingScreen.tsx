@@ -2,14 +2,16 @@ import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { GravitazionalWave } from "../skeleton/GravitazionalWave";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToken } from "../reducers/singReducer";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
   const images = useSelector((store: any) => store?.images);
-
+  const dispatch = useDispatch();
   const autoLogin = async () => {
     const token = await AsyncStorage.getItem("token");
+
     if (token) {
       if (images.length) {
         navigation.navigate("ImagesLoading");

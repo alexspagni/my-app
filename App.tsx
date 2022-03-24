@@ -28,7 +28,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer ref={navigationContainerRef}>
-          <Stack.Navigator initialRouteName="loading">
+          <Stack.Navigator initialRouteName="drawer">
             <Stack.Screen
               name="drawer"
               component={DrawerNavigator}

@@ -1,7 +1,7 @@
 import { imagesFilter } from "../filters/FIlters";
 import { marsObject } from "../type/differentType";
 
-export const initalStateRover: marsObject[] = [];
+const initalStateRover: marsObject[] = [];
 
 //ACTION TYPE///////////////////////////////////////
 type LibrariesAddActionType = {

@@ -40,3 +40,8 @@ export type roverDataType = {
   earth_month: string;
   earth_year: string;
 };
+
+export type lastImagesUsersType = {
+  images: marsObject[];
+  token: string;
+};
