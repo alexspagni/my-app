@@ -11,6 +11,7 @@ import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { roverDataType } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { LIBRARIES_PAGE_NUMBER } from "../reducers/DataReducer";
+import { GravitazionalWave } from "../skeleton/GravitazionalWave";
 
 ////////////COMPONENT////////////
 const IndexScreen = () => {
@@ -55,7 +56,7 @@ const IndexScreen = () => {
       type: LIBRARIES_PAGE_NUMBER,
       payload: { ...roverData, page_number: page },
     });
-    setTimeout(() => dispatch(setLoadingReducer(false)), 2000);
+    setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
   };
   //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
   useEffect(() => {
@@ -77,31 +78,34 @@ const IndexScreen = () => {
       {!images.length && !loading
         ? navigationContainerRef.current?.navigate("InfoScreenImageNotFound")
         : null}
-      {loading ? <SkeletonList /> : null}
-      <FlatList
-        style={styles.FlatListStyle}
-        ref={flatListRef}
-        data={imagesFilter(images, hides)}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.container}>
-            <PhotoComponent object={item} />
-          </View>
-        )}
-        onEndReached={() => {
-          const newPage = roverData.page_number + 1;
-          console.log(newPage);
+      {loading ? (
+        <GravitazionalWave />
+      ) : (
+        <FlatList
+          style={styles.FlatListStyle}
+          ref={flatListRef}
+          data={imagesFilter(images, hides)}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.container}>
+              <PhotoComponent object={item} />
+            </View>
+          )}
+          onEndReached={() => {
+            const newPage = roverData.page_number + 1;
+            console.log(newPage);
 
-          getImageFromMars(
-            roverData.rover_name,
-            newPage,
-            roverData.earth_day,
-            roverData.earth_month,
-            roverData.earth_year
-          );
-        }}
-        onEndReachedThreshold={0.5}
-      />
+            getImageFromMars(
+              roverData.rover_name,
+              newPage,
+              roverData.earth_day,
+              roverData.earth_month,
+              roverData.earth_year
+            );
+          }}
+          onEndReachedThreshold={0.5}
+        />
+      )}
     </View>
   );
 };
