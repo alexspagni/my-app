@@ -28,8 +28,10 @@ const SearchImputText: React.FC<FormProps> = ({
 const styles = StyleSheet.create({
   inputStyle: {
     margin: 10,
-    fontSize: 18,
+    fontSize: 14,
     backgroundColor: "#F0EEEE",
+    borderRadius: 10,
+    width: 100,
   },
 });
 export default SearchImputText;

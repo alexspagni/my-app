@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-native-elements";
 import { resetImagesHide } from "../reducers/getImagesReducers";
@@ -63,15 +63,13 @@ const FormSearch: React.FC = () => {
 
   return (
     <View style={styles.backgroundStyle}>
-      <Text style={styles.TextStyle}>Insert Rover Name</Text>
-      <SearchImputText
-        term={roverName}
-        value="Insert rover Name"
-        onChangeText={(newTerm) => setRoverName(newTerm.trim())}
-      />
-      <Text style={styles.TextStyle}>
-        Insert Day-Month-Year you want to search by
-      </Text>
+      <TouchableOpacity
+        style={styles.imageStyle}
+        onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
+      >
+        <Image source={require("../Images/iconX.png")} />
+      </TouchableOpacity>
+      <Text style={styles.TextStyle}>Date Filter</Text>
       <View style={styles.ImputTextContainer}>
         <SearchImputText
           term={day}
@@ -89,92 +87,37 @@ const FormSearch: React.FC = () => {
           onChangeText={(newTerm) => setYear(newTerm.trim())}
         />
       </View>
-
-      <View style={styles.switchContainerImagesHide}>
-        <SwitchButton
-          valueText="Hide all current images"
-          isEnabled={isEnabledHideAllImages}
-          setIsEnabled={(newValue: boolean) => {
-            setIsEnableRestoreImagesHided(false);
-            setIsEnabledHideAllImages(newValue);
-          }}
-        />
-      </View>
-      <View style={styles.switchContainerImagesRestore}>
-        <SwitchButton
-          valueText="Restore Images hided"
-          isEnabled={isEnabledRestoreImagesHided}
-          setIsEnabled={(newValue: boolean) => {
-            setIsEnableRestoreImagesHided(newValue);
-            setIsEnabledHideAllImages(false);
-          }}
-        />
-      </View>
-      <Button
-        title="Search photo"
-        buttonStyle={{
-          backgroundColor: "black",
-          borderWidth: 2,
-          borderColor: "black",
-          borderRadius: 30,
-        }}
-        containerStyle={{
-          width: 200,
-          marginVertical: 20,
-          marginLeft: 62,
-        }}
-        titleStyle={{ fontWeight: "bold", color: "white" }}
-        onPress={() => {
-          //if toggle button is enable==> hide all images
-          if (isEnabledHideAllImages) {
-            dispatch({
-              type: "images_hide_all",
-              payload: images,
-            });
-          }
-          if (isEnabledRestoreImagesHided) {
-            dispatch(resetImagesHide([]));
-          }
-          //then go back to the index screen
-
-          backToIndexScreen();
-        }}
-      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   backgroundStyle: {
-    borderColor: "black",
-    borderWidth: 4,
-    marginHorizontal: 10,
-    height: 600,
+    backgroundColor: "#181A1C",
+    marginTop: 30,
+    flex: 1,
   },
   TextStyle: {
     alignItems: "center",
+    color: "white",
+    marginTop: 180,
+    fontSize: 25,
+    marginLeft: 30,
+    marginBottom: 15,
   },
   ImputTextContainer: {
     flexDirection: "row",
   },
-  switchContainerImagesHide: {
-    marginTop: 10,
-    flexDirection: "row",
-  },
-  switchContainerImagesRestore: {
-    marginTop: 10,
-    marginBottom: 25,
-    flexDirection: "row",
-  },
-  TextStyleSwicth: {
-    paddingRight: 15,
-    paddingBottom: 15,
-  },
-  SwitchStle: {
-    position: "absolute",
-
-    right: 120,
-    bottom: 1,
+  imageStyle: {
+    position: "relative",
+    left: 20,
+    top: 20,
+    width: 50,
+    height: 40,
   },
 });
 export default FormSearch;
+
+/**
+ *
+ */

@@ -19,6 +19,7 @@ import ConfiguereStore from "./src/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import { ImagesLoading } from "./src/skeleton/ImagesLoading";
 import { InfoScreenImageNotFound } from "./src/InfoPointScreen/InfoScreenImageNotFound";
+import FormSearch from "./src/components/FormSearch";
 
 const { store, persistor } = ConfiguereStore();
 const Stack = createStackNavigator();
@@ -36,8 +37,9 @@ const App = () => {
             />
             <Stack.Screen
               name="Search"
-              component={SerchScreen}
+              component={FormSearch}
               options={{
+                headerShown: false,
                 presentation: "modal",
                 headerRight: () => (
                   <View style={{ flexDirection: "row" }}>

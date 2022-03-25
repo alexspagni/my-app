@@ -91,13 +91,29 @@ const IndexScreen = () => {
         />
         <FilterButtonComponent
           buttonName="Data"
-          onPressButton={() => console.log()}
+          onPressButton={() =>
+            navigationContainerRef.current?.navigate("Search")
+          }
           buttonWidth={45}
           buttonHeight={34}
         />
         <FilterButtonComponent
           buttonName="Photos"
           onPressButton={() => console.log()}
+          buttonWidth={50}
+          buttonHeight={34}
+        />
+        <FilterButtonComponent
+          buttonName="Hide all"
+          onPressButton={() => console.log()}
+          buttonWidth={60}
+          buttonHeight={34}
+        />
+        <FilterButtonComponent
+          buttonName="Info"
+          onPressButton={() =>
+            navigationContainerRef.current?.navigate("InfoScreenHome")
+          }
           buttonWidth={50}
           buttonHeight={34}
         />

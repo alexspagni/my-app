@@ -18,6 +18,7 @@ export const FilterButtonComponent: React.FC<FilterButtonComponent> = (
           setColor("#727477");
         } else if (color === "#727477") {
           setColor("#2E8AF6");
+          props.onPressButton();
         }
       }}
       style={[
