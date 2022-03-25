@@ -36,6 +36,7 @@ const FormSearch: React.FC = () => {
   const dispatch = useDispatch();
 
   const backToIndexScreen = () => {
+    dispatch(setLoadingReducer(true));
     dispatch({
       type: LIBRARIES_PAGE_NUMBER,
       payload: { ...roverData, page_number: 1 },

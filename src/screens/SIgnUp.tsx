@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { expressApi } from "../api/getApi";
 import { useDispatch, useSelector } from "react-redux";
 import { addError, addToken, removeError } from "../reducers/singReducer";
@@ -7,8 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { SignScreen } from "../components/SignScreen";
 import React from "react";
-import { getImageMars } from "../api/getImage";
-import { imagesFilter } from "../filters/FIlters";
+
+import { SignComponent } from "../components/SingComponent";
 export const SignUp = ({ navigation }: any) => {
   const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
@@ -37,13 +37,22 @@ export const SignUp = ({ navigation }: any) => {
   );
   return (
     <View style={styles.ContainerStyle}>
-      <SignScreen
-        HeaderScreen="Sign Up to use App"
-        ButtonTitle="Sign Up"
-        BottomText={`Do you already have an account?\nSign in`}
-        pageToNavigate="SignIn"
-        error_message={signState.error_message}
+      <TouchableOpacity
+        style={{ height: 75, width: 75 }}
+        onPress={() => navigationContainerRef.current?.goBack()}
+      >
+        <Image
+          source={require("../Images/iconX.png")}
+          resizeMode={"contain"}
+          style={styles.iconStyle}
+        />
+      </TouchableOpacity>
+
+      <SignComponent
+        headerText="Sign up"
         onSubmit={signUp}
+        error_message={signState.error_message}
+        buttonName="Sign me up"
       />
     </View>
   );
@@ -51,6 +60,23 @@ export const SignUp = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
   ContainerStyle: {
-    paddingTop: 50,
+    backgroundColor: "#181A1C",
+    flex: 1,
+  },
+  iconStyle: {
+    position: "relative",
+    left: 10,
+    top: 20,
   },
 });
+/*
+<SignScreen
+        HeaderScreen="Sign Up to use App"
+        ButtonTitle="Sign Up"
+        BottomText={`Do you already have an account?\nSign in`}
+        pageToNavigate="SignIn"
+        error_message={signState.error_message}
+        onSubmit={signUp}
+      />
+
+      */

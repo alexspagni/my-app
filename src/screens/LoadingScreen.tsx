@@ -4,11 +4,13 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { GravitazionalWave } from "../skeleton/GravitazionalWave";
 import { useSelector } from "react-redux";
 import { ImageBackground, View, StyleSheet, Text } from "react-native";
+import { ButtonComponent } from "../components/ButtonComponent";
+import { navigationContainerRef } from "../Navigator/ContainerRef";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
   const images = useSelector((store: any) => store?.images);
-
+  /*
   const autoLogin = async () => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
@@ -21,10 +23,11 @@ export const LoadingScreen = () => {
       navigation.navigate("SigningStackNavigator");
     }
   };
-  /*
+
   useFocusEffect(() => {
     setTimeout(autoLogin, 4000);
-  });*/
+  });
+*/
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -42,6 +45,16 @@ export const LoadingScreen = () => {
             che l'universo è il libro della più alta
           </Text>
           <Text style={styles.innerText}>Verità.</Text>
+        </View>
+        <View style={styles.ButtonView}>
+          <ButtonComponent
+            buttonColor="#2E8AF6"
+            buttonName="Explore"
+            buttonWidth={240}
+            onPressButton={() =>
+              navigationContainerRef.current?.navigate("ImagesLoading")
+            }
+          />
         </View>
       </ImageBackground>
     </View>
@@ -77,6 +90,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  ButtonView: {
+    position: "relative",
+    left: 60,
+    top: 170,
   },
 });
 /*

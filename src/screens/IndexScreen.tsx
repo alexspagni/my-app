@@ -6,7 +6,7 @@ import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
 import { addElementsToLibrariesMars } from "../reducers/getImagesReducers";
 import { imagesFilter } from "../filters/FIlters";
-import { SkeletonList } from "../skeleton/SkeletonList";
+
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { roverDataType } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
