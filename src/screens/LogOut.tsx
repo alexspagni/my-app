@@ -11,7 +11,7 @@ export const LogOut = () => {
     await AsyncStorage.removeItem("token");
     dispatch(resetToken(""));
     //dispatch({ type: "images_reset", payload: [] });
-    navigationContainerRef.current?.navigate("loading");
+    navigationContainerRef.current?.navigate("SigningStackNavigator");
   };
 
   return (

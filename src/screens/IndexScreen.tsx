@@ -1,21 +1,22 @@
 ////////ALL IMPORT///////////////
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
 import { addElementsToLibrariesMars } from "../reducers/getImagesReducers";
 import { imagesFilter } from "../filters/FIlters";
-
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { roverDataType } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { LIBRARIES_PAGE_NUMBER } from "../reducers/DataReducer";
 import { GravitazionalWave } from "../skeleton/GravitazionalWave";
-
+import { SearchBar } from "../components/SearchBar";
+import { FilterButtonComponent } from "../components/FIlterButtonComponent";
 ////////////COMPONENT////////////
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
+  const [roverName, setRoverName] = useState<string>("");
   const images = useSelector((store: any) => store?.images);
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
@@ -25,6 +26,9 @@ const IndexScreen = () => {
   const roverData: roverDataType = useSelector(
     (store: any) => store?.dataRover
   );
+  const updateSearch = (newRoverName: string) => {
+    setRoverName(newRoverName);
+  };
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
   useEffect(
     React.useCallback(() => {
@@ -74,6 +78,30 @@ const IndexScreen = () => {
   }, [search]);
   return (
     <View style={styles.containerPrincipal}>
+      <SearchBar
+        term={roverName}
+        onTermChange={(newRoverName) => setRoverName(newRoverName)}
+      />
+      <View style={styles.listButtonStyle}>
+        <FilterButtonComponent
+          buttonName="All"
+          onPressButton={() => console.log("fdafasdfsda")}
+          buttonWidth={40}
+          buttonHeight={34}
+        />
+        <FilterButtonComponent
+          buttonName="Data"
+          onPressButton={() => console.log()}
+          buttonWidth={45}
+          buttonHeight={34}
+        />
+        <FilterButtonComponent
+          buttonName="Photos"
+          onPressButton={() => console.log()}
+          buttonWidth={50}
+          buttonHeight={34}
+        />
+      </View>
       {images.length && !loading ? null : null}
       {!images.length && !loading
         ? navigationContainerRef.current?.navigate("InfoScreenImageNotFound")
@@ -89,6 +117,14 @@ const IndexScreen = () => {
           renderItem={({ item }) => (
             <View style={styles.container}>
               <PhotoComponent object={item} />
+              <View
+                style={{
+                  marginTop: 10,
+                  borderBottomColor: "#323436",
+                  borderBottomWidth: 2,
+                  width: 360,
+                }}
+              />
             </View>
           )}
           onEndReached={() => {
@@ -114,11 +150,10 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
     alignItems: "center",
-    flexDirection: "row",
-    paddingLeft: 15,
+    marginRight: 15,
   },
   containerPrincipal: {
-    backgroundColor: "#353839",
+    backgroundColor: "#181A1C",
     flex: 1,
   },
   TextStyle: {
@@ -140,6 +175,12 @@ const styles = StyleSheet.create({
   },
   FlatListStyle: {
     paddingTop: 10,
+  },
+  listButtonStyle: {
+    flexDirection: "row",
+    marginHorizontal: 18,
+    marginTop: 11,
+    marginBottom: 20,
   },
 });
 

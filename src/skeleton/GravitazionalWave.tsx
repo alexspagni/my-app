@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   ContainerStyle: {
-    backgroundColor: "#353839",
+    backgroundColor: "#181A1C",
     flex: 1,
   },
 });

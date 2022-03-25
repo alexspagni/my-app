@@ -25,6 +25,7 @@ const DrawerNavigator = () => {
         name="IndexScreen"
         component={IndexScreen}
         options={{
+          headerShown: false,
           drawerLabel: "Home",
 
           title: "Home",

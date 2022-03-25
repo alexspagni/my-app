@@ -62,6 +62,7 @@ const App = () => {
               name="ShowScreen"
               component={ShowScreen}
               options={{
+                headerShown: false,
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
               }}
             />
