@@ -21,10 +21,10 @@ export const LoadingScreen = () => {
       navigation.navigate("SigningStackNavigator");
     }
   };
-  /*
+
   useFocusEffect(() => {
     setTimeout(autoLogin, 4000);
-  });*/
+  });
   return (
     <View style={styles.container}>
       <ImageBackground
