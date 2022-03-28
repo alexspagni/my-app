@@ -31,7 +31,7 @@ export const GravitazionalWave = () => {
   });
   const transformY = animatedValue1.interpolate({
     inputRange: [0, 0.25, 0.5, 0.75, 1],
-    outputRange: [0, -25, -50, -25, 0],
+    outputRange: [-50, -75, -100, -75, -50],
   });
   const trasformScale = animatedValue1.interpolate({
     inputRange: [0, 0.25, 0.5, 0.75, 1],

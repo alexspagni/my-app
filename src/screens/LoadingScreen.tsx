@@ -51,6 +51,7 @@ export const LoadingScreen = () => {
             buttonColor="#2E8AF6"
             buttonName="Explore"
             buttonWidth={240}
+            heightButton={44}
             onPressButton={() =>
               navigationContainerRef.current?.navigate("ImagesLoading")
             }

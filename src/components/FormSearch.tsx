@@ -70,43 +70,46 @@ const FormSearch: React.FC = () => {
       >
         <Image source={require("../Images/iconX.png")} />
       </TouchableOpacity>
-      <Text style={styles.TextStyle}>Date Filter</Text>
-      <View style={styles.ImputTextContainer}>
-        <SearchImputText
-          term={day}
-          value="Insert day"
-          onChangeText={(newTerm) => setDay(newTerm.trim())}
-        />
-        <SearchImputText
-          term={month}
-          value="Insert month"
-          onChangeText={(newTerm) => setMonth(newTerm.trim())}
-        />
-        <SearchImputText
-          term={year}
-          value="Insert Year"
-          onChangeText={(newTerm) => setYear(newTerm.trim())}
-        />
-      </View>
-      <View style={styles.ButtonView}>
-        <ButtonComponent
-          buttonColor="#2E8AF6"
-          buttonName="Sign up"
-          buttonWidth={230}
-          onPressButton={() => {
-            dispatch({
-              type: LIBRARIES_DATE,
-              payload: {
-                ...roverData,
-                earth_day: day,
-                earth_month: month,
-                earth_year: year,
-              },
-            });
-            dispatch(setSearchReducer(!search));
-            navigationContainerRef.current?.navigate("drawer");
-          }}
-        />
+      <View style={styles.innerView}>
+        <Text style={styles.TextStyle}>Date Filter</Text>
+        <View style={styles.ImputTextContainer}>
+          <SearchImputText
+            term={day}
+            value="Insert day"
+            onChangeText={(newTerm) => setDay(newTerm.trim())}
+          />
+          <SearchImputText
+            term={month}
+            value="Insert month"
+            onChangeText={(newTerm) => setMonth(newTerm.trim())}
+          />
+          <SearchImputText
+            term={year}
+            value="Insert Year"
+            onChangeText={(newTerm) => setYear(newTerm.trim())}
+          />
+        </View>
+        <View style={styles.ButtonView}>
+          <ButtonComponent
+            buttonColor="#2E8AF6"
+            buttonName="Search by date"
+            heightButton={40}
+            buttonWidth={180}
+            onPressButton={() => {
+              dispatch({
+                type: LIBRARIES_DATE,
+                payload: {
+                  ...roverData,
+                  earth_day: day,
+                  earth_month: month,
+                  earth_year: year,
+                },
+              });
+              dispatch(setSearchReducer(!search));
+              navigationContainerRef.current?.navigate("drawer");
+            }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -115,8 +118,11 @@ const FormSearch: React.FC = () => {
 const styles = StyleSheet.create({
   backgroundStyle: {
     backgroundColor: "#181A1C",
-    marginTop: 30,
     flex: 1,
+  },
+  innerView: {
+    position: "relative",
+    bottom: 100,
   },
   TextStyle: {
     alignItems: "center",
@@ -131,14 +137,14 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     position: "relative",
-    left: 20,
-    top: 20,
+    left: 15,
+    top: 35,
     width: 50,
     height: 40,
   },
   ButtonView: {
     marginTop: 15,
-    marginLeft: 60,
+    marginLeft: 85,
   },
 });
 export default FormSearch;

@@ -56,6 +56,7 @@ export const SignComponent: React.FC<SignComponentType> = ({
       ) : null}
       <View style={styles.ButtonView}>
         <ButtonComponent
+          heightButton={44}
           buttonColor="#2E8AF6"
           buttonName={buttonName}
           buttonWidth={230}

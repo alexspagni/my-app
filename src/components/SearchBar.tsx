@@ -12,10 +12,13 @@ import { Feather } from "@expo/vector-icons"; // importo l'icona della lente di 
 type SearchBarType = {
   term: string;
   onTermChange: (s: string) => void;
+  onEndEditing: () => void;
 };
-export const SearchBar: React.FC<SearchBarType> = ({ term, onTermChange }) => {
-  //term===state variable
-  //onTermChange===callback
+export const SearchBar: React.FC<SearchBarType> = ({
+  term,
+  onTermChange,
+  onEndEditing,
+}) => {
   return (
     <View style={styles.backgroundStyle}>
       <TextInput
@@ -25,6 +28,7 @@ export const SearchBar: React.FC<SearchBarType> = ({ term, onTermChange }) => {
         onChangeText={onTermChange}
         autoCapitalize="none"
         autoCorrect={false}
+        onEndEditing={onEndEditing}
       />
       <Feather name="search" style={styles.iconStyle} />
     </View>

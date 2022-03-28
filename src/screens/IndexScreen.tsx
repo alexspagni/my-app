@@ -1,12 +1,13 @@
 ////////ALL IMPORT///////////////
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
 import {
   addElementsToLibrariesMars,
   addElementsToLibrariesMarsRefreshing,
+  resetImagesHide,
 } from "../reducers/getImagesReducers";
 import { imagesFilter } from "../filters/FIlters";
 import {
@@ -87,14 +88,19 @@ const IndexScreen = () => {
     try {
       const results = await getImageMars(roverName, page, day, month, year);
       const imagesToRender = imagesFilter(results, hides);
-
+      const ErrorMessage = () => {
+        if (imagesToRender.length == 0) {
+          navigationContainerRef.current?.navigate("InfoScreenImageNotFound");
+        }
+      };
       dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
+      setTimeout(() => ErrorMessage(), 4000);
+      setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
     } catch {}
     dispatch({
       type: LIBRARIES_PAGE_NUMBER,
       payload: { ...roverData, page_number: page },
     });
-    setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
   };
   //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
   useEffect(() => {
@@ -133,17 +139,15 @@ const IndexScreen = () => {
         term={roverName}
         onTermChange={(newRoverName) => {
           setRoverName(newRoverName);
-          if (
-            newRoverName === "curiosity" ||
-            newRoverName === "opportunity" ||
-            newRoverName === "spirit"
-          ) {
-            dispatch({
-              type: LIBRARIES_ROVER_NAME,
-              payload: { ...roverData, rover_name: newRoverName },
-            });
-            setTimeout(() => dispatch(setSearchReducer(!search)), 1000);
-          }
+        }}
+        onEndEditing={() => {
+          //console.log(roverName);
+
+          dispatch({
+            type: LIBRARIES_ROVER_NAME,
+            payload: { ...roverData, rover_name: roverName },
+          });
+          dispatch(setSearchReducer(!search));
         }}
       />
       <View style={styles.listButtonStyle}>
@@ -170,7 +174,11 @@ const IndexScreen = () => {
           color={photosButtonColor}
           setColor={(newColor) => setPhotosButtonColor(newColor)}
           buttonName="Photos"
-          onPressButton={() => console.log()}
+          onPressButton={() => {
+            dispatch(resetImagesHide([]));
+             dispatch(setSearchReducer(!search));
+            setPhotosButtonColor("#727477");
+          }}
           buttonWidth={50}
           buttonHeight={34}
         />
@@ -178,7 +186,11 @@ const IndexScreen = () => {
           color={hideAllButtonColor}
           setColor={(newColor) => setHideAllButtonColor(newColor)}
           buttonName="Hide all"
-          onPressButton={() => console.log()}
+          onPressButton={() => {
+            dispatch({ type: "images_hide_all", payload: images });
+            //  dispatch(setSearchReducer(!search));
+            setHideAllButtonColor("#727477");
+          }}
           buttonWidth={60}
           buttonHeight={34}
         />
@@ -194,10 +206,6 @@ const IndexScreen = () => {
           buttonHeight={34}
         />
       </View>
-      {images.length && !loading ? null : null}
-      {!images.length && !loading
-        ? navigationContainerRef.current?.navigate("InfoScreenImageNotFound")
-        : null}
       {loading ? (
         <GravitazionalWave />
       ) : (
@@ -221,7 +229,7 @@ const IndexScreen = () => {
           )}
           onEndReached={() => {
             const newPage = roverData.page_number + 1;
-            console.log(newPage);
+            // console.log(newPage);
 
             addImageFromMarsToList(
               roverData.rover_name,

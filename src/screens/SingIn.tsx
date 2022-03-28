@@ -55,6 +55,7 @@ export const SignIn = ({ navigation }: any) => {
         <ButtonComponent
           buttonColor="#2E8AF6"
           buttonName="Sign up"
+          heightButton={44}
           buttonWidth={230}
           onPressButton={() =>
             navigationContainerRef.current?.navigate("SignUp")

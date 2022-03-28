@@ -60,6 +60,7 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
               buttonName="Hide this image"
               buttonColor="#2E8AF6"
               buttonWidth={300}
+              heightButton={44}
               onPressButton={() => {
                 dispatch({
                   type: "images_hide_one",

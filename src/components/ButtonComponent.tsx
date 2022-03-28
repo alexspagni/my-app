@@ -7,6 +7,7 @@ type ButtonComponentType = {
   buttonColor: string;
   buttonWidth: number;
   onPressButton: () => void;
+  heightButton: number;
 };
 
 export const ButtonComponent: React.FC<ButtonComponentType> = (props) => {
@@ -18,7 +19,7 @@ export const ButtonComponent: React.FC<ButtonComponentType> = (props) => {
         {
           width: props.buttonWidth,
           backgroundColor: props.buttonColor,
-          height: 44,
+          height: props.heightButton,
         },
       ]}
     >

@@ -48,7 +48,7 @@ export const ImagesLoading = () => {
           roverData.earth_month,
           roverData.earth_year
         ),
-      8000
+      3000
     );
   }, []);
 
