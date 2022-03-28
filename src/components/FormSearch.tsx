@@ -16,6 +16,7 @@ import {
   LIBRARIES_PAGE_NUMBER,
   LIBRARIES_ROVER_NAME,
 } from "../reducers/DataReducer";
+import { ButtonComponent } from "./ButtonComponent";
 
 const FormSearch: React.FC = () => {
   //definisco i vari hook per andare a cambiare i vari valori dei textImput
@@ -87,6 +88,26 @@ const FormSearch: React.FC = () => {
           onChangeText={(newTerm) => setYear(newTerm.trim())}
         />
       </View>
+      <View style={styles.ButtonView}>
+        <ButtonComponent
+          buttonColor="#2E8AF6"
+          buttonName="Sign up"
+          buttonWidth={230}
+          onPressButton={() => {
+            dispatch({
+              type: LIBRARIES_DATE,
+              payload: {
+                ...roverData,
+                earth_day: day,
+                earth_month: month,
+                earth_year: year,
+              },
+            });
+            dispatch(setSearchReducer(!search));
+            navigationContainerRef.current?.navigate("drawer");
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -114,6 +135,10 @@ const styles = StyleSheet.create({
     top: 20,
     width: 50,
     height: 40,
+  },
+  ButtonView: {
+    marginTop: 15,
+    marginLeft: 60,
   },
 });
 export default FormSearch;

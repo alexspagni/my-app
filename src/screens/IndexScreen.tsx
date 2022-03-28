@@ -4,18 +4,34 @@ import { View, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
-import { addElementsToLibrariesMars } from "../reducers/getImagesReducers";
+import {
+  addElementsToLibrariesMars,
+  addElementsToLibrariesMarsRefreshing,
+} from "../reducers/getImagesReducers";
 import { imagesFilter } from "../filters/FIlters";
-import { setLoadingReducer } from "../reducers/setLoadingReducer";
+import {
+  setLoadingReducer,
+  setSearchReducer,
+} from "../reducers/setLoadingReducer";
 import { roverDataType } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
-import { LIBRARIES_PAGE_NUMBER } from "../reducers/DataReducer";
+import {
+  LIBRARIES_PAGE_NUMBER,
+  LIBRARIES_ROVER_NAME,
+} from "../reducers/DataReducer";
 import { GravitazionalWave } from "../skeleton/GravitazionalWave";
 import { SearchBar } from "../components/SearchBar";
 import { FilterButtonComponent } from "../components/FIlterButtonComponent";
+
 ////////////COMPONENT////////////
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
+  const [allButtonColor, setAllButtonColor] = useState("#2E8AF6");
+  const [dataButtonColor, setDataButtonColor] = useState("#727477");
+  const [photosButtonColor, setPhotosButtonColor] = useState("#727477");
+  const [hideAllButtonColor, setHideAllButtonColor] = useState("#727477");
+  const [infoButtonColor, setInfoButtonColor] = useState("#727477");
+
   const [roverName, setRoverName] = useState<string>("");
   const images = useSelector((store: any) => store?.images);
   const dispatch = useDispatch();
@@ -26,9 +42,7 @@ const IndexScreen = () => {
   const roverData: roverDataType = useSelector(
     (store: any) => store?.dataRover
   );
-  const updateSearch = (newRoverName: string) => {
-    setRoverName(newRoverName);
-  };
+
   //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
   useEffect(
     React.useCallback(() => {
@@ -42,14 +56,14 @@ const IndexScreen = () => {
     }, [search])
   ),
     [];
-  const getImageFromMars = async (
+  const addImageFromMarsToList = async (
     roverName: string,
     page: number,
     day?: string,
     month?: string,
     year?: string
   ) => {
-    console.log("sono qui");
+    console.log(roverName, page, day, month, year);
 
     try {
       const results = await getImageMars(roverName, page, day, month, year);
@@ -62,8 +76,44 @@ const IndexScreen = () => {
     });
     setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
   };
+  const replaceImageFromMarsToList = async (
+    roverName: string,
+    page: number,
+    day?: string,
+    month?: string,
+    year?: string
+  ) => {
+    console.log(roverName, page, day, month, year);
+    try {
+      const results = await getImageMars(roverName, page, day, month, year);
+      const imagesToRender = imagesFilter(results, hides);
+
+      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
+    } catch {}
+    dispatch({
+      type: LIBRARIES_PAGE_NUMBER,
+      payload: { ...roverData, page_number: page },
+    });
+    setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
+  };
   //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
   useEffect(() => {
+    if (allButtonColor === "#2E8AF6") {
+      //console.log("sono quì");
+      dispatch({
+        type: LIBRARIES_PAGE_NUMBER,
+        payload: { ...roverData, page_number: 1 },
+      });
+      dispatch(setLoadingReducer(true));
+      replaceImageFromMarsToList(
+        roverData.rover_name,
+        1,
+        roverData.earth_day,
+        roverData.earth_month,
+        roverData.earth_year
+      );
+    }
+    /*
     if (!images.length) {
       getImageFromMars(
         roverData.rover_name,
@@ -73,47 +123,73 @@ const IndexScreen = () => {
         roverData.earth_year
       );
     } else {
-      setTimeout(() => dispatch(setLoadingReducer(false)), 2000);
+      // setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
     }
-  }, [search]);
+    */
+  }, [search, allButtonColor]);
   return (
     <View style={styles.containerPrincipal}>
       <SearchBar
         term={roverName}
-        onTermChange={(newRoverName) => setRoverName(newRoverName)}
+        onTermChange={(newRoverName) => {
+          setRoverName(newRoverName);
+          if (
+            newRoverName === "curiosity" ||
+            newRoverName === "opportunity" ||
+            newRoverName === "spirit"
+          ) {
+            dispatch({
+              type: LIBRARIES_ROVER_NAME,
+              payload: { ...roverData, rover_name: newRoverName },
+            });
+            setTimeout(() => dispatch(setSearchReducer(!search)), 1000);
+          }
+        }}
       />
       <View style={styles.listButtonStyle}>
         <FilterButtonComponent
+          color={allButtonColor}
+          setColor={(newColor) => setAllButtonColor(newColor)}
           buttonName="All"
-          onPressButton={() => console.log("fdafasdfsda")}
+          onPressButton={() => console.log("")}
           buttonWidth={40}
           buttonHeight={34}
         />
         <FilterButtonComponent
+          color={dataButtonColor}
+          setColor={(newColor) => setDataButtonColor(newColor)}
           buttonName="Data"
-          onPressButton={() =>
-            navigationContainerRef.current?.navigate("Search")
-          }
+          onPressButton={() => {
+            navigationContainerRef.current?.navigate("Search");
+            setDataButtonColor("#727477");
+          }}
           buttonWidth={45}
           buttonHeight={34}
         />
         <FilterButtonComponent
+          color={photosButtonColor}
+          setColor={(newColor) => setPhotosButtonColor(newColor)}
           buttonName="Photos"
           onPressButton={() => console.log()}
           buttonWidth={50}
           buttonHeight={34}
         />
         <FilterButtonComponent
+          color={hideAllButtonColor}
+          setColor={(newColor) => setHideAllButtonColor(newColor)}
           buttonName="Hide all"
           onPressButton={() => console.log()}
           buttonWidth={60}
           buttonHeight={34}
         />
         <FilterButtonComponent
+          color={infoButtonColor}
+          setColor={(newColor) => setInfoButtonColor(newColor)}
           buttonName="Info"
-          onPressButton={() =>
-            navigationContainerRef.current?.navigate("InfoScreenHome")
-          }
+          onPressButton={() => {
+            navigationContainerRef.current?.navigate("InfoScreenHome");
+            setInfoButtonColor("#727477");
+          }}
           buttonWidth={50}
           buttonHeight={34}
         />
@@ -147,7 +223,7 @@ const IndexScreen = () => {
             const newPage = roverData.page_number + 1;
             console.log(newPage);
 
-            getImageFromMars(
+            addImageFromMarsToList(
               roverData.rover_name,
               newPage,
               roverData.earth_day,

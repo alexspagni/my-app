@@ -2,29 +2,29 @@ import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 type FilterButtonComponent = {
   buttonName: string;
-
   onPressButton: () => void;
   buttonWidth: number;
   buttonHeight: number;
+  color: string;
+  setColor: (s: string) => void;
 };
 export const FilterButtonComponent: React.FC<FilterButtonComponent> = (
   props
 ) => {
-  const [color, setColor] = useState("#727477");
   return (
     <TouchableOpacity
       onPress={() => {
-        if (color === "#2E8AF6") {
-          setColor("#727477");
-        } else if (color === "#727477") {
-          setColor("#2E8AF6");
+        if (props.color === "#2E8AF6") {
+          props.setColor("#727477");
+        } else if (props.color === "#727477") {
+          props.setColor("#2E8AF6");
           props.onPressButton();
         }
       }}
       style={[
         styles.appButtonContainer,
         {
-          backgroundColor: color,
+          backgroundColor: props.color,
           width: props.buttonWidth,
           height: props.buttonHeight,
         },

@@ -25,7 +25,7 @@ export const ImagesLoading = () => {
   ) => {
     dispatch({
       type: LIBRARIES_PAGE_NUMBER,
-      payload: { ...roverData, page_number: page },
+      payload: { ...roverData, page_number: 1 },
     });
     try {
       const results = await getImageMars(roverName, page, day, month, year);
