@@ -9,12 +9,12 @@ import {
   addElementsToLibrariesMarsRefreshing,
   resetImagesHide,
 } from "../reducers/getImagesReducers";
-import { imagesFilter } from "../filters/FIlters";
+import { imagesFilter, imagesFilterHideImage } from "../filters/FIlters";
 import {
   setLoadingReducer,
   setSearchReducer,
 } from "../reducers/setLoadingReducer";
-import { roverDataType } from "../type/differentType";
+import { imageType, marsObject, roverDataType } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import {
   LIBRARIES_PAGE_NUMBER,
@@ -34,7 +34,8 @@ const IndexScreen = () => {
   const [infoButtonColor, setInfoButtonColor] = useState("#727477");
 
   const [roverName, setRoverName] = useState<string>("");
-  const images = useSelector((store: any) => store?.images);
+  const images: imageType[] = useSelector((store: any) => store?.images);
+  const [imageHides, setImagesHides] = useState(images);
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
   const hides = useSelector((store: any) => store?.imagesHide);
@@ -64,11 +65,13 @@ const IndexScreen = () => {
     month?: string,
     year?: string
   ) => {
-    console.log(roverName, page, day, month, year);
+    //console.log(roverName, page, day, month, year);
 
     try {
       const results = await getImageMars(roverName, page, day, month, year);
-      const imagesToRender = imagesFilter(results, hides);
+
+      const imagesToRender = imagesFilterHideImage(results, hides);
+      setImagesHides([...images, ...imagesToRender]);
       dispatch(addElementsToLibrariesMars(imagesToRender));
     } catch {}
     dispatch({
@@ -84,18 +87,25 @@ const IndexScreen = () => {
     month?: string,
     year?: string
   ) => {
-    console.log(roverName, page, day, month, year);
+    //console.log(roverName, page, day, month, year);
     try {
       const results = await getImageMars(roverName, page, day, month, year);
-      const imagesToRender = imagesFilter(results, hides);
+
+      console.log("sono qui");
+
+      console.log(hides);
+
+      const imagesToRender = imagesFilterHideImage(results, hides);
+
+      setImagesHides(imagesToRender);
       const ErrorMessage = () => {
         if (imagesToRender.length == 0) {
           navigationContainerRef.current?.navigate("InfoScreenImageNotFound");
         }
       };
       dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
-      setTimeout(() => ErrorMessage(), 4000);
       setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
+      setTimeout(() => ErrorMessage(), 4000);
     } catch {}
     dispatch({
       type: LIBRARIES_PAGE_NUMBER,
@@ -119,19 +129,6 @@ const IndexScreen = () => {
         roverData.earth_year
       );
     }
-    /*
-    if (!images.length) {
-      getImageFromMars(
-        roverData.rover_name,
-        roverData.page_number,
-        roverData.earth_day,
-        roverData.earth_month,
-        roverData.earth_year
-      );
-    } else {
-      // setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
-    }
-    */
   }, [search, allButtonColor]);
   return (
     <View style={styles.containerPrincipal}>
@@ -175,8 +172,18 @@ const IndexScreen = () => {
           setColor={(newColor) => setPhotosButtonColor(newColor)}
           buttonName="Photos"
           onPressButton={() => {
+            /*
+            if (photosButtonColor == "#727477") {
+              const newArray = images.map((element) => {
+                return { image: element.image, hide: false };
+              });
+              dispatch(addElementsToLibrariesMarsRefreshing(newArray));
+            } else {
+              dispatch(addElementsToLibrariesMarsRefreshing(images));
+            }
+            */
             dispatch(resetImagesHide([]));
-             dispatch(setSearchReducer(!search));
+            dispatch(setSearchReducer(!search));
             setPhotosButtonColor("#727477");
           }}
           buttonWidth={50}
@@ -187,7 +194,13 @@ const IndexScreen = () => {
           setColor={(newColor) => setHideAllButtonColor(newColor)}
           buttonName="Hide all"
           onPressButton={() => {
-            dispatch({ type: "images_hide_all", payload: images });
+            dispatch({
+              type: "images_hide_all",
+              payload: images.map((element) => {
+                return element.image;
+              }),
+            });
+
             //  dispatch(setSearchReducer(!search));
             setHideAllButtonColor("#727477");
           }}
@@ -212,11 +225,15 @@ const IndexScreen = () => {
         <FlatList
           style={styles.FlatListStyle}
           ref={flatListRef}
-          data={imagesFilter(images, hides)}
-          keyExtractor={(item) => item.id}
+          data={images.filter((element) => {
+            if (element.hide == false) {
+              return element;
+            }
+          })}
+          keyExtractor={(item) => item.image.id}
           renderItem={({ item }) => (
             <View style={styles.container}>
-              <PhotoComponent object={item} />
+              <PhotoComponent object={item.image} />
               <View
                 style={{
                   marginTop: 10,

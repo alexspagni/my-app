@@ -1,4 +1,4 @@
-import { marsObject } from "../type/differentType";
+import { imageType, marsObject } from "../type/differentType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export const imagesFilter = (
   marsObjectArray: marsObject[],
@@ -6,13 +6,71 @@ export const imagesFilter = (
 ): marsObject[] => {
   const newArray = marsObjectArray.filter((element) => {
     let temp = 0;
-
     for (let i = 0; i < imagesHidedArray.length; i++) {
       if (element.id == imagesHidedArray[i].id) {
         temp = 1;
       }
     }
     if (temp == 0) {
+      return element;
+    }
+  });
+  return newArray;
+};
+export const imagesFilterHideImage = (
+  marsObjectArray: marsObject[],
+  imagesHidedArray: marsObject[]
+): imageType[] => {
+  const newArray = marsObjectArray.map((element) => {
+    let temp = 0;
+    for (let i = 0; i < imagesHidedArray.length; i++) {
+      if (element.id == imagesHidedArray[i].id) {
+        temp = 1;
+      }
+    }
+    if (temp == 0) {
+      return {
+        image: element,
+        hide: false,
+      };
+    } else {
+      return {
+        image: element,
+        hide: true,
+      };
+    }
+  });
+  return newArray;
+};
+export const imagesFilterDuplicate = (
+  marsObjectArray: imageType[],
+  imagesHidedArray: imageType[]
+): imageType[] => {
+  const newArray = marsObjectArray.filter((element) => {
+    let temp = 0;
+
+    for (let i = 0; i < imagesHidedArray.length; i++) {
+      if (element.image.id == imagesHidedArray[i].image.id) {
+        temp = 1;
+      }
+    }
+    if (temp == 0) {
+      return element;
+    }
+  });
+  return newArray;
+};
+export const hideAnImage = (
+  images: imageType[],
+  item: marsObject
+): imageType[] => {
+  let temp = 0;
+  const newArray = images.map((element) => {
+    if (element.image.id == item.id) {
+      //console.log("sono qui");
+
+      return { image: element.image, hide: true };
+    } else {
       return element;
     }
   });

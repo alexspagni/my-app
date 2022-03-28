@@ -1,25 +1,28 @@
 import { useRoute } from "@react-navigation/native";
 import React from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import { Button, colors } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 import { useDispatch, useSelector } from "react-redux";
 import { hideImageAlert } from "../alertMessages/alertMessage";
 import { ButtonComponent } from "../components/ButtonComponent";
+import { hideAnImage, imagesFilterHideImage } from "../filters/FIlters";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
+import { addElementsToLibrariesMarsRefreshing } from "../reducers/getImagesReducers";
+import { imageType, marsObject } from "../type/differentType";
 type IndexScreenType = {
   navigation: any;
 };
 const ShowScreen: React.FC<IndexScreenType> = () => {
   const hides = useSelector((store: any) => store?.imagesHide);
   const route = useRoute();
+  const images: imageType[] = useSelector((store: any) => store?.images);
   //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
-  const image = (route.params as any)?.image;
+  const image1: marsObject = (route.params as any)?.image;
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: image.img_src }} style={styles.image} />
+      <Image source={{ uri: image1.img_src }} style={styles.image} />
       <Pressable
         style={styles.iconStyle}
         onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
@@ -30,14 +33,14 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
         <View style={{ marginTop: 30, marginLeft: 25 }}>
           <Text style={styles.TextStyleTitle}>
             Image ID:
-            {<Text style={styles.TextStyleInnerText}> {image?.id}</Text>}
+            {<Text style={styles.TextStyleInnerText}> {image1?.id}</Text>}
           </Text>
           <Text style={styles.TextStyleTitle}>
             Rover_Name:
             {
               <Text style={styles.TextStyleInnerText}>
                 {" "}
-                {image?.rover.name}
+                {image1?.rover.name}
               </Text>
             }
           </Text>
@@ -46,11 +49,11 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
             {
               <Text style={styles.TextStyleInnerText}>
                 {" "}
-                {image?.camera.name}
+                {image1?.camera.name}
               </Text>
             }
           </Text>
-          {hides.includes(image) ? (
+          {hides.includes(image1) ? (
             <Text style={styles.TextStyleInnerText}>
               This image has been hided
             </Text>
@@ -62,10 +65,15 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
               buttonWidth={300}
               heightButton={44}
               onPressButton={() => {
+                //console.log(images);
+
+                const newImageArray = hideAnImage(images, image1);
+                //console.log(newImageArray);
                 dispatch({
                   type: "images_hide_one",
-                  payload: image,
+                  payload: image1,
                 });
+                dispatch(addElementsToLibrariesMarsRefreshing(newImageArray));
                 hideImageAlert();
               }}
             />
