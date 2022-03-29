@@ -19,7 +19,7 @@ export const SignUp = ({ navigation }: any) => {
       const response = await expressApi.post("/signup", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch(addToken(response.data.token));
-      navigationContainerRef.current?.navigate("IndexScreen");
+      navigationContainerRef.current?.navigate("drawer");
     } catch (err: any) {
       console.log(err.message);
       dispatch(addError("Something is gone wrong with Sign Up"));

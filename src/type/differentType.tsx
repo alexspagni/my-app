@@ -12,7 +12,7 @@ export type roverType = {
   status: string;
 };
 export type marsObject = {
-  id: number;
+  id: string;
   sol: number;
   camera: cameraType;
   img_src: string;

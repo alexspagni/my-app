@@ -12,12 +12,22 @@ import { imageType, marsObject } from "../type/differentType";
 type IndexScreenType = {
   navigation: any;
 };
+const lookImageHide = (hides: marsObject[], item: marsObject) => {
+  for (let i = 0; i < hides.length; i++) {
+    if (hides[i].id === item.id) {
+      return true;
+    }
+  }
+  return false;
+};
 const ShowScreen: React.FC<IndexScreenType> = () => {
   const hides = useSelector((store: any) => store?.imagesHide);
   const route = useRoute();
   const images: imageType[] = useSelector((store: any) => store?.images);
+
   //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
   const image1: marsObject = (route.params as any)?.image;
+  console.log(image1);
   const dispatch = useDispatch();
 
   return (
@@ -39,7 +49,6 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
             Rover_Name:
             {
               <Text style={styles.TextStyleInnerText}>
-                {" "}
                 {image1?.rover.name}
               </Text>
             }
@@ -48,36 +57,36 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
             Camera_Name:
             {
               <Text style={styles.TextStyleInnerText}>
-                {" "}
                 {image1?.camera.name}
               </Text>
             }
           </Text>
-          {hides.includes(image1) ? (
+          {lookImageHide(hides, image1) ? (
             <Text style={styles.TextStyleInnerText}>
               This image has been hided
             </Text>
-          ) : null}
-          <View style={styles.ButtonViewStyle}>
-            <ButtonComponent
-              buttonName="Hide this image"
-              buttonColor="#2E8AF6"
-              buttonWidth={300}
-              heightButton={44}
-              onPressButton={() => {
-                //console.log(images);
+          ) : (
+            <View style={styles.ButtonViewStyle}>
+              <ButtonComponent
+                buttonName="Hide this image"
+                buttonColor="#2E8AF6"
+                buttonWidth={300}
+                heightButton={44}
+                onPressButton={() => {
+                  //console.log(images);
 
-                const newImageArray = hideAnImage(images, image1);
-                //console.log(newImageArray);
-                dispatch({
-                  type: "images_hide_one",
-                  payload: image1,
-                });
-                dispatch(addElementsToLibrariesMarsRefreshing(newImageArray));
-                hideImageAlert();
-              }}
-            />
-          </View>
+                  const newImageArray = hideAnImage(images, image1);
+                  //console.log(newImageArray);
+                  dispatch({
+                    type: "images_hide_one",
+                    payload: image1,
+                  });
+                  dispatch(addElementsToLibrariesMarsRefreshing(newImageArray));
+                  hideImageAlert();
+                }}
+              />
+            </View>
+          )}
         </View>
       </View>
     </View>

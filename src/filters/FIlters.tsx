@@ -76,6 +76,34 @@ export const hideAnImage = (
   });
   return newArray;
 };
+export const dontShowImagesHide = (
+  images: imageType[],
+  imagesHide: marsObject[]
+) => {
+  const newArray = images.map((element) => {
+    let temp = 0;
+
+    for (let i = 0; i < imagesHide.length; i++) {
+      if (element.image.id == imagesHide[i].id) {
+        temp = 1;
+      }
+    }
+    if (temp == 0) {
+      return {
+        image: element.image,
+        hide: false,
+      };
+    } else {
+      return {
+        image: element.image,
+        hide: true,
+      };
+    }
+  });
+  console.log(newArray.length);
+
+  return newArray;
+};
 /*
 export const storeImagesHidedDevice = async (images: marsObject[]) => {
   const imageObjectToStore: LibrariesImageObjectToStore = {

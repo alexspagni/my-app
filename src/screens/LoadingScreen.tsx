@@ -1,7 +1,7 @@
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { GravitazionalWave } from "../skeleton/GravitazionalWave";
+
 import { useSelector } from "react-redux";
 import { ImageBackground, View, StyleSheet, Text } from "react-native";
 import { ButtonComponent } from "../components/ButtonComponent";
@@ -10,7 +10,7 @@ import { navigationContainerRef } from "../Navigator/ContainerRef";
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
   const images = useSelector((store: any) => store?.images);
-  /*
+
   const autoLogin = async () => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
@@ -24,14 +24,10 @@ export const LoadingScreen = () => {
     }
   };
 
-  useFocusEffect(() => {
-    setTimeout(autoLogin, 4000);
-  });
-*/
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../Images/Index.png")}
+        source={require("../Images/index.png")}
         style={styles.image}
         resizeMode="cover"
       >
@@ -52,9 +48,7 @@ export const LoadingScreen = () => {
             buttonName="Explore"
             buttonWidth={240}
             heightButton={44}
-            onPressButton={() =>
-              navigationContainerRef.current?.navigate("ImagesLoading")
-            }
+            onPressButton={() => autoLogin()}
           />
         </View>
       </ImageBackground>

@@ -29,7 +29,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer ref={navigationContainerRef}>
-          <Stack.Navigator initialRouteName="drawer">
+          <Stack.Navigator initialRouteName="loading">
             <Stack.Screen
               name="drawer"
               component={DrawerNavigator}
@@ -113,17 +113,6 @@ const App = () => {
                 headerMode: "screen",
                 headerStyle: {
                   height: 80, // Specify the height of your custom header
-                },
-                header: () => {
-                  return (
-                    <View style={{ height: 60 }}>
-                      <Text
-                        style={{ marginLeft: 120, marginTop: 25, fontSize: 18 }}
-                      >
-                        Cached Images
-                      </Text>
-                    </View>
-                  );
                 },
               }}
             />

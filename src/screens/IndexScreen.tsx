@@ -9,7 +9,11 @@ import {
   addElementsToLibrariesMarsRefreshing,
   resetImagesHide,
 } from "../reducers/getImagesReducers";
-import { imagesFilter, imagesFilterHideImage } from "../filters/FIlters";
+import {
+  dontShowImagesHide,
+  imagesFilter,
+  imagesFilterHideImage,
+} from "../filters/FIlters";
 import {
   setLoadingReducer,
   setSearchReducer,
@@ -35,7 +39,6 @@ const IndexScreen = () => {
 
   const [roverName, setRoverName] = useState<string>("");
   const images: imageType[] = useSelector((store: any) => store?.images);
-  const [imageHides, setImagesHides] = useState(images);
   const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
   const hides = useSelector((store: any) => store?.imagesHide);
@@ -69,10 +72,18 @@ const IndexScreen = () => {
 
     try {
       const results = await getImageMars(roverName, page, day, month, year);
-
-      const imagesToRender = imagesFilterHideImage(results, hides);
-      setImagesHides([...images, ...imagesToRender]);
-      dispatch(addElementsToLibrariesMars(imagesToRender));
+      if (photosButtonColor != "#2E8AF6") {
+        const imagesToRender = imagesFilterHideImage(results, hides);
+        dispatch(addElementsToLibrariesMars(imagesToRender));
+      } else {
+        const imagesToRender = results.map((element) => {
+          return {
+            image: element,
+            hide: false,
+          };
+        });
+        dispatch(addElementsToLibrariesMars(imagesToRender));
+      }
     } catch {}
     dispatch({
       type: LIBRARIES_PAGE_NUMBER,
@@ -90,20 +101,25 @@ const IndexScreen = () => {
     //console.log(roverName, page, day, month, year);
     try {
       const results = await getImageMars(roverName, page, day, month, year);
+      if (photosButtonColor != "#2E8AF6") {
+        const imagesToRender = imagesFilterHideImage(results, hides);
+        dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
+      } else {
+        const imagesToRender = results.map((element) => {
+          return {
+            image: element,
+            hide: false,
+          };
+        });
+        dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
+      }
 
-      console.log("sono qui");
-
-      console.log(hides);
-
-      const imagesToRender = imagesFilterHideImage(results, hides);
-
-      setImagesHides(imagesToRender);
       const ErrorMessage = () => {
-        if (imagesToRender.length == 0) {
+        if (results.length == 0) {
           navigationContainerRef.current?.navigate("InfoScreenImageNotFound");
         }
       };
-      dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
+
       setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
       setTimeout(() => ErrorMessage(), 4000);
     } catch {}
@@ -114,13 +130,12 @@ const IndexScreen = () => {
   };
   //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
   useEffect(() => {
-    if (allButtonColor === "#2E8AF6") {
-      //console.log("sono quì");
+    if (allButtonColor === "#2E8AF6" && loading) {
       dispatch({
         type: LIBRARIES_PAGE_NUMBER,
         payload: { ...roverData, page_number: 1 },
       });
-      dispatch(setLoadingReducer(true));
+      // dispatch(setLoadingReducer(true));
       replaceImageFromMarsToList(
         roverData.rover_name,
         1,
@@ -138,8 +153,7 @@ const IndexScreen = () => {
           setRoverName(newRoverName);
         }}
         onEndEditing={() => {
-          //console.log(roverName);
-
+          dispatch(setLoadingReducer(true));
           dispatch({
             type: LIBRARIES_ROVER_NAME,
             payload: { ...roverData, rover_name: roverName },
@@ -172,19 +186,15 @@ const IndexScreen = () => {
           setColor={(newColor) => setPhotosButtonColor(newColor)}
           buttonName="Photos"
           onPressButton={() => {
-            /*
             if (photosButtonColor == "#727477") {
               const newArray = images.map((element) => {
                 return { image: element.image, hide: false };
               });
               dispatch(addElementsToLibrariesMarsRefreshing(newArray));
             } else {
-              dispatch(addElementsToLibrariesMarsRefreshing(images));
+              const newArray = dontShowImagesHide(images, hides);
+              dispatch(addElementsToLibrariesMarsRefreshing(newArray));
             }
-            */
-            dispatch(resetImagesHide([]));
-            dispatch(setSearchReducer(!search));
-            setPhotosButtonColor("#727477");
           }}
           buttonWidth={50}
           buttonHeight={34}
