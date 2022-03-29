@@ -7,7 +7,9 @@ import { TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "./ContainerRef";
 import { LogOut } from "../screens/LogOut";
 import ImagesHide from "../screens/ImagesHide";
-
+/**
+ * I probabli won't use this navigator anymore so i don't comment it.
+ */
 const Drawer = createDrawerNavigator();
 const LogoTitle: React.FC<any> = () => {
   return (

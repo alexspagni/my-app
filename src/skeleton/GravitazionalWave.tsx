@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Animated } from "react-native";
 import { Easing } from "react-native-reanimated";
-
+//Here i made an anitmation that is shown every time that a user make a search
 export const GravitazionalWave = () => {
   const animatedValue1 = React.useRef(new Animated.Value(0)).current;
-
+  /**
+   * In order to make an animation you need the library animate.
+   * Animation start at value 0 and end to value 1.
+   * These animation is render every 4050ms so it can runs into a loop
+   */
   const animation = () => {
     Animated.timing(animatedValue1, {
       toValue: 1,
@@ -20,11 +24,13 @@ export const GravitazionalWave = () => {
     const interval = setInterval(() => {
       animatedValue1.setValue(0);
       animation();
-    }, 4200);
+    }, 4050);
 
     return () => clearInterval(interval);
   }, []);
-
+  /**
+   * thise trasforms allow image to move around the screen
+   */
   const transformX = animatedValue1.interpolate({
     inputRange: [0, 0.25, 0.5, 0.75, 1],
     outputRange: [150, 250, 150, 50, 150],

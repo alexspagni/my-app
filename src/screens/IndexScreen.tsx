@@ -25,26 +25,40 @@ import { SearchBar } from "../components/SearchBar";
 import { FilterButtonComponent } from "../components/FIlterButtonComponent";
 
 ////////////COMPONENT////////////
+/**
+ * This component is the main component, is where every search for new images is made.
+ *
+ *
+ */
 const IndexScreen = () => {
   //////HOOKS+REF//////////////
+  /**I need five hook to enable and disable different buttons, which are used to search and show different kind of images */
   const [allButtonColor, setAllButtonColor] = useState("#2E8AF6");
   const [dataButtonColor, setDataButtonColor] = useState("#727477");
   const [photosButtonColor, setPhotosButtonColor] = useState("#727477");
   const [hideAllButtonColor, setHideAllButtonColor] = useState("#727477");
   const [infoButtonColor, setInfoButtonColor] = useState("#727477");
-
   const [roverName, setRoverName] = useState<string>("");
-  const images: imageType[] = useSelector((store: any) => store?.images);
-  const dispatch = useDispatch();
   const flatListRef = React.createRef<FlatList>();
+  const dispatch = useDispatch();
+  //these five hooks are used to get every information from STORE.
+  /**
+   * images: get access to images, which will be shown on the mobile screen
+   * hides:get acces to imagesHides, which won't be shown on the mobile screen
+   * loading:get access to a boolean value, whose say if GravitazionalWave should be shown
+   * search: get access to a value,whose say if a new search must be made
+   * roverData:get access to all Value about roverImages-->date,pageNumber,roverName
+   *
+   */
+  const images: imageType[] = useSelector((store: any) => store?.images);
   const hides = useSelector((store: any) => store?.imagesHide);
   const loading = useSelector((store: any) => store?.loading);
   const search = useSelector((store: any) => store?.search);
   const roverData: roverDataType = useSelector(
     (store: any) => store?.dataRover
   );
-
-  //Gli unici parametri obbligatori sono quelli che riguardano il nome del rover e il numero di pagina da prendere, gli altri riguardanti l'anno sono opzionali
+  /////////////////////////////////////////////////////////////////////////////////////
+  //i need this useEffect to carry flatList at the beginning
   useEffect(
     React.useCallback(() => {
       if (images.length) {
@@ -57,6 +71,7 @@ const IndexScreen = () => {
     }, [search])
   ),
     [];
+  //This function is used to add new images in the queue, it doesn't replace existing image
   const addImageFromMarsToList = async (
     roverName: string,
     page: number,
@@ -64,14 +79,17 @@ const IndexScreen = () => {
     month?: string,
     year?: string
   ) => {
-    //console.log(roverName, page, day, month, year);
-
     try {
+      //with this line of code i fetch images
       const results = await getImageMars(roverName, page, day, month, year);
+      /*
+       *the logic by which I do these things is why if "Photos Filter" is enable a user wants to see all images, so i show also hides images
+       */
       if (photosButtonColor != "#2E8AF6") {
         const imagesToRender = imagesFilterHideImage(results, hides);
         dispatch(addElementsToLibrariesMars(imagesToRender));
       } else {
+        //In this case a user doesn't want to see hides images, because "Photos filter "is not enable so i'm gonna show just images which are not hide
         const imagesToRender = results.map((element) => {
           return {
             image: element,
@@ -81,12 +99,14 @@ const IndexScreen = () => {
         dispatch(addElementsToLibrariesMars(imagesToRender));
       }
     } catch {}
+    //i need to set the new number page into the reducer
     dispatch({
       type: LIBRARIES_PAGE_NUMBER,
       payload: { ...roverData, page_number: page },
     });
     setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
   };
+  //This function is used to replace images every time a user makes a new search, so all previous images will be replace.
   const replaceImageFromMarsToList = async (
     roverName: string,
     page: number,
@@ -123,14 +143,14 @@ const IndexScreen = () => {
       payload: { ...roverData, page_number: page },
     });
   };
-  //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
+  //I'm gonna make a new search every time "All button filter is pressed."
   useEffect(() => {
     if (allButtonColor === "#2E8AF6" && loading) {
       dispatch({
         type: LIBRARIES_PAGE_NUMBER,
         payload: { ...roverData, page_number: 1 },
       });
-
+      //every time i enter into this "useEffect" is like i'm doing the first research, so i have to pass as pageNumber the first one.
       replaceImageFromMarsToList(
         roverData.rover_name,
         1,
@@ -183,6 +203,10 @@ const IndexScreen = () => {
           setColor={(newColor) => setPhotosButtonColor(newColor)}
           buttonName="Photos"
           onPressButton={() => {
+            /**
+             * the logic here is simple, if photos button is pressed, you need to show all'images refer to user previous search.
+             * Otherwise you need to show just the image which are not hided
+             */
             if (photosButtonColor == "#727477") {
               const newArray = images.map((element) => {
                 return { image: element.image, hide: false };
@@ -201,6 +225,10 @@ const IndexScreen = () => {
           setColor={(newColor) => setHideAllButtonColor(newColor)}
           buttonName="Hide all"
           onPressButton={() => {
+            /**
+             * In order to hide all images, just map every image with the property hide=true
+             * and make a dispatch in order to add all current image to imagesHide reducer
+             */
             const newArray = images.map((element) => {
               return {
                 image: element.image,
@@ -252,6 +280,9 @@ const IndexScreen = () => {
             </View>
           )}
           onEndReached={() => {
+            /**
+             * these lines of code will be executed just when a user will reach the end of the list
+             */
             const newPage = roverData.page_number + 1;
             // console.log(newPage);
 

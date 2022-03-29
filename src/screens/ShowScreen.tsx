@@ -9,9 +9,15 @@ import { hideAnImage } from "../filters/FIlters";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { addElementsToLibrariesMarsRefreshing } from "../reducers/getImagesReducers";
 import { imageType, marsObject } from "../type/differentType";
+/**
+ * This Screen is used to show some images detail about an image.
+ * In order to show this details i need to get access to a "marsObject" object which is shared
+ * by "PhotoComponent" component.
+ */
 type IndexScreenType = {
   navigation: any;
 };
+//Function used to see if an image is hided or not.
 const lookImageHide = (hides: marsObject[], item: marsObject) => {
   for (let i = 0; i < hides.length; i++) {
     if (hides[i].id === item.id) {
@@ -22,10 +28,11 @@ const lookImageHide = (hides: marsObject[], item: marsObject) => {
 };
 const ShowScreen: React.FC<IndexScreenType> = () => {
   const hides = useSelector((store: any) => store?.imagesHide);
+  //hook to get access to paramater passed from another screen.
   const route = useRoute();
   const images: imageType[] = useSelector((store: any) => store?.images);
 
-  //Hook per andare a prendere il parametro che mi è stato passato da IndexScreen
+  //Code used to get acces to the parameter shared by PhotoComponent component
   const image1: marsObject = (route.params as any)?.image;
   console.log(image1);
   const dispatch = useDispatch();
@@ -61,29 +68,38 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
               </Text>
             }
           </Text>
-          {lookImageHide(hides, image1) ? (
-            <Text style={styles.TextStyleInnerText}>
-              This image has been hided
-            </Text>
-          ) : (
-            <View style={styles.ButtonViewStyle}>
-              <ButtonComponent
-                buttonName="Hide this image"
-                buttonColor="#2E8AF6"
-                buttonWidth={300}
-                heightButton={44}
-                onPressButton={() => {
-                  const newImageArray = hideAnImage(images, image1);
-                  dispatch({
-                    type: "images_hide_one",
-                    payload: image1,
-                  });
-                  dispatch(addElementsToLibrariesMarsRefreshing(newImageArray));
-                  hideImageAlert();
-                }}
-              />
-            </View>
-          )}
+          {
+            /**
+             * If user is going to watch some detail about an image which is been hided, i show
+             * a text message to say that the image is hided, otherwise i give the possibility to the
+             * user to hide the image.
+             */
+            lookImageHide(hides, image1) ? (
+              <Text style={styles.TextStyleInnerText}>
+                This image has been hided
+              </Text>
+            ) : (
+              <View style={styles.ButtonViewStyle}>
+                <ButtonComponent
+                  buttonName="Hide this image"
+                  buttonColor="#2E8AF6"
+                  buttonWidth={300}
+                  heightButton={44}
+                  onPressButton={() => {
+                    const newImageArray = hideAnImage(images, image1);
+                    dispatch({
+                      type: "images_hide_one",
+                      payload: image1,
+                    });
+                    dispatch(
+                      addElementsToLibrariesMarsRefreshing(newImageArray)
+                    );
+                    hideImageAlert();
+                  }}
+                />
+              </View>
+            )
+          }
         </View>
       </View>
     </View>

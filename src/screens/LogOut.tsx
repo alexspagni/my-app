@@ -7,10 +7,13 @@ import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { ButtonComponent } from "../components/ButtonComponent";
 export const LogOut = () => {
   const dispatch = useDispatch<any>();
+  /**
+   * These screen is used just to allow user to Log Out.
+   * User will be redirected on the sign in screen.
+   */
   const logOut = async () => {
     await AsyncStorage.removeItem("token");
     dispatch(resetToken(""));
-    //dispatch({ type: "images_reset", payload: [] });
     navigationContainerRef.current?.navigate("SigningStackNavigator");
   };
 

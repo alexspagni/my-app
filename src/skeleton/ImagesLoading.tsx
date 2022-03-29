@@ -2,12 +2,17 @@ import React, { useEffect } from "react";
 import { FlatList, View, StyleSheet, Animated, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
-import { imagesFilter, imagesFilterHideImage } from "../filters/FIlters";
+import { imagesFilterHideImage } from "../filters/FIlters";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { LIBRARIES_PAGE_NUMBER } from "../reducers/DataReducer";
 import { addElementsToLibrariesMarsRefreshing } from "../reducers/getImagesReducers";
 import { setLoadingReducer } from "../reducers/setLoadingReducer";
 import { imageType, roverDataType } from "../type/differentType";
+/**
+ * This screen is used, just to show some images which are cached on the user's phone.
+ * I also make a mew search for some images, in order to show them on the screen, in the next
+ * screen. The logic used to search new image is the same used in the Index Screen
+ */
 export const ImagesLoading = () => {
   const animatedValue1 = React.useRef(new Animated.Value(0)).current;
   const roverData: roverDataType = useSelector(

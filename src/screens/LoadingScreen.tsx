@@ -9,8 +9,15 @@ import { ButtonComponent } from "../components/ButtonComponent";
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
   const images = useSelector((store: any) => store?.images);
-
+  /**
+   * this is the firt screen that user will see
+   */
   const autoLogin = async () => {
+    /**
+     * When a user tap on the button at the end of the list i will see if there's a jwt token in
+     * the cache of the phone. If there's the token, the user will be redirected to ImagesLoading screen otherwise he will
+     * redirected to signIn screen in order to signin.
+     */
     const token = await AsyncStorage.getItem("token");
     if (token) {
       if (images.length) {

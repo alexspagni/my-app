@@ -102,6 +102,12 @@ export const LIBRARIES_RESET: string = "images_reset";
 export const LIBRARIES_CHANGE_HIDE_STATE: string = "image_change_hide_state";
 
 //REDUCERS FUNCTION////////////////////////////////////////////
+/**
+ * this reducer is used to store differet images, in order to use them on the application
+ *  LIBRARIES_ADD--> it return as state the payload passed to the reducer, this case is used every time a user makes a new search
+ * LIBRARIES_ADD_MARS--> it add a new array of images to the current state, this case is used every time a user scroll down the list until the end
+ * LIBRARIES_RESET--> it reset the state to an empty array. this is also the value of the initial state.
+ */
 export const getImagesReducer = (
   state = initalStateRover,
   action: AllLibrariesAction
@@ -131,6 +137,12 @@ export const LIBRARIES_HIDE_RESET: string = "images_hide_reset";
 type AllLibrariesActionHide =
   | LibrariesResetActionHide
   | LibrariesResetActionHideAll;
+/**
+ * this reducer is used to store images hided.
+ * LIBRARIES_HIDE_ONE-->it is used to add just one image hided to the state, this image will be add just if is not already in the state
+ * LIBRARIES_HIDE_ALL-->it is user to add an entire array of images fetch from the user to the current state, only images that are not already in the state will be added
+ * LIBRARIES_HIDE_RESET-->it is used to reset the state to an empty array, which is the initial value of the state.
+ */
 export const getImagesHided = (
   state = initalStateRoverImagesHide,
   action: AllLibrariesActionHide
