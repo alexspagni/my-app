@@ -109,6 +109,7 @@ const App = () => {
               name="ImagesLoading"
               component={ImagesLoading}
               options={{
+                headerShown: false,
                 presentation: "modal",
                 headerMode: "screen",
                 headerStyle: {

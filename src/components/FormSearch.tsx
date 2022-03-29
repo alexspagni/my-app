@@ -1,116 +1,98 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "react-native-elements";
-import { resetImagesHide } from "../reducers/getImagesReducers";
+
 import SearchImputText from "./SearchImputText";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import {
   setLoadingReducer,
   setSearchReducer,
 } from "../reducers/setLoadingReducer";
-import { SwitchButton } from "./SwitchButton";
+import { Ionicons } from "@expo/vector-icons";
 import { roverDataType } from "../type/differentType";
-import {
-  LIBRARIES_DATE,
-  LIBRARIES_PAGE_NUMBER,
-  LIBRARIES_ROVER_NAME,
-} from "../reducers/DataReducer";
+import { LIBRARIES_DATE } from "../reducers/DataReducer";
 import { ButtonComponent } from "./ButtonComponent";
 
 const FormSearch: React.FC = () => {
   //definisco i vari hook per andare a cambiare i vari valori dei textImput
-  const [roverName, setRoverName] = useState<string>("");
+
   const [day, setDay] = useState<string>("");
   const [month, setMonth] = useState<string>("");
   const [year, setYear] = useState<string>("");
-  const [isEnabledHideAllImages, setIsEnabledHideAllImages] = useState(false);
-  const [isEnabledRestoreImagesHided, setIsEnableRestoreImagesHided] =
-    useState(false);
 
   const roverData: roverDataType = useSelector(
     (store: any) => store?.dataRover
   );
-  //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa
-  const images = useSelector((store: any) => store?.images);
+
   const search = useSelector((store: any) => store?.search);
   const dispatch = useDispatch();
-
-  const backToIndexScreen = () => {
-    dispatch(setLoadingReducer(true));
-    dispatch({
-      type: LIBRARIES_PAGE_NUMBER,
-      payload: { ...roverData, page_number: 1 },
-    });
-    dispatch({
-      type: LIBRARIES_ROVER_NAME,
-      payload: { ...roverData, rover_name: roverName },
-    });
-    dispatch(setLoadingReducer(true));
-    dispatch(setSearchReducer(!search));
-    dispatch({
-      type: LIBRARIES_DATE,
-      payload: {
-        ...roverData,
-        earth_day: day,
-        earth_month: month,
-        earth_year: year,
-      },
-    });
-    dispatch({ type: "images_reset", payload: [] });
-    //navigation.navigate("IndexScreen");
-    navigationContainerRef.current?.navigate("IndexScreen");
-  };
 
   return (
     <View style={styles.backgroundStyle}>
       <TouchableOpacity
-        style={styles.imageStyle}
+        style={styles.IconX}
         onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
       >
         <Image source={require("../Images/iconX.png")} />
       </TouchableOpacity>
-      <View style={styles.innerView}>
+      <View
+        style={{
+          flexDirection: "row",
+          marginBottom: 15,
+        }}
+      >
         <Text style={styles.TextStyle}>Date Filter</Text>
-        <View style={styles.ImputTextContainer}>
-          <SearchImputText
-            term={day}
-            value="Insert day"
-            onChangeText={(newTerm) => setDay(newTerm.trim())}
+        <TouchableOpacity
+          style={styles.iconStyle}
+          onPress={() =>
+            navigationContainerRef.current?.navigate("InfoSearchScreen")
+          }
+        >
+          <Ionicons
+            name="ios-information-circle-outline"
+            size={35}
+            color="white"
           />
-          <SearchImputText
-            term={month}
-            value="Insert month"
-            onChangeText={(newTerm) => setMonth(newTerm.trim())}
-          />
-          <SearchImputText
-            term={year}
-            value="Insert Year"
-            onChangeText={(newTerm) => setYear(newTerm.trim())}
-          />
-        </View>
-        <View style={styles.ButtonView}>
-          <ButtonComponent
-            buttonColor="#2E8AF6"
-            buttonName="Search by date"
-            heightButton={40}
-            buttonWidth={180}
-            onPressButton={() => {
-              dispatch({
-                type: LIBRARIES_DATE,
-                payload: {
-                  ...roverData,
-                  earth_day: day,
-                  earth_month: month,
-                  earth_year: year,
-                },
-              });
-              dispatch(setSearchReducer(!search));
-              dispatch(setLoadingReducer(true));
-              navigationContainerRef.current?.navigate("drawer");
-            }}
-          />
-        </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.ImputTextContainer}>
+        <SearchImputText
+          term={day}
+          value="Insert day"
+          onChangeText={(newTerm) => setDay(newTerm.trim())}
+        />
+        <SearchImputText
+          term={month}
+          value="Insert month"
+          onChangeText={(newTerm) => setMonth(newTerm.trim())}
+        />
+        <SearchImputText
+          term={year}
+          value="Insert Year"
+          onChangeText={(newTerm) => setYear(newTerm.trim())}
+        />
+      </View>
+      <View style={styles.ButtonView}>
+        <ButtonComponent
+          buttonColor="#2E8AF6"
+          buttonName="Search by date"
+          heightButton={40}
+          buttonWidth={180}
+          onPressButton={() => {
+            dispatch({
+              type: LIBRARIES_DATE,
+              payload: {
+                ...roverData,
+                earth_day: day,
+                earth_month: month,
+                earth_year: year,
+              },
+            });
+            dispatch(setSearchReducer(!search));
+            dispatch(setLoadingReducer(true));
+            navigationContainerRef.current?.navigate("drawer");
+          }}
+        />
       </View>
     </View>
   );
@@ -121,22 +103,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#181A1C",
     flex: 1,
   },
-  innerView: {
-    position: "relative",
-    bottom: 100,
-  },
+
   TextStyle: {
-    alignItems: "center",
     color: "white",
-    marginTop: 180,
     fontSize: 25,
-    marginLeft: 30,
-    marginBottom: 15,
+    marginLeft: 20,
+    marginTop: 100,
   },
   ImputTextContainer: {
     flexDirection: "row",
+    top: 0,
+    marginTop: 20,
+    position: "relative",
+    bottom: 90,
   },
-  imageStyle: {
+  IconX: {
     position: "relative",
     left: 15,
     top: 35,
@@ -144,12 +125,22 @@ const styles = StyleSheet.create({
     height: 40,
   },
   ButtonView: {
-    marginTop: 15,
+    marginTop: 30,
     marginLeft: 85,
+  },
+  iconStyle: {
+    position: "relative",
+    top: 100,
+    marginLeft: 20,
   },
 });
 export default FormSearch;
 
 /**
- *
+ * 
+
+      
+     
+     
+     
  */

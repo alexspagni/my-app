@@ -62,6 +62,7 @@ const DrawerNavigator = () => {
         name="LogOut"
         component={LogOut}
         options={{
+          headerShown: false,
           title: "Log Out",
           drawerIcon: (): any => {
             return <LogoTitle />;

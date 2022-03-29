@@ -20,7 +20,7 @@ export const GravitazionalWave = () => {
     const interval = setInterval(() => {
       animatedValue1.setValue(0);
       animation();
-    }, 4002);
+    }, 4200);
 
     return () => clearInterval(interval);
   }, []);

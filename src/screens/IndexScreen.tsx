@@ -1,24 +1,20 @@
 ////////ALL IMPORT///////////////
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList, Text } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
 import {
   addElementsToLibrariesMars,
   addElementsToLibrariesMarsRefreshing,
-  resetImagesHide,
+  hideAllImages,
 } from "../reducers/getImagesReducers";
-import {
-  dontShowImagesHide,
-  imagesFilter,
-  imagesFilterHideImage,
-} from "../filters/FIlters";
+import { dontShowImagesHide, imagesFilterHideImage } from "../filters/FIlters";
 import {
   setLoadingReducer,
   setSearchReducer,
 } from "../reducers/setLoadingReducer";
-import { imageType, marsObject, roverDataType } from "../type/differentType";
+import { imageType, roverDataType } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import {
   LIBRARIES_PAGE_NUMBER,
@@ -98,7 +94,6 @@ const IndexScreen = () => {
     month?: string,
     year?: string
   ) => {
-    //console.log(roverName, page, day, month, year);
     try {
       const results = await getImageMars(roverName, page, day, month, year);
       if (photosButtonColor != "#2E8AF6") {
@@ -135,7 +130,7 @@ const IndexScreen = () => {
         type: LIBRARIES_PAGE_NUMBER,
         payload: { ...roverData, page_number: 1 },
       });
-      // dispatch(setLoadingReducer(true));
+
       replaceImageFromMarsToList(
         roverData.rover_name,
         1,
@@ -153,12 +148,14 @@ const IndexScreen = () => {
           setRoverName(newRoverName);
         }}
         onEndEditing={() => {
-          dispatch(setLoadingReducer(true));
           dispatch({
             type: LIBRARIES_ROVER_NAME,
             payload: { ...roverData, rover_name: roverName },
           });
-          dispatch(setSearchReducer(!search));
+          if (allButtonColor === "#2E8AF6") {
+            dispatch(setLoadingReducer(true));
+            dispatch(setSearchReducer(!search));
+          }
         }}
       />
       <View style={styles.listButtonStyle}>
@@ -204,14 +201,14 @@ const IndexScreen = () => {
           setColor={(newColor) => setHideAllButtonColor(newColor)}
           buttonName="Hide all"
           onPressButton={() => {
-            dispatch({
-              type: "images_hide_all",
-              payload: images.map((element) => {
-                return element.image;
-              }),
+            const newArray = images.map((element) => {
+              return {
+                image: element.image,
+                hide: true,
+              };
             });
-
-            //  dispatch(setSearchReducer(!search));
+            dispatch(addElementsToLibrariesMarsRefreshing(newArray));
+            dispatch(hideAllImages(images));
             setHideAllButtonColor("#727477");
           }}
           buttonWidth={60}

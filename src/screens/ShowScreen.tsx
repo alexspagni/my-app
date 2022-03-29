@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { hideImageAlert } from "../alertMessages/alertMessage";
 import { ButtonComponent } from "../components/ButtonComponent";
-import { hideAnImage, imagesFilterHideImage } from "../filters/FIlters";
+import { hideAnImage } from "../filters/FIlters";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { addElementsToLibrariesMarsRefreshing } from "../reducers/getImagesReducers";
 import { imageType, marsObject } from "../type/differentType";
@@ -73,10 +73,7 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
                 buttonWidth={300}
                 heightButton={44}
                 onPressButton={() => {
-                  //console.log(images);
-
                   const newImageArray = hideAnImage(images, image1);
-                  //console.log(newImageArray);
                   dispatch({
                     type: "images_hide_one",
                     payload: image1,
@@ -106,6 +103,7 @@ const styles = StyleSheet.create({
   TextStyleTitle: {
     color: "green",
     fontSize: 18,
+    fontFamily: "serif",
   },
   TextStyleInnerText: {
     color: "white",

@@ -1,11 +1,10 @@
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";
 import { ImageBackground, View, StyleSheet, Text } from "react-native";
 import { ButtonComponent } from "../components/ButtonComponent";
-import { navigationContainerRef } from "../Navigator/ContainerRef";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();

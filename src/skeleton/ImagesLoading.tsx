@@ -54,12 +54,12 @@ export const ImagesLoading = () => {
 
   const transformX = animatedValue1.interpolate({
     inputRange: [0, 0.5, 1],
-    outputRange: [0.4, 1, 0.4],
+    outputRange: [0.6, 1, 0.6],
   });
   const animation = () => {
     Animated.timing(animatedValue1, {
       toValue: 1,
-      duration: 2000,
+      duration: 2500,
 
       useNativeDriver: true,
     }).start();
@@ -70,14 +70,13 @@ export const ImagesLoading = () => {
     const interval = setInterval(() => {
       animatedValue1.setValue(0);
       animation();
-    }, 2000);
+    }, 2500);
 
     return () => clearInterval(interval);
   }, []);
   return (
     <View style={styles.container}>
       <FlatList
-        style={styles.FlatListStyle}
         data={images.filter((element) => {
           if (element.hide == false) {
             return element;
@@ -95,7 +94,7 @@ export const ImagesLoading = () => {
                 },
               ]}
             />
-            <Text style={{ color: "white", fontSize: 16 }}>Cached Images</Text>
+            <Text style={styles.textStyle}>Cached Images</Text>
             <View
               style={{
                 marginTop: 10,
@@ -112,19 +111,23 @@ export const ImagesLoading = () => {
 };
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10,
-    alignItems: "center",
     flex: 1,
     backgroundColor: "#181A1C",
+
+    paddingTop: 20,
   },
 
-  FlatListStyle: {
-    paddingTop: 10,
-  },
   image: {
+    marginLeft: 25,
     width: 300,
     height: 150,
     borderRadius: 4,
     opacity: 1,
+  },
+  textStyle: {
+    position: "relative",
+    left: 25,
+    color: "white",
+    fontSize: 16,
   },
 });

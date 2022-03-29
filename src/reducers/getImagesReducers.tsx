@@ -1,4 +1,4 @@
-import { imagesFilter, imagesFilterDuplicate } from "../filters/FIlters";
+import { imagesFilterDuplicate } from "../filters/FIlters";
 import { marsObject, imageType } from "../type/differentType";
 
 export const initalStateRoverImagesHide: marsObject[] = [];
@@ -80,6 +80,17 @@ export const resetImagesHide = (array: any): LibrariesResetImagesHide => {
     payload: [],
   };
 };
+export const hideAllImages = (
+  imagesHide: imageType[]
+): LibrariesResetActionHideAll => {
+  const newArray = imagesHide.map((element) => {
+    return element.image;
+  });
+  return {
+    type: LIBRARIES_HIDE_ALL,
+    payload: newArray,
+  };
+};
 //////////////////////////////////////////////////////////
 export type ActionFunction = typeof addElementsToLibrariesMars;
 
@@ -134,7 +145,14 @@ export const getImagesHided = (
 
       return [...state, action.payload];
     case LIBRARIES_HIDE_ALL:
-      return [...state, ...(action.payload as marsObject[])];
+      let newArray: marsObject[] = [];
+      for (let i = 0; i < (action.payload as marsObject[]).length; i++) {
+        if (state.includes((action.payload as marsObject[])[i]) == false) {
+          newArray.push((action.payload as marsObject[])[i]);
+        }
+      }
+
+      return [...state, ...(newArray as marsObject[])];
     case LIBRARIES_HIDE_RESET:
       // setStoredImagesHideReset();
       return [];
