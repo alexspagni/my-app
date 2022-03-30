@@ -35,7 +35,7 @@ export const LoadingScreen = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../Images/index.png")}
+        source={require("../../assets/index.png")}
         style={styles.image}
         resizeMode="cover"
       >
