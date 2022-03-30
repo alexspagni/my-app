@@ -142,10 +142,15 @@ const IndexScreen = () => {
       type: LIBRARIES_PAGE_NUMBER,
       payload: { ...roverData, page_number: page },
     });
+    setTimeout(() => setAllButtonColor("#727477"), 4000);
   };
   //I'm gonna make a new search every time "All button filter is pressed."
   useEffect(() => {
+    console.log(allButtonColor);
+
     if (allButtonColor === "#2E8AF6" && loading) {
+      console.log("sono qui");
+
       dispatch({
         type: LIBRARIES_PAGE_NUMBER,
         payload: { ...roverData, page_number: 1 },
@@ -185,10 +190,9 @@ const IndexScreen = () => {
             type: LIBRARIES_ROVER_NAME,
             payload: { ...roverData, rover_name: roverName },
           });
-          if (allButtonColor === "#2E8AF6") {
-            dispatch(setLoadingReducer(true));
-            dispatch(setSearchReducer(!search));
-          }
+
+          dispatch(setLoadingReducer(true));
+          dispatch(setSearchReducer(!search));
         }}
       />
       <View style={styles.listButtonStyle}>
@@ -267,7 +271,7 @@ const IndexScreen = () => {
           buttonHeight={34}
         />
       </View>
-      {loading ? (
+      {loading && allButtonColor === "#2E8AF6" ? (
         <GravitazionalWave />
       ) : (
         <FlatList
