@@ -1,7 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Modal, Pressable } from "react-native";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
-
+/**
+ * this component is just the skeleton of infoScreens.
+ *
+ */
 export const InfoScreenComponent = (props: any) => {
   return (
     <View style={style.ModalStyle}>

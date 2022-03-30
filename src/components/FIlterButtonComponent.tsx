@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
-type FilterButtonComponent = {
-  buttonName: string;
-  onPressButton: () => void;
-  buttonWidth: number;
-  buttonHeight: number;
-  color: string;
-  setColor: (s: string) => void;
-};
-export const FilterButtonComponent: React.FC<FilterButtonComponent> = (
+import { FilterButtonComponentType } from "../type/differentType";
+
+/**
+ * This component is used as skeleton to every button filter into IndexScreen (an example: All,Photos,Date...).
+ * It receive five parameter:
+ * buttonName-->just the name of the button
+ * onPressButton--> a function that is run every time the user press this button. Logic of this button is into IndexScreen
+ * buttonWidth-->width of the button
+ * buttonHeight-->height of the button
+ * color-->color that button has in different case
+ * setColor-->function that set the color of the button.
+ */
+export const FilterButtonComponent: React.FC<FilterButtonComponentType> = (
   props
 ) => {
   return (
