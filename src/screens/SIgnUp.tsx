@@ -42,7 +42,7 @@ export const SignUp = ({ navigation }: any) => {
         onPress={() => navigationContainerRef.current?.goBack()}
       >
         <Image
-          source={require("../Images/iconX.png")}
+          source={require("../../assets/iconX.png")}
           resizeMode={"contain"}
           style={styles.iconStyle}
         />

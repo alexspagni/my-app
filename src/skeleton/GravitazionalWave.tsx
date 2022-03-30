@@ -46,7 +46,7 @@ export const GravitazionalWave = () => {
   return (
     <View style={styles.ContainerStyle}>
       <Animated.Image
-        source={require("../Images/gravitazionalBall.jpg")}
+        source={require("../../assets/gravitazionalBall.jpg")}
         resizeMode="contain"
         style={[
           styles.image_skeleton,
