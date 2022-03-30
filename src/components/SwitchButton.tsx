@@ -1,3 +1,7 @@
+/**
+ * probably not used anymore
+ */
+
 import React from "react";
 import { Switch, StyleSheet, Text } from "react-native";
 type SwitchProps = {

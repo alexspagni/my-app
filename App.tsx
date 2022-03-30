@@ -19,6 +19,7 @@ import ConfiguereStore from "./src/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import { ImagesLoading } from "./src/skeleton/ImagesLoading";
 import { InfoScreenImageNotFound } from "./src/InfoPointScreen/InfoScreenImageNotFound";
+import FormSearch from "./src/components/FormSearch";
 
 const { store, persistor } = ConfiguereStore();
 const Stack = createStackNavigator();
@@ -36,8 +37,9 @@ const App = () => {
             />
             <Stack.Screen
               name="Search"
-              component={SerchScreen}
+              component={FormSearch}
               options={{
+                headerShown: false,
                 presentation: "modal",
                 headerRight: () => (
                   <View style={{ flexDirection: "row" }}>
@@ -62,6 +64,7 @@ const App = () => {
               name="ShowScreen"
               component={ShowScreen}
               options={{
+                headerShown: false,
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
               }}
             />
@@ -106,21 +109,11 @@ const App = () => {
               name="ImagesLoading"
               component={ImagesLoading}
               options={{
+                headerShown: false,
                 presentation: "modal",
                 headerMode: "screen",
                 headerStyle: {
                   height: 80, // Specify the height of your custom header
-                },
-                header: () => {
-                  return (
-                    <View style={{ height: 60 }}>
-                      <Text
-                        style={{ marginLeft: 120, marginTop: 25, fontSize: 18 }}
-                      >
-                        Cached Images
-                      </Text>
-                    </View>
-                  );
                 },
               }}
             />

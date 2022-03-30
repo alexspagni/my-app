@@ -1,17 +1,14 @@
-import { imagesFilter } from "../filters/FIlters";
-import { marsObject } from "../type/differentType";
+import { filterImagesHided, imagesFilterDuplicate } from "../filters/FIlters";
+import { marsObject, imageType } from "../type/differentType";
 
-export const initalStateRover: marsObject[] = [];
+export const initalStateRoverImagesHide: marsObject[] = [];
 
+export const initalStateRover: imageType[] = [];
 //ACTION TYPE///////////////////////////////////////
-type LibrariesAddActionType = {
-  type: typeof LIBRARIES_ADD;
-  payload: marsObject;
-};
 
 type LibrariesAddActionTypeMars = {
   type: typeof LIBRARIES_ADD_MARS;
-  payload: marsObject[];
+  payload: imageType[];
 };
 
 type LibrariesResetActionHide = {
@@ -34,7 +31,7 @@ type LibrariesResetImagesHide = {
 //ACTION FUNCTION//////////////////////////////////////////
 
 export const addElementsToLibrariesMars = (
-  array: marsObject[]
+  array: imageType[]
 ): LibrariesAddActionTypeMars | undefined => {
   if (array.length) {
     return {
@@ -44,7 +41,7 @@ export const addElementsToLibrariesMars = (
   }
 };
 export const addElementsToLibrariesMarsRefreshing = (
-  array: marsObject[]
+  array: imageType[]
 ): LibrariesAddActionTypeMars | undefined => {
   if (array.length) {
     return {
@@ -55,6 +52,16 @@ export const addElementsToLibrariesMarsRefreshing = (
     return {
       type: LIBRARIES_ADD,
       payload: [],
+    };
+  }
+};
+export const changeImageHideState = (
+  array: imageType[]
+): LibrariesAddActionTypeMars | undefined => {
+  if (array.length) {
+    return {
+      type: LIBRARIES_CHANGE_HIDE_STATE,
+      payload: array,
     };
   }
 };
@@ -73,19 +80,34 @@ export const resetImagesHide = (array: any): LibrariesResetImagesHide => {
     payload: [],
   };
 };
+export const hideAllImages = (
+  imagesHide: imageType[]
+): LibrariesResetActionHideAll => {
+  const newArray = imagesHide.map((element) => {
+    return element.image;
+  });
+  return {
+    type: LIBRARIES_HIDE_ALL,
+    payload: newArray,
+  };
+};
 //////////////////////////////////////////////////////////
 export type ActionFunction = typeof addElementsToLibrariesMars;
 
-type AllLibrariesAction =
-  | LibrariesAddActionType
-  | LibrariesAddActionTypeMars
-  | LibrariesSetEmptyArray;
+type AllLibrariesAction = LibrariesAddActionTypeMars | LibrariesSetEmptyArray;
 //////ACTIONE TYPE//////////////////////////////////
 export const LIBRARIES_ADD: string = "images_add";
 export const LIBRARIES_ADD_MARS: string = "images_add_mars";
 export const LIBRARIES_RESET: string = "images_reset";
+export const LIBRARIES_CHANGE_HIDE_STATE: string = "image_change_hide_state";
 
 //REDUCERS FUNCTION////////////////////////////////////////////
+/**
+ * this reducer is used to store differet images, in order to use them on the application
+ *  LIBRARIES_ADD--> it return as state the payload passed to the reducer, this case is used every time a user makes a new search
+ * LIBRARIES_ADD_MARS--> it add a new array of images to the current state, this case is used every time a user scroll down the list until the end
+ * LIBRARIES_RESET--> it reset the state to an empty array. this is also the value of the initial state.
+ */
 export const getImagesReducer = (
   state = initalStateRover,
   action: AllLibrariesAction
@@ -95,13 +117,14 @@ export const getImagesReducer = (
       return action.payload;
 
     case LIBRARIES_ADD_MARS:
-      const imagesToRender = imagesFilter(
-        action.payload as marsObject[],
+      const imagesToRender = imagesFilterDuplicate(
+        action.payload as imageType[],
         state
       );
-      return [...state, ...(imagesToRender as marsObject[])];
+      return [...state, ...(imagesToRender as imageType[])];
     case LIBRARIES_RESET:
       return [];
+
     default:
       return state;
   }
@@ -114,8 +137,14 @@ export const LIBRARIES_HIDE_RESET: string = "images_hide_reset";
 type AllLibrariesActionHide =
   | LibrariesResetActionHide
   | LibrariesResetActionHideAll;
+/**
+ * this reducer is used to store images hided.
+ * LIBRARIES_HIDE_ONE-->it is used to add just one image hided to the state, this image will be add just if is not already in the state
+ * LIBRARIES_HIDE_ALL-->it is user to add an entire array of images fetch from the user to the current state, only images that are not already in the state will be added
+ * LIBRARIES_HIDE_RESET-->it is used to reset the state to an empty array, which is the initial value of the state.
+ */
 export const getImagesHided = (
-  state = initalStateRover,
+  state = initalStateRoverImagesHide,
   action: AllLibrariesActionHide
 ) => {
   switch (action.type) {
@@ -128,7 +157,16 @@ export const getImagesHided = (
 
       return [...state, action.payload];
     case LIBRARIES_HIDE_ALL:
-      return [...state, ...(action.payload as marsObject[])];
+      // let newArray: marsObject[] = [];
+      /*
+      for (let i = 0; i < (action.payload as marsObject[]).length; i++) {
+        if (state.includes((action.payload as marsObject[])[i]) == false) {
+          newArray.push((action.payload as marsObject[])[i]);
+        }
+      }
+      */
+      const newArray = filterImagesHided(action.payload as marsObject[], state);
+      return [...state, ...(newArray as marsObject[])];
     case LIBRARIES_HIDE_RESET:
       // setStoredImagesHideReset();
       return [];

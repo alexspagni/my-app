@@ -22,7 +22,12 @@ type LibrariesActionRoverData = {
     earth_year?: string;
   };
 };
-
+/**
+ * this reducer is used to store data about images to search.
+ * LIBRARIES_DATE-->is used to update the date used to search images, date will be update just if all field are filled
+ * LIBRARIES_PAGE_NUMBER-->is used to update the page of images app have to search for.
+ * LIBRARIES_ROVER_NAME-->is used to update the name of rover application have to search by.
+ */
 export const roverDataReducer = (
   state = intialStateRoverData,
   action: LibrariesActionRoverData

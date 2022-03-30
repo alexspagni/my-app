@@ -59,6 +59,17 @@ type AllTypeAction =
   | LibrariesAddToken
   | LibrariesRemoveError
   | LibrariesResetToken;
+
+/**
+ * This reducer is used to get access and to store token and error message
+ * about a user who's logged in.
+ * LIBRARIES_ERROR--> just add to the state an error occured during log in
+ * LIBRARIES_TOKEN:--> used to add a user token to the state
+ * LIBRARIES_REMOVE_ERROR--> used to remove error occured during user log in because user logged in correctlu
+ * LIBRARIES_RESET_TOKEN--> used to reset user token when a user loged out
+ *
+ *
+ */
 export const signReducer = (state = initialState, action: AllTypeAction) => {
   switch (action.type) {
     case LIBRARIES_ERROR:

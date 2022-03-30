@@ -7,7 +7,9 @@ import { TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "./ContainerRef";
 import { LogOut } from "../screens/LogOut";
 import ImagesHide from "../screens/ImagesHide";
-
+/**
+ * I probabli won't use this navigator anymore so i don't comment it.
+ */
 const Drawer = createDrawerNavigator();
 const LogoTitle: React.FC<any> = () => {
   return (
@@ -25,6 +27,7 @@ const DrawerNavigator = () => {
         name="IndexScreen"
         component={IndexScreen}
         options={{
+          headerShown: false,
           drawerLabel: "Home",
 
           title: "Home",
@@ -61,6 +64,7 @@ const DrawerNavigator = () => {
         name="LogOut"
         component={LogOut}
         options={{
+          headerShown: false,
           title: "Log Out",
           drawerIcon: (): any => {
             return <LogoTitle />;

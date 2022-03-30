@@ -1,12 +1,16 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
-
-type FormProps = {
-  term: string;
-  value: string;
-  onChangeText(s: string): void;
-};
-const SearchImputText: React.FC<FormProps> = ({
+import { TextInputType } from "../type/differentType";
+/**
+ * I decided to use a reusable component beacause I have three identical text boxes.
+ * It accept 3 paramether:
+ * term-->value i show on text input every time a user write something on the screen.
+ * value-->is just a placeholder to show when a user haven't written anything yet.
+ * onChangeText-->it is a function that is run every time a user write somthing on text input.
+ *
+ *
+ */
+const SearchImputText: React.FC<TextInputType> = ({
   term,
   value,
   onChangeText,
@@ -27,9 +31,12 @@ const SearchImputText: React.FC<FormProps> = ({
 
 const styles = StyleSheet.create({
   inputStyle: {
-    margin: 10,
-    fontSize: 18,
+    marginLeft: 15,
+    paddingLeft: 5,
+    fontSize: 14,
     backgroundColor: "#F0EEEE",
+    borderRadius: 10,
+    width: 100,
   },
 });
 export default SearchImputText;
