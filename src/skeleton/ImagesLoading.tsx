@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import { FlatList, View, StyleSheet, Animated, Text } from "react-native";
+import {
+  FlatList,
+  View,
+  StyleSheet,
+  Animated,
+  Text,
+  Alert,
+  BackHandler,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import { imagesFilterHideImage } from "../filters/FIlters";
@@ -13,7 +21,7 @@ import { imageType, roverDataType } from "../type/differentType";
  * I also make a mew search for some images, in order to show them on the screen, in the next
  * screen. The logic used to search new image is the same used in the Index Screen
  */
-export const ImagesLoading = () => {
+export const ImagesLoading = ({ navigation }: any) => {
   const animatedValue1 = React.useRef(new Animated.Value(0)).current;
   const roverData: roverDataType = useSelector(
     (store: any) => store?.dataRover
@@ -36,9 +44,19 @@ export const ImagesLoading = () => {
     dispatch(setLoadingReducer(false));
     navigationContainerRef.current?.navigate("drawer");
   };
+  useEffect(() => {
+    const backAction = () => {
+      console.log("Button press");
 
-  //ogni volta che viene premuto il pulsante di ricerca vado a fare una ricerca delle immagini
+      return true;
+    };
 
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
   useEffect(() => {
     dispatch({
       type: LIBRARIES_PAGE_NUMBER,

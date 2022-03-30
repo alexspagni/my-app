@@ -1,6 +1,6 @@
 ////////ALL IMPORT///////////////
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, BackHandler } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
@@ -160,6 +160,19 @@ const IndexScreen = () => {
       );
     }
   }, [search, allButtonColor]);
+  useEffect(() => {
+    const backAction = () => {
+      console.log("Button press");
+
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
   return (
     <View style={styles.containerPrincipal}>
       <SearchBar

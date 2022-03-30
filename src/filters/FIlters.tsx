@@ -1,7 +1,9 @@
 import { imageType, marsObject } from "../type/differentType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-/* 
-export const imagesFilter = (
+/**
+ * i'm gonna use this fuction to add to imagesHides state just images which are not already in the state.
+ */
+export const filterImagesHided = (
   marsObjectArray: marsObject[],
   imagesHidedArray: marsObject[]
 ): marsObject[] => {
@@ -18,7 +20,7 @@ export const imagesFilter = (
   });
   return newArray;
 };
-*/
+
 /**
  * this function is used to understant which images must be hided and which images should be shown
  * it return an array of ImageType. to understand which images should be hide for every element of marsObjectArray
@@ -115,7 +117,6 @@ export const dontShowImagesHide = (
       };
     }
   });
-  console.log(newArray.length);
 
   return newArray;
 };

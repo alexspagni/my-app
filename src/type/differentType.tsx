@@ -44,3 +44,19 @@ export type imageType = {
   image: marsObject;
   hide: boolean;
 };
+export type SignComponentType = {
+  headerText: string;
+  onSubmit: ({ email, password }: SignDataType) => void;
+  error_message: string;
+  buttonName: string;
+};
+type SignDataType = {
+  email: string;
+  password: string;
+};
+
+export type TextInputType = {
+  term: string;
+  value: string;
+  onChangeText(s: string): void;
+};

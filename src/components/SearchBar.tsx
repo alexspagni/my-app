@@ -1,14 +1,13 @@
 import React from "react";
-import { Text, StyleSheet, View, Button, TextInput } from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 /**
- * in pratica per importare un icona devi andare su questo sito:
- * https://expo.github.io/vector-icons
- * poi metti tra parentesi graffe il nome che si trova nella seconda colonna come secondo valore
- * ed importa da '@expo/vector-icons'
- * ora puoi utilizzare l'icona. ricorda che hai importato una libreria
- , cioè father è una libreria
-*/
-import { Feather } from "@expo/vector-icons"; // importo l'icona della lente di ingrandimento
+ * This is the search bar that is shown in the IndexScreen.
+ * It receive 3 a parameter :
+ * term-->is what i write on the search bar
+ * onTermChange--> when a user types on the serch bar, this function is run
+ * onEndEditing--> when a user click on stops writing this function is run
+ */
+import { Feather } from "@expo/vector-icons";
 type SearchBarType = {
   term: string;
   onTermChange: (s: string) => void;

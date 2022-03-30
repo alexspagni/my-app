@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { TextInput, View, StyleSheet, Text, Pressable } from "react-native";
+import { TextInput, View, StyleSheet, Text } from "react-native";
+import { SignComponentType } from "../type/differentType";
 import { ButtonComponent } from "./ButtonComponent";
-type SignComponentType = {
-  headerText: string;
-  onSubmit: ({ email, password }: SignUpType) => void;
-  error_message: string;
-  buttonName: string;
-};
-type SignUpType = {
-  email: string;
-  password: string;
-};
+/**
+ * This component is used to render on the screen a basic Sign in and Sign up for the user.
+ * It accept 3 parameter:
+ * Header Text--> it's just a string to show on the screen
+ * onSubitm--> it's a function run when a user tap on the button: Sign in or Sign up.
+ * error_message--> it's a string that say if an error occupered, during user's Sign in and Sign up.
+ * buttonName--> just a string to set the title of the button.
+ *
+ */
+
 export const SignComponent: React.FC<SignComponentType> = ({
   headerText,
   onSubmit,

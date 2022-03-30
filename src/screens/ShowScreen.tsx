@@ -1,6 +1,13 @@
 import { useRoute } from "@react-navigation/native";
-import React from "react";
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  BackHandler,
+} from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import { hideImageAlert } from "../alertMessages/alertMessage";
@@ -34,9 +41,21 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
 
   //Code used to get acces to the parameter shared by PhotoComponent component
   const image1: marsObject = (route.params as any)?.image;
-  console.log(image1);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const backAction = () => {
+      navigationContainerRef.current?.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
   return (
     <View style={styles.container}>
       <Image source={{ uri: image1.img_src }} style={styles.image} />
