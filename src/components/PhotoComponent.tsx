@@ -3,6 +3,12 @@ import React, { useState } from "react";
 import { StyleSheet, Image, View, TouchableOpacity, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+/**
+ * this component is used to show an image.
+ * It receive just one parameter which is an object. This object contains the image url.
+ * Every time a use tap on an image, will be rendered to show screen to see the detail of this image.
+ *
+ */
 const PhotoComponent = ({ object }: any) => {
   const navigation = useNavigation<any>();
   const [heartIcon, setHeartIcon] = useState(true);

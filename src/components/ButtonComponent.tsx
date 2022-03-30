@@ -1,15 +1,15 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { signType } from "../type/differentType";
-
-type ButtonComponentType = {
-  buttonName: string;
-  buttonColor: string;
-  buttonWidth: number;
-  onPressButton: () => void;
-  heightButton: number;
-};
-
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { ButtonComponentType } from "../type/differentType";
+/**
+ * This component is used to as skeleton of different button in the app.
+ * it receives different props:
+ * buttonName-->name of the button
+ * buttonColor--> color of the button, it doesn't change
+ * buttonWidth-->width of the button
+ * onPressButton-->function that runs every time the button is pressed,
+ *  logic of this function is inside different screen that use this component
+ */
 export const ButtonComponent: React.FC<ButtonComponentType> = (props) => {
   return (
     <TouchableOpacity

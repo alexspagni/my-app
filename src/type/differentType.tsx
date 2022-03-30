@@ -60,3 +60,19 @@ export type TextInputType = {
   value: string;
   onChangeText(s: string): void;
 };
+
+export type FilterButtonComponentType = {
+  buttonName: string;
+  onPressButton: () => void;
+  buttonWidth: number;
+  buttonHeight: number;
+  color: string;
+  setColor: (s: string) => void;
+};
+export type ButtonComponentType = {
+  buttonName: string;
+  buttonColor: string;
+  buttonWidth: number;
+  onPressButton: () => void;
+  heightButton: number;
+};

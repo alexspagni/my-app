@@ -5,10 +5,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { ImageBackground, View, StyleSheet, Text } from "react-native";
 import { ButtonComponent } from "../components/ButtonComponent";
+import { imageType } from "../type/differentType";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
-  const images = useSelector((store: any) => store?.images);
+  const images: imageType[] = useSelector((store: any) => store?.images);
   /**
    * this is the firt screen that user will see
    */
@@ -19,6 +20,7 @@ export const LoadingScreen = () => {
      * redirected to signIn screen in order to signin.
      */
     const token = await AsyncStorage.getItem("token");
+
     if (token) {
       if (images.length) {
         navigation.navigate("ImagesLoading");

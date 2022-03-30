@@ -12,9 +12,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { roverDataType } from "../type/differentType";
 import { LIBRARIES_DATE } from "../reducers/DataReducer";
 import { ButtonComponent } from "./ButtonComponent";
-
+/**
+ * this component is used to show different input text to enable the user search images by date.
+ * It doesn't receive any prop.
+ */
 const FormSearch: React.FC = () => {
-  //definisco i vari hook per andare a cambiare i vari valori dei textImput
+  //Different hook to set value of text input, every time a user write somethin in them.
 
   const [day, setDay] = useState<string>("");
   const [month, setMonth] = useState<string>("");
@@ -79,6 +82,10 @@ const FormSearch: React.FC = () => {
           heightButton={40}
           buttonWidth={180}
           onPressButton={() => {
+            /**
+             * when a user tap on "search by date button" i'm going to set "search" value to it's opposite,
+             * in order to allow search images possible. I also need to set loading value to true in order to show "gravitazionalBall" component
+             */
             dispatch({
               type: LIBRARIES_DATE,
               payload: {
