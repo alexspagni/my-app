@@ -63,7 +63,7 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
         style={styles.iconStyle}
         onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
       >
-        <Image source={require("../Images/iconX.png")} />
+        <Image source={require("../../assets/iconX.png")} />
       </Pressable>
       <View style={styles.principalContainer}>
         <View style={{ marginTop: 30, marginLeft: 25 }}>

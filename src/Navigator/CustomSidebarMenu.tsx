@@ -6,7 +6,7 @@ const LogoTitle: React.FC<any> = () => {
   return (
     <Image
       style={{ width: 40, height: 40 }}
-      source={require("../Images/unipr_logo.jpg")}
+      source={require("../../assets/unipr_logo.jpg")}
     />
   );
 };
