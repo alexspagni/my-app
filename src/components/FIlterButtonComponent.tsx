@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import { FilterButtonComponentType } from "../type/differentType";
 
