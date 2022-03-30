@@ -2,11 +2,12 @@ import React from "react";
 import { SafeAreaView, View, StyleSheet, Text, Image } from "react-native";
 
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { UniPrLogoImage } from "../../assets";
 const LogoTitle: React.FC<any> = () => {
   return (
     <Image
       style={{ width: 40, height: 40 }}
-      source={require("../Images/unipr_logo.jpg")}
+      source={UniPrLogoImage}
     />
   );
 };

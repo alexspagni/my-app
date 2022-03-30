@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { ImageBackground, View, StyleSheet, Text } from "react-native";
 import { ButtonComponent } from "../components/ButtonComponent";
+import { BackgroundImage } from "../../assets";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
@@ -33,7 +34,7 @@ export const LoadingScreen = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../Images/index.png")}
+        source={BackgroundImage}
         style={styles.image}
         resizeMode="cover"
       >

@@ -9,6 +9,7 @@ import { SignScreen } from "../components/SignScreen";
 import React from "react";
 
 import { SignComponent } from "../components/SingComponent";
+import { iconXImage } from "../../assets";
 export const SignUp = ({ navigation }: any) => {
   const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ export const SignUp = ({ navigation }: any) => {
         onPress={() => navigationContainerRef.current?.goBack()}
       >
         <Image
-          source={require("../Images/iconX.png")}
+          source={iconXImage}
           resizeMode={"contain"}
           style={styles.iconStyle}
         />

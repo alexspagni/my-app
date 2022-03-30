@@ -10,6 +10,7 @@ import {
 } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
+import { iconXImage } from "../../assets";
 import { hideImageAlert } from "../alertMessages/alertMessage";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { hideAnImage } from "../filters/FIlters";
@@ -63,7 +64,7 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
         style={styles.iconStyle}
         onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
       >
-        <Image source={require("../Images/iconX.png")} />
+        <Image source={iconXImage} />
       </Pressable>
       <View style={styles.principalContainer}>
         <View style={{ marginTop: 30, marginLeft: 25 }}>

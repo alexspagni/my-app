@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "./ContainerRef";
 import { LogOut } from "../screens/LogOut";
 import ImagesHide from "../screens/ImagesHide";
+import { UniPrLogoImage } from "../../assets";
 /**
  * I probabli won't use this navigator anymore so i don't comment it.
  */
@@ -15,7 +16,7 @@ const LogoTitle: React.FC<any> = () => {
   return (
     <Image
       style={{ width: 40, height: 40 }}
-      source={require("../Images/unipr_logo.jpg")}
+      source={UniPrLogoImage}
     />
   );
 };

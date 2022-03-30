@@ -1,8 +1,9 @@
 {
   "expo": {
     "name": "my-app",
-    "slug": "my-app",
+    "slug": "NasaApiProject",
     "version": "1.0.0",
+    "owner": "alexspa2000",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.nasaApi.project"
     },
     "web": {
       "favicon": "./assets/favicon.png"

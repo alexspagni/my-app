@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Animated } from "react-native";
 import { Easing } from "react-native-reanimated";
+import { GravitazionalBall } from "../../assets";
 //Here i made an anitmation that is shown every time that a user make a search
 export const GravitazionalWave = () => {
   const animatedValue1 = React.useRef(new Animated.Value(0)).current;
@@ -46,7 +47,7 @@ export const GravitazionalWave = () => {
   return (
     <View style={styles.ContainerStyle}>
       <Animated.Image
-        source={require("../Images/gravitazionalBall.jpg")}
+        source={GravitazionalBall}
         resizeMode="contain"
         style={[
           styles.image_skeleton,

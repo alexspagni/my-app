@@ -33,7 +33,7 @@ const FormSearch: React.FC = () => {
         style={styles.IconX}
         onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
       >
-        <Image source={require("../Images/iconX.png")} />
+        <Image source={require("../../assets/iconX.png")} />
       </TouchableOpacity>
       <View
         style={{
