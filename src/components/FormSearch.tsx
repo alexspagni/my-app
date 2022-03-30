@@ -1,76 +1,63 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "react-native-elements";
-import { resetImagesHide } from "../reducers/getImagesReducers";
+
 import SearchImputText from "./SearchImputText";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import {
   setLoadingReducer,
   setSearchReducer,
 } from "../reducers/setLoadingReducer";
-import { SwitchButton } from "./SwitchButton";
+import { Ionicons } from "@expo/vector-icons";
 import { roverDataType } from "../type/differentType";
-import {
-  LIBRARIES_DATE,
-  LIBRARIES_PAGE_NUMBER,
-  LIBRARIES_ROVER_NAME,
-} from "../reducers/DataReducer";
-
+import { LIBRARIES_DATE } from "../reducers/DataReducer";
+import { ButtonComponent } from "./ButtonComponent";
+/**
+ * this component is used to show different input text to enable the user search images by date.
+ * It doesn't receive any prop.
+ */
 const FormSearch: React.FC = () => {
-  //definisco i vari hook per andare a cambiare i vari valori dei textImput
-  const [roverName, setRoverName] = useState<string>("");
+  //Different hook to set value of text input, every time a user write somethin in them.
+
   const [day, setDay] = useState<string>("");
   const [month, setMonth] = useState<string>("");
   const [year, setYear] = useState<string>("");
-  const [isEnabledHideAllImages, setIsEnabledHideAllImages] = useState(false);
-  const [isEnabledRestoreImagesHided, setIsEnableRestoreImagesHided] =
-    useState(false);
 
   const roverData: roverDataType = useSelector(
     (store: any) => store?.dataRover
   );
-  //vado a prelevare le immagini che non devo essere mostrate e quelle che risultanti dalla richiesta http alle api della nasa
-  const images = useSelector((store: any) => store?.images);
+
   const search = useSelector((store: any) => store?.search);
   const dispatch = useDispatch();
 
-  const backToIndexScreen = () => {
-    dispatch({
-      type: LIBRARIES_PAGE_NUMBER,
-      payload: { ...roverData, page_number: 1 },
-    });
-    dispatch({
-      type: LIBRARIES_ROVER_NAME,
-      payload: { ...roverData, rover_name: roverName },
-    });
-    dispatch(setLoadingReducer(true));
-    dispatch(setSearchReducer(!search));
-    dispatch({
-      type: LIBRARIES_DATE,
-      payload: {
-        ...roverData,
-        earth_day: day,
-        earth_month: month,
-        earth_year: year,
-      },
-    });
-    dispatch({ type: "images_reset", payload: [] });
-    //navigation.navigate("IndexScreen");
-    navigationContainerRef.current?.navigate("IndexScreen");
-  };
-
   return (
     <View style={styles.backgroundStyle}>
-      <Text style={styles.TextStyle}>Insert Rover Name</Text>
-      <SearchImputText
-        term={roverName}
-        value="Insert rover Name"
-        onChangeText={(newTerm) => setRoverName(newTerm.trim())}
-      />
-      <Text style={styles.TextStyle}>
-        Insert Day-Month-Year you want to search by
-      </Text>
+      <TouchableOpacity
+        style={styles.IconX}
+        onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
+      >
+        <Image source={require("../Images/iconX.png")} />
+      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          marginBottom: 15,
+        }}
+      >
+        <Text style={styles.TextStyle}>Date Filter</Text>
+        <TouchableOpacity
+          style={styles.iconStyle}
+          onPress={() =>
+            navigationContainerRef.current?.navigate("InfoSearchScreen")
+          }
+        >
+          <Ionicons
+            name="ios-information-circle-outline"
+            size={35}
+            color="white"
+          />
+        </TouchableOpacity>
+      </View>
       <View style={styles.ImputTextContainer}>
         <SearchImputText
           term={day}
@@ -88,92 +75,79 @@ const FormSearch: React.FC = () => {
           onChangeText={(newTerm) => setYear(newTerm.trim())}
         />
       </View>
-
-      <View style={styles.switchContainerImagesHide}>
-        <SwitchButton
-          valueText="Hide all current images"
-          isEnabled={isEnabledHideAllImages}
-          setIsEnabled={(newValue: boolean) => {
-            setIsEnableRestoreImagesHided(false);
-            setIsEnabledHideAllImages(newValue);
-          }}
-        />
-      </View>
-      <View style={styles.switchContainerImagesRestore}>
-        <SwitchButton
-          valueText="Restore Images hided"
-          isEnabled={isEnabledRestoreImagesHided}
-          setIsEnabled={(newValue: boolean) => {
-            setIsEnableRestoreImagesHided(newValue);
-            setIsEnabledHideAllImages(false);
-          }}
-        />
-      </View>
-      <Button
-        title="Search photo"
-        buttonStyle={{
-          backgroundColor: "black",
-          borderWidth: 2,
-          borderColor: "black",
-          borderRadius: 30,
-        }}
-        containerStyle={{
-          width: 200,
-          marginVertical: 20,
-          marginLeft: 62,
-        }}
-        titleStyle={{ fontWeight: "bold", color: "white" }}
-        onPress={() => {
-          //if toggle button is enable==> hide all images
-          if (isEnabledHideAllImages) {
+      <View style={styles.ButtonView}>
+        <ButtonComponent
+          buttonColor="#2E8AF6"
+          buttonName="Search by date"
+          heightButton={40}
+          buttonWidth={180}
+          onPressButton={() => {
+            /**
+             * when a user tap on "search by date button" i'm going to set "search" value to it's opposite,
+             * in order to allow search images possible. I also need to set loading value to true in order to show "gravitazionalBall" component
+             */
             dispatch({
-              type: "images_hide_all",
-              payload: images,
+              type: LIBRARIES_DATE,
+              payload: {
+                ...roverData,
+                earth_day: day,
+                earth_month: month,
+                earth_year: year,
+              },
             });
-          }
-          if (isEnabledRestoreImagesHided) {
-            dispatch(resetImagesHide([]));
-          }
-          //then go back to the index screen
-
-          backToIndexScreen();
-        }}
-      />
+            dispatch(setSearchReducer(!search));
+            dispatch(setLoadingReducer(true));
+            navigationContainerRef.current?.navigate("drawer");
+          }}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   backgroundStyle: {
-    borderColor: "black",
-    borderWidth: 4,
-    marginHorizontal: 10,
-    height: 600,
+    backgroundColor: "#181A1C",
+    flex: 1,
   },
+
   TextStyle: {
-    alignItems: "center",
+    color: "white",
+    fontSize: 25,
+    marginLeft: 20,
+    marginTop: 100,
   },
   ImputTextContainer: {
     flexDirection: "row",
+    top: 0,
+    marginTop: 20,
+    position: "relative",
+    bottom: 90,
   },
-  switchContainerImagesHide: {
-    marginTop: 10,
-    flexDirection: "row",
+  IconX: {
+    position: "relative",
+    left: 15,
+    top: 35,
+    width: 50,
+    height: 40,
   },
-  switchContainerImagesRestore: {
-    marginTop: 10,
-    marginBottom: 25,
-    flexDirection: "row",
+  ButtonView: {
+    marginTop: 30,
+    marginLeft: 85,
   },
-  TextStyleSwicth: {
-    paddingRight: 15,
-    paddingBottom: 15,
-  },
-  SwitchStle: {
-    position: "absolute",
-
-    right: 120,
-    bottom: 1,
+  iconStyle: {
+    position: "relative",
+    top: 100,
+    marginLeft: 20,
   },
 });
 export default FormSearch;
+
+/**
+ * 
+
+      
+     
+     
+     
+ */

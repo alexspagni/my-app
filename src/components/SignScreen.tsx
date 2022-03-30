@@ -1,3 +1,8 @@
+/**
+ * probably not used anymore
+ *
+ */
+
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { navigationContainerRef } from "../Navigator/ContainerRef";

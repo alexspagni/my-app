@@ -1,13 +1,18 @@
 import { Alert } from "react-native";
+import { navigationContainerRef } from "../Navigator/ContainerRef";
 
 export const hideImageAlert = () =>
   Alert.alert("Hiding", "this image is now hided", [
     {
       text: "Cancel",
-      onPress: () => console.log("Cancel Pressed"),
+      onPress: () => navigationContainerRef.current?.navigate("drawer"),
       style: "cancel",
     },
-    { text: "OK" },
+    {
+      text: "OK",
+      onPress: () => navigationContainerRef.current?.navigate("drawer"),
+      style: "default",
+    },
   ]);
 
 export const imageNotFoundAlert = () =>

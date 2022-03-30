@@ -1,32 +1,44 @@
 import React from "react";
-import { View } from "react-native";
-import { Button } from "react-native-elements";
-type ButtonComponentType = {
-  buttonName: string;
-  buttonColor: string;
-  buttonWidth: number;
-};
-export const ButtonComponent: React.FC<ButtonComponentType> = ({
-  buttonName,
-  buttonColor,
-  buttonWidth,
-}) => {
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { ButtonComponentType } from "../type/differentType";
+/**
+ * This component is used to as skeleton of different button in the app.
+ * it receives different props:
+ * buttonName-->name of the button
+ * buttonColor--> color of the button, it doesn't change
+ * buttonWidth-->width of the button
+ * onPressButton-->function that runs every time the button is pressed,
+ *  logic of this function is inside different screen that use this component
+ */
+export const ButtonComponent: React.FC<ButtonComponentType> = (props) => {
   return (
-    <Button
-      title={buttonName}
-      buttonStyle={{
-        backgroundColor: "#2E8AF6",
-        borderWidth: 2,
-        borderColor: "white",
-        borderRadius: 30,
-      }}
-      containerStyle={{
-        width: 120,
-        marginHorizontal: 50,
-        marginVertical: 20,
-        marginLeft: 100,
-      }}
-      titleStyle={{ fontWeight: "bold" }}
-    />
+    <TouchableOpacity
+      onPress={() => props.onPressButton()}
+      style={[
+        styles.appButtonContainer,
+        {
+          width: props.buttonWidth,
+          backgroundColor: props.buttonColor,
+          height: props.heightButton,
+        },
+      ]}
+    >
+      <Text style={styles.appButtonText}>{props.buttonName}</Text>
+    </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: "#009688",
+    borderRadius: 17,
+    paddingVertical: 10,
+  },
+  appButtonText: {
+    fontSize: 14,
+    color: "#fff",
+
+    alignSelf: "center",
+  },
+});

@@ -1,16 +1,26 @@
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { GravitazionalWave } from "../skeleton/GravitazionalWave";
+import { useNavigation } from "@react-navigation/native";
+
 import { useSelector } from "react-redux";
 import { ImageBackground, View, StyleSheet, Text } from "react-native";
+import { ButtonComponent } from "../components/ButtonComponent";
+import { imageType } from "../type/differentType";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
-  const images = useSelector((store: any) => store?.images);
-
+  const images: imageType[] = useSelector((store: any) => store?.images);
+  /**
+   * this is the firt screen that user will see
+   */
   const autoLogin = async () => {
+    /**
+     * When a user tap on the button at the end of the list i will see if there's a jwt token in
+     * the cache of the phone. If there's the token, the user will be redirected to ImagesLoading screen otherwise he will
+     * redirected to signIn screen in order to signin.
+     */
     const token = await AsyncStorage.getItem("token");
+
     if (token) {
       if (images.length) {
         navigation.navigate("ImagesLoading");
@@ -22,13 +32,10 @@ export const LoadingScreen = () => {
     }
   };
 
-  useFocusEffect(() => {
-    setTimeout(autoLogin, 4000);
-  });
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../Images/Index.png")}
+        source={require("../Images/index.png")}
         style={styles.image}
         resizeMode="cover"
       >
@@ -42,6 +49,15 @@ export const LoadingScreen = () => {
             che l'universo è il libro della più alta
           </Text>
           <Text style={styles.innerText}>Verità.</Text>
+        </View>
+        <View style={styles.ButtonView}>
+          <ButtonComponent
+            buttonColor="#2E8AF6"
+            buttonName="Explore"
+            buttonWidth={240}
+            heightButton={44}
+            onPressButton={() => autoLogin()}
+          />
         </View>
       </ImageBackground>
     </View>
@@ -77,6 +93,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  ButtonView: {
+    position: "relative",
+    left: 60,
+    top: 170,
   },
 });
 /*
