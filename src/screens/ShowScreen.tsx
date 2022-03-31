@@ -1,5 +1,5 @@
-import { useRoute } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   Image,
   Pressable,
   BackHandler,
+  PanResponder,
+  Animated,
 } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -21,9 +23,7 @@ import { imageType, marsObject } from "../type/differentType";
  * In order to show this details i need to get access to a "marsObject" object which is shared
  * by "PhotoComponent" component.
  */
-type IndexScreenType = {
-  navigation: any;
-};
+
 //Function used to see if an image is hided or not.
 const lookImageHide = (hides: marsObject[], item: marsObject) => {
   for (let i = 0; i < hides.length; i++) {
@@ -33,13 +33,16 @@ const lookImageHide = (hides: marsObject[], item: marsObject) => {
   }
   return false;
 };
-const ShowScreen: React.FC<IndexScreenType> = () => {
+const ShowScreen: React.FC = () => {
+  const navigator = useNavigation<any>();
+
+  const pan = useRef(new Animated.ValueXY()).current;
   const hides = useSelector((store: any) => store?.imagesHide);
   //hook to get access to paramater passed from another screen.
   const route = useRoute();
   const images: imageType[] = useSelector((store: any) => store?.images);
-
   //Code used to get acces to the parameter shared by PhotoComponent component
+
   const image1: marsObject = (route.params as any)?.image;
 
   const dispatch = useDispatch();
@@ -56,9 +59,58 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
 
     return () => backHandler.remove();
   }, []);
+  const getNextImage = (imageToCompare: marsObject) => {
+    const index = images.findIndex((element) => element.image.id == image1.id);
+    if (index != images.length - 1) {
+      return images[index + 1].image;
+    } else {
+      return images[0].image;
+    }
+  };
+
+  const getPreviousImage = (image1: marsObject) => {
+    const index = images.findIndex((element) => element.image.id == image1.id);
+    // console.log(index);
+
+    if (index != 0) {
+      return images[index - 1].image;
+    } else {
+      return images[images.length - 1].image;
+    }
+  };
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        pan.setOffset({
+          x: pan.x._value,
+          y: pan.y._value,
+        });
+      },
+
+      onPanResponderRelease: (evt, gestureState) => {
+        // console.log(gestureState.x0);
+        pan.flattenOffset();
+        if (gestureState.dx < -100) {
+          navigator.replace("ShowScreen", {
+            image: getNextImage(image1),
+            slide: "left",
+          });
+        }
+        if (gestureState.dx > 100) {
+          navigator.replace("ShowScreen", {
+            image: getPreviousImage(image1),
+            slide: "right",
+          });
+        }
+      },
+    })
+  ).current;
   return (
     <View style={styles.container}>
-      <Image source={{ uri: image1.img_src }} style={styles.image} />
+      <Animated.View {...panResponder.panHandlers}>
+        <Image source={{ uri: image1.img_src }} style={styles.image} />
+      </Animated.View>
       <Pressable
         style={styles.iconStyle}
         onPress={() => navigationContainerRef.current?.goBack()}

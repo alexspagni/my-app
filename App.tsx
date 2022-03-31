@@ -13,7 +13,7 @@ import { LoadingScreen } from "./src/screens/LoadingScreen";
 import ShowScreen from "./src/screens/ShowScreen";
 import { InfoScreenSearch } from "./src/InfoPointScreen/InfoScreenSearch";
 import { InfoScreenHome } from "./src/InfoPointScreen/InfoScreenHome";
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text, Animated } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ConfiguereStore from "./src/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
@@ -21,6 +21,7 @@ import { ImagesLoading } from "./src/skeleton/ImagesLoading";
 import { InfoScreenImageNotFound } from "./src/InfoPointScreen/InfoScreenImageNotFound";
 import FormSearch from "./src/components/FormSearch";
 import { MainStackNavigator } from "./src/Navigator/MainStackNavigator";
+import { invertedForHorizontalIOS } from "./src/Navigator/InvertedForHorizontalIOS";
 
 const { store, persistor } = ConfiguereStore();
 const Stack = createStackNavigator();
@@ -39,11 +40,15 @@ const App = () => {
             <Stack.Screen
               name="ShowScreen"
               component={ShowScreen}
-              options={{
+              options={(props: any) => ({
                 headerShown: false,
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-              }}
+                cardStyleInterpolator:
+                  props?.route?.params?.slide == "right"
+                    ? invertedForHorizontalIOS
+                    : CardStyleInterpolators.forHorizontalIOS,
+              })}
             />
+
             <Stack.Screen
               name="SigningStackNavigator"
               component={SigningStackNavigator}

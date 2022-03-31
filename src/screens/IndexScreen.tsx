@@ -150,7 +150,7 @@ const IndexScreen = () => {
     console.log(allButtonColor);
 
     if (allButtonColor === "#2E8AF6" && loading) {
-      console.log("sono qui");
+      //console.log("sono qui");
 
       dispatch({
         type: LIBRARIES_PAGE_NUMBER,
