@@ -43,7 +43,7 @@ const IndexScreen = () => {
   const flatListRef = React.createRef<FlatList>();
   const dispatch = useDispatch();
   //these five hooks are used to get every information from STORE.
-  /**
+  /*
    * images: get access to images, which will be shown on the mobile screen
    * hides:get acces to imagesHides, which won't be shown on the mobile screen
    * loading:get access to a boolean value, whose say if GravitazionalWave should be shown
@@ -62,7 +62,13 @@ const IndexScreen = () => {
   //i need this useEffect to carry flatList at the beginning
   useEffect(
     React.useCallback(() => {
-      if (images.length) {
+      if (
+        images.filter((element) => {
+          if (element.hide == false) {
+            return element;
+          }
+        }).length
+      ) {
         flatListRef.current?.scrollToIndex({
           animated: true,
           index: 0,
@@ -308,7 +314,15 @@ const IndexScreen = () => {
               );
             }}
             onEndReachedThreshold={0.5}
-            ListFooterComponent={<FooterComponent />}
+            ListFooterComponent={
+              images.filter((element) => {
+                if (element.hide == false) {
+                  return element;
+                }
+              }).length ? (
+                <FooterComponent />
+              ) : null
+            }
           />
         </View>
       )}

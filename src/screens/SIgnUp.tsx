@@ -8,10 +8,11 @@ import { navigationContainerRef } from "../Navigator/ContainerRef";
 import React from "react";
 
 import { SignComponent } from "../components/SingComponent";
+import { setSearchReducer } from "../reducers/setLoadingReducer";
 export const SignUp = ({ navigation }: any) => {
   const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
-
+  const search = useSelector((store: any) => store?.search);
   //fucnction to signUp a new user
   const signUp = async ({ email, password }: signType) => {
     try {
@@ -22,6 +23,7 @@ export const SignUp = ({ navigation }: any) => {
     } catch (err: any) {
       console.log(err.message);
       dispatch(addError("Something is gone wrong with Sign Up"));
+      dispatch(setSearchReducer(!search));
     }
   };
 

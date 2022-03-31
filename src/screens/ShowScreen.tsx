@@ -59,6 +59,7 @@ const ShowScreen: React.FC = () => {
 
     return () => backHandler.remove();
   }, []);
+
   const getNextImage = (imageToCompare: marsObject) => {
     const index = images.findIndex((element) => element.image.id == image1.id);
     if (index != images.length - 1) {

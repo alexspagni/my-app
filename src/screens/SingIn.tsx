@@ -8,10 +8,12 @@ import { addError, addToken, removeError } from "../reducers/singReducer";
 import React from "react";
 import { SignComponent } from "../components/SingComponent";
 import { ButtonComponent } from "../components/ButtonComponent";
+import { setSearchReducer } from "../reducers/setLoadingReducer";
 
 export const SignIn = ({ navigation }: any) => {
   const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch<any>();
+  const search = useSelector((store: any) => store?.search);
   //Function to sign in a user that already exist on mongoDB database
   const signIn = async ({ email, password }: signType) => {
     try {
@@ -21,6 +23,7 @@ export const SignIn = ({ navigation }: any) => {
       navigationContainerRef.current?.navigate("MainStackNavigator");
     } catch (err: any) {
       dispatch(addError("Something is gone wrong with Sign In"));
+      dispatch(setSearchReducer(!search));
     }
   };
   //Every time i go to signIn screen i want to clear error message appear at the bottom of the screen

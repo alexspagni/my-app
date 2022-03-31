@@ -22,7 +22,13 @@ export const LoadingScreen = () => {
     const token = await AsyncStorage.getItem("token");
 
     if (token) {
-      if (images.length) {
+      if (
+        images.filter((element) => {
+          if (element.hide == false) {
+            return element;
+          }
+        }).length
+      ) {
         navigation.navigate("ImagesLoading");
       } else {
         navigation.navigate("MainStackNavigator");
