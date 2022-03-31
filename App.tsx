@@ -1,25 +1,17 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import DrawerNavigator from "./src/Navigator/DrawerNavigationComponent";
 import { Provider } from "react-redux";
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from "@react-navigation/stack";
-import SerchScreen from "./src/screens/SearchScreen";
 import { navigationContainerRef } from "./src/Navigator/ContainerRef";
 import { SigningStackNavigator } from "./src/Navigator/SigningStackNavigator";
 import { LoadingScreen } from "./src/screens/LoadingScreen";
 import ShowScreen from "./src/screens/ShowScreen";
-import { InfoScreenSearch } from "./src/InfoPointScreen/InfoScreenSearch";
-import { InfoScreenHome } from "./src/InfoPointScreen/InfoScreenHome";
-import { TouchableOpacity, View, Text, Animated } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ConfiguereStore from "./src/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import { ImagesLoading } from "./src/skeleton/ImagesLoading";
-import { InfoScreenImageNotFound } from "./src/InfoPointScreen/InfoScreenImageNotFound";
-import FormSearch from "./src/components/FormSearch";
 import { MainStackNavigator } from "./src/Navigator/MainStackNavigator";
 import { invertedForHorizontalIOS } from "./src/Navigator/InvertedForHorizontalIOS";
 

@@ -147,11 +147,7 @@ const IndexScreen = () => {
   };
   //I'm gonna make a new search every time "All button filter is pressed."
   useEffect(() => {
-    console.log(allButtonColor);
-
     if (allButtonColor === "#2E8AF6" && loading) {
-      //console.log("sono qui");
-
       dispatch({
         type: LIBRARIES_PAGE_NUMBER,
         payload: { ...roverData, page_number: 1 },
@@ -168,8 +164,6 @@ const IndexScreen = () => {
   }, [search, allButtonColor]);
   useEffect(() => {
     const backAction = () => {
-      console.log("Button press");
-
       return true;
     };
 

@@ -100,22 +100,3 @@ const styles = StyleSheet.create({
     top: 170,
   },
 });
-/*
-  const getImageFromDeviceMemory = async () => {
-    const result3 = await getStoredImagesHidedDevice();
-
-    dispatch({
-      type: "images_hide_all",
-      payload: result3,
-    });
-  };
-  useEffect(() => {
-    try {
-      getImageFromDeviceMemory();
-    } catch (e) {
-      if (e instanceof Error) {
-        console.log(e.message);
-      }
-    }
-  }, []);
-  */

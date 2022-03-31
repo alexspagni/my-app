@@ -2,7 +2,6 @@ import { View, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { expressApi } from "../api/getApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SignScreen } from "../components/SignScreen";
 import { signType, stateUser } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { addError, addToken, removeError } from "../reducers/singReducer";
@@ -77,13 +76,3 @@ const styles = StyleSheet.create({
     marginLeft: 60,
   },
 });
-/*
-<SignScreen
-        HeaderScreen="Sing In to your account"
-        ButtonTitle="Sign In"
-        BottomText={`Don't you have an account?\nSign Up`}
-        pageToNavigate="SignUp"
-        error_message={signState.error_message}
-        onSubmit={signIn}
-      />
-      */

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Animated,
   Text,
-  Alert,
   BackHandler,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";

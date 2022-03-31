@@ -5,7 +5,6 @@ import { addError, addToken, removeError } from "../reducers/singReducer";
 import { signType, stateUser } from "../type/differentType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
-import { SignScreen } from "../components/SignScreen";
 import React from "react";
 
 import { SignComponent } from "../components/SingComponent";
@@ -69,14 +68,3 @@ const styles = StyleSheet.create({
     top: 20,
   },
 });
-/*
-<SignScreen
-        HeaderScreen="Sign Up to use App"
-        ButtonTitle="Sign Up"
-        BottomText={`Do you already have an account?\nSign in`}
-        pageToNavigate="SignIn"
-        error_message={signState.error_message}
-        onSubmit={signUp}
-      />
-
-      */

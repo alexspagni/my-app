@@ -15,15 +15,3 @@ export const SkeletonList = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 10,
-    alignItems: "center",
-    flexDirection: "row",
-    paddingLeft: 15,
-  },
-  FlatListStyle: {
-    paddingTop: 10,
-  },
-});

@@ -16,12 +16,3 @@ export const hideImageAlert = () =>
       style: "default",
     },
   ]);
-
-export const imageNotFoundAlert = () =>
-  Alert.alert("Warning", "Images not found", [
-    {
-      text: "Cancel",
-      style: "cancel",
-    },
-    { text: "OK" },
-  ]);
