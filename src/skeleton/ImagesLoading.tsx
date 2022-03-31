@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Animated,
   Text,
-  Alert,
   BackHandler,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,7 +41,7 @@ export const ImagesLoading = ({ navigation }: any) => {
       dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
     } catch {}
     dispatch(setLoadingReducer(false));
-    navigationContainerRef.current?.navigate("drawer");
+    navigationContainerRef.current?.navigate("MainStackNavigator");
   };
   useEffect(() => {
     const backAction = () => {

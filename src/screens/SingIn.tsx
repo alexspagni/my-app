@@ -2,26 +2,28 @@ import { View, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { expressApi } from "../api/getApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SignScreen } from "../components/SignScreen";
 import { signType, stateUser } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { addError, addToken, removeError } from "../reducers/singReducer";
 import React from "react";
 import { SignComponent } from "../components/SingComponent";
 import { ButtonComponent } from "../components/ButtonComponent";
+import { setSearchReducer } from "../reducers/setLoadingReducer";
 
 export const SignIn = ({ navigation }: any) => {
   const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch<any>();
+  const search = useSelector((store: any) => store?.search);
   //Function to sign in a user that already exist on mongoDB database
   const signIn = async ({ email, password }: signType) => {
     try {
       const response = await expressApi.post("/signin", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch(addToken(response.data.token));
-      navigationContainerRef.current?.navigate("drawer");
+      navigationContainerRef.current?.navigate("MainStackNavigator");
     } catch (err: any) {
       dispatch(addError("Something is gone wrong with Sign In"));
+      dispatch(setSearchReducer(!search));
     }
   };
   //Every time i go to signIn screen i want to clear error message appear at the bottom of the screen
@@ -77,13 +79,3 @@ const styles = StyleSheet.create({
     marginLeft: 60,
   },
 });
-/*
-<SignScreen
-        HeaderScreen="Sing In to your account"
-        ButtonTitle="Sign In"
-        BottomText={`Don't you have an account?\nSign Up`}
-        pageToNavigate="SignUp"
-        error_message={signState.error_message}
-        onSubmit={signIn}
-      />
-      */

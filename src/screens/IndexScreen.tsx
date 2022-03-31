@@ -23,6 +23,7 @@ import {
 import { GravitazionalWave } from "../skeleton/GravitazionalWave";
 import { SearchBar } from "../components/SearchBar";
 import { FilterButtonComponent } from "../components/FIlterButtonComponent";
+import { FooterComponent } from "../components/FooterComponent";
 
 ////////////COMPONENT////////////
 /**
@@ -42,7 +43,7 @@ const IndexScreen = () => {
   const flatListRef = React.createRef<FlatList>();
   const dispatch = useDispatch();
   //these five hooks are used to get every information from STORE.
-  /**
+  /*
    * images: get access to images, which will be shown on the mobile screen
    * hides:get acces to imagesHides, which won't be shown on the mobile screen
    * loading:get access to a boolean value, whose say if GravitazionalWave should be shown
@@ -61,7 +62,13 @@ const IndexScreen = () => {
   //i need this useEffect to carry flatList at the beginning
   useEffect(
     React.useCallback(() => {
-      if (images.length) {
+      if (
+        images.filter((element) => {
+          if (element.hide == false) {
+            return element;
+          }
+        }).length
+      ) {
         flatListRef.current?.scrollToIndex({
           animated: true,
           index: 0,
@@ -142,6 +149,7 @@ const IndexScreen = () => {
       type: LIBRARIES_PAGE_NUMBER,
       payload: { ...roverData, page_number: page },
     });
+    setTimeout(() => setAllButtonColor("#727477"), 4000);
   };
   //I'm gonna make a new search every time "All button filter is pressed."
   useEffect(() => {
@@ -162,8 +170,6 @@ const IndexScreen = () => {
   }, [search, allButtonColor]);
   useEffect(() => {
     const backAction = () => {
-      console.log("Button press");
-
       return true;
     };
 
@@ -185,10 +191,9 @@ const IndexScreen = () => {
             type: LIBRARIES_ROVER_NAME,
             payload: { ...roverData, rover_name: roverName },
           });
-          if (allButtonColor === "#2E8AF6") {
-            dispatch(setLoadingReducer(true));
-            dispatch(setSearchReducer(!search));
-          }
+
+          dispatch(setLoadingReducer(true));
+          dispatch(setSearchReducer(!search));
         }}
       />
       <View style={styles.listButtonStyle}>
@@ -267,48 +272,59 @@ const IndexScreen = () => {
           buttonHeight={34}
         />
       </View>
-      {loading ? (
+      {loading && allButtonColor === "#2E8AF6" ? (
         <GravitazionalWave />
       ) : (
-        <FlatList
-          style={styles.FlatListStyle}
-          ref={flatListRef}
-          data={images.filter((element) => {
-            if (element.hide == false) {
-              return element;
-            }
-          })}
-          keyExtractor={(item) => item.image.id}
-          renderItem={({ item }) => (
-            <View style={styles.container}>
-              <PhotoComponent object={item.image} />
-              <View
-                style={{
-                  marginTop: 10,
-                  borderBottomColor: "#323436",
-                  borderBottomWidth: 2,
-                  width: 360,
-                }}
-              />
-            </View>
-          )}
-          onEndReached={() => {
-            /**
-             * these lines of code will be executed just when a user will reach the end of the list
-             */
-            const newPage = roverData.page_number + 1;
-            // console.log(newPage);
+        <View style={{ flex: 1 }}>
+          <FlatList
+            style={styles.FlatListStyle}
+            ref={flatListRef}
+            data={images.filter((element) => {
+              if (element.hide == false) {
+                return element;
+              }
+            })}
+            keyExtractor={(item) => item.image.id}
+            renderItem={({ item }) => (
+              <View style={styles.container}>
+                <PhotoComponent object={item.image} />
+                <View
+                  style={{
+                    marginTop: 10,
+                    borderBottomColor: "#323436",
+                    borderBottomWidth: 2,
+                    width: 360,
+                  }}
+                />
+              </View>
+            )}
+            onEndReached={() => {
+              /**
+               * these lines of code will be executed just when a user will reach the end of the list
+               */
+              const newPage = roverData.page_number + 1;
+              // console.log(newPage);
 
-            addImageFromMarsToList(
-              roverData.rover_name,
-              newPage,
-              roverData.earth_day,
-              roverData.earth_month,
-              roverData.earth_year
-            );
-          }}
-          onEndReachedThreshold={0.5}
-        />
+              addImageFromMarsToList(
+                roverData.rover_name,
+                newPage,
+                roverData.earth_day,
+                roverData.earth_month,
+                roverData.earth_year
+              );
+            }}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={
+              images.filter((element) => {
+                if (element.hide == false) {
+                  return element;
+                }
+              }).length ? (
+                <FooterComponent />
+              ) : null
+            }
+          />
+        </View>
       )}
     </View>
   );

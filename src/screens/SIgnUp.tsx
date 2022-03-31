@@ -5,24 +5,25 @@ import { addError, addToken, removeError } from "../reducers/singReducer";
 import { signType, stateUser } from "../type/differentType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
-import { SignScreen } from "../components/SignScreen";
 import React from "react";
 
 import { SignComponent } from "../components/SingComponent";
+import { setSearchReducer } from "../reducers/setLoadingReducer";
 export const SignUp = ({ navigation }: any) => {
   const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
-
+  const search = useSelector((store: any) => store?.search);
   //fucnction to signUp a new user
   const signUp = async ({ email, password }: signType) => {
     try {
       const response = await expressApi.post("/signup", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch(addToken(response.data.token));
-      navigationContainerRef.current?.navigate("drawer");
+      navigationContainerRef.current?.navigate("MainStackNavigator");
     } catch (err: any) {
       console.log(err.message);
       dispatch(addError("Something is gone wrong with Sign Up"));
+      dispatch(setSearchReducer(!search));
     }
   };
 
@@ -69,14 +70,3 @@ const styles = StyleSheet.create({
     top: 20,
   },
 });
-/*
-<SignScreen
-        HeaderScreen="Sign Up to use App"
-        ButtonTitle="Sign Up"
-        BottomText={`Do you already have an account?\nSign in`}
-        pageToNavigate="SignIn"
-        error_message={signState.error_message}
-        onSubmit={signUp}
-      />
-
-      */

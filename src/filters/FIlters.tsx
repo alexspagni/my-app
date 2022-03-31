@@ -120,33 +120,6 @@ export const dontShowImagesHide = (
 
   return newArray;
 };
-/*
-export const storeImagesHidedDevice = async (images: marsObject[]) => {
-  const imageObjectToStore: LibrariesImageObjectToStore = {
-    image: images,
-  };
-  try {
-    const jsonValue = JSON.stringify(imageObjectToStore);
-    await AsyncStorage.setItem("images", jsonValue);
-  } catch (e) {
-    console.log("Error uploading images");
-  }
-};
-export const getStoredImagesHidedDevice = async (): Promise<marsObject[]> => {
-  try {
-    const jsonValue = await AsyncStorage.getItem("images");
-    if (jsonValue != null) {
-      const result = JSON.parse(jsonValue) as LibrariesImageObjectToStore;
-      return result.image;
-    } else {
-      return [];
-    }
-  } catch (e) {
-    console.log("Error getting images from your device");
-    return [];
-  }
-};
-*/
 export const setStoredImagesHideReset = async () => {
   try {
     await AsyncStorage.removeItem("images");

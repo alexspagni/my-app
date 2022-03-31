@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
 import SearchImputText from "./SearchImputText";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import {
@@ -97,7 +96,7 @@ const FormSearch: React.FC = () => {
             });
             dispatch(setSearchReducer(!search));
             dispatch(setLoadingReducer(true));
-            navigationContainerRef.current?.navigate("drawer");
+            navigationContainerRef.current?.navigate("IndexScreen");
           }}
         />
       </View>

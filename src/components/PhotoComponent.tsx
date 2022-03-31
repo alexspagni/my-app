@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, Image, View, TouchableOpacity, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 /**
  * this component is used to show an image.
  * It receive just one parameter which is an object. This object contains the image url.
@@ -11,7 +10,6 @@ import { AntDesign } from "@expo/vector-icons";
  */
 const PhotoComponent = ({ object }: any) => {
   const navigation = useNavigation<any>();
-  const [heartIcon, setHeartIcon] = useState(true);
   const [color, setColor] = useState("grey");
   return (
     <View style={styles.containerStyle}>
@@ -71,14 +69,3 @@ const styles = StyleSheet.create({
   },
 });
 export default PhotoComponent;
-
-/**
- * <TouchableOpacity onPress={() => setHeartIcon(!heartIcon)}>
-        <AntDesign
-          name={heartIcon ? "hearto" : "heart"}
-          size={24}
-          color="white"
-          style={styles.likeStyle}
-        />
-      </TouchableOpacity>
- */

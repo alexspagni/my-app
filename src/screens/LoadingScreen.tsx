@@ -22,10 +22,16 @@ export const LoadingScreen = () => {
     const token = await AsyncStorage.getItem("token");
 
     if (token) {
-      if (images.length) {
+      if (
+        images.filter((element) => {
+          if (element.hide == false) {
+            return element;
+          }
+        }).length
+      ) {
         navigation.navigate("ImagesLoading");
       } else {
-        navigation.navigate("drawer");
+        navigation.navigate("MainStackNavigator");
       }
     } else {
       navigation.navigate("SigningStackNavigator");
@@ -100,22 +106,3 @@ const styles = StyleSheet.create({
     top: 170,
   },
 });
-/*
-  const getImageFromDeviceMemory = async () => {
-    const result3 = await getStoredImagesHidedDevice();
-
-    dispatch({
-      type: "images_hide_all",
-      payload: result3,
-    });
-  };
-  useEffect(() => {
-    try {
-      getImageFromDeviceMemory();
-    } catch (e) {
-      if (e instanceof Error) {
-        console.log(e.message);
-      }
-    }
-  }, []);
-  */
