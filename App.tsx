@@ -20,6 +20,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ImagesLoading } from "./src/skeleton/ImagesLoading";
 import { InfoScreenImageNotFound } from "./src/InfoPointScreen/InfoScreenImageNotFound";
 import FormSearch from "./src/components/FormSearch";
+import { MainStackNavigator } from "./src/Navigator/MainStackNavigator";
 
 const { store, persistor } = ConfiguereStore();
 const Stack = createStackNavigator();
@@ -31,34 +32,9 @@ const App = () => {
         <NavigationContainer ref={navigationContainerRef}>
           <Stack.Navigator initialRouteName="loading">
             <Stack.Screen
-              name="drawer"
-              component={DrawerNavigator}
+              name="MainStackNavigator"
+              component={MainStackNavigator}
               options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Search"
-              component={FormSearch}
-              options={{
-                headerShown: false,
-                presentation: "modal",
-                headerRight: () => (
-                  <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigationContainerRef.current?.navigate(
-                          "InfoSearchScreen"
-                        )
-                      }
-                    >
-                      <MaterialCommunityIcons
-                        name="information-variant"
-                        size={30}
-                        style={{ paddingRight: 15 }}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
             />
             <Stack.Screen
               name="ShowScreen"
@@ -78,33 +54,7 @@ const App = () => {
               component={LoadingScreen}
               options={{ headerShown: false, presentation: "modal" }}
             />
-            <Stack.Screen
-              name="InfoScreenHome"
-              component={InfoScreenHome}
-              options={{
-                headerShown: false,
-                presentation: "transparentModal",
-                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-              }}
-            />
-            <Stack.Screen
-              name="InfoSearchScreen"
-              component={InfoScreenSearch}
-              options={{
-                headerShown: false,
-                presentation: "transparentModal",
-                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-              }}
-            />
-            <Stack.Screen
-              name="InfoScreenImageNotFound"
-              component={InfoScreenImageNotFound}
-              options={{
-                headerShown: false,
-                presentation: "transparentModal",
-                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-              }}
-            />
+
             <Stack.Screen
               name="ImagesLoading"
               component={ImagesLoading}

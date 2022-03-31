@@ -42,7 +42,7 @@ export const ImagesLoading = ({ navigation }: any) => {
       dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
     } catch {}
     dispatch(setLoadingReducer(false));
-    navigationContainerRef.current?.navigate("drawer");
+    navigationContainerRef.current?.navigate("MainStackNavigator");
   };
   useEffect(() => {
     const backAction = () => {

@@ -5,12 +5,14 @@ export const hideImageAlert = () =>
   Alert.alert("Hiding", "this image is now hided", [
     {
       text: "Cancel",
-      onPress: () => navigationContainerRef.current?.navigate("drawer"),
+      onPress: () =>
+        navigationContainerRef.current?.navigate("MainStackNavigator"),
       style: "cancel",
     },
     {
       text: "OK",
-      onPress: () => navigationContainerRef.current?.navigate("drawer"),
+      onPress: () =>
+        navigationContainerRef.current?.navigate("MainStackNavigator"),
       style: "default",
     },
   ]);

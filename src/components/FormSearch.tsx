@@ -97,7 +97,7 @@ const FormSearch: React.FC = () => {
             });
             dispatch(setSearchReducer(!search));
             dispatch(setLoadingReducer(true));
-            navigationContainerRef.current?.navigate("drawer");
+            navigationContainerRef.current?.navigate("IndexScreen");
           }}
         />
       </View>

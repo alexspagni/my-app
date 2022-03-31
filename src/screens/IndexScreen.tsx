@@ -23,6 +23,7 @@ import {
 import { GravitazionalWave } from "../skeleton/GravitazionalWave";
 import { SearchBar } from "../components/SearchBar";
 import { FilterButtonComponent } from "../components/FIlterButtonComponent";
+import { FooterComponent } from "../components/FooterComponent";
 
 ////////////COMPONENT////////////
 /**
@@ -274,45 +275,48 @@ const IndexScreen = () => {
       {loading && allButtonColor === "#2E8AF6" ? (
         <GravitazionalWave />
       ) : (
-        <FlatList
-          style={styles.FlatListStyle}
-          ref={flatListRef}
-          data={images.filter((element) => {
-            if (element.hide == false) {
-              return element;
-            }
-          })}
-          keyExtractor={(item) => item.image.id}
-          renderItem={({ item }) => (
-            <View style={styles.container}>
-              <PhotoComponent object={item.image} />
-              <View
-                style={{
-                  marginTop: 10,
-                  borderBottomColor: "#323436",
-                  borderBottomWidth: 2,
-                  width: 360,
-                }}
-              />
-            </View>
-          )}
-          onEndReached={() => {
-            /**
-             * these lines of code will be executed just when a user will reach the end of the list
-             */
-            const newPage = roverData.page_number + 1;
-            // console.log(newPage);
+        <View style={{ flex: 1 }}>
+          <FlatList
+            style={styles.FlatListStyle}
+            ref={flatListRef}
+            data={images.filter((element) => {
+              if (element.hide == false) {
+                return element;
+              }
+            })}
+            keyExtractor={(item) => item.image.id}
+            renderItem={({ item }) => (
+              <View style={styles.container}>
+                <PhotoComponent object={item.image} />
+                <View
+                  style={{
+                    marginTop: 10,
+                    borderBottomColor: "#323436",
+                    borderBottomWidth: 2,
+                    width: 360,
+                  }}
+                />
+              </View>
+            )}
+            onEndReached={() => {
+              /**
+               * these lines of code will be executed just when a user will reach the end of the list
+               */
+              const newPage = roverData.page_number + 1;
+              // console.log(newPage);
 
-            addImageFromMarsToList(
-              roverData.rover_name,
-              newPage,
-              roverData.earth_day,
-              roverData.earth_month,
-              roverData.earth_year
-            );
-          }}
-          onEndReachedThreshold={0.5}
-        />
+              addImageFromMarsToList(
+                roverData.rover_name,
+                newPage,
+                roverData.earth_day,
+                roverData.earth_month,
+                roverData.earth_year
+              );
+            }}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={<FooterComponent />}
+          />
+        </View>
       )}
     </View>
   );

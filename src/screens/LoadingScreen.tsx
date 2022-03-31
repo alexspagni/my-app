@@ -25,7 +25,7 @@ export const LoadingScreen = () => {
       if (images.length) {
         navigation.navigate("ImagesLoading");
       } else {
-        navigation.navigate("drawer");
+        navigation.navigate("MainStackNavigator");
       }
     } else {
       navigation.navigate("SigningStackNavigator");

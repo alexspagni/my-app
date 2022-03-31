@@ -61,7 +61,7 @@ const ShowScreen: React.FC<IndexScreenType> = () => {
       <Image source={{ uri: image1.img_src }} style={styles.image} />
       <Pressable
         style={styles.iconStyle}
-        onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
+        onPress={() => navigationContainerRef.current?.goBack()}
       >
         <Image source={require("../../assets/iconX.png")} />
       </Pressable>
