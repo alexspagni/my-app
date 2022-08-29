@@ -22,6 +22,8 @@ export const SignIn = ({ navigation }: any) => {
       dispatch(addToken(response.data.token));
       navigationContainerRef.current?.navigate("MainStackNavigator");
     } catch (err: any) {
+      console.log(err.message);
+
       dispatch(addError("Something is gone wrong with Sign In"));
       dispatch(setSearchReducer(!search));
     }

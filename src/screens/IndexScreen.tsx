@@ -168,6 +168,7 @@ const IndexScreen = () => {
       );
     }
   }, [search, allButtonColor]);
+
   useEffect(() => {
     const backAction = () => {
       return true;
@@ -179,6 +180,7 @@ const IndexScreen = () => {
     );
     return () => backHandler.remove();
   }, []);
+
   return (
     <View style={styles.containerPrincipal}>
       <SearchBar

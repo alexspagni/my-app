@@ -8,6 +8,7 @@ import { signReducer } from "./singReducer";
  * here is where all different reducer function are indicated,
  * i use combine reducer just to compress different reducer function in just one,
  * this is alwais required.
+ * remember that on the left there's the state, and on the right there's the dispatch function.
  */
 const rootReducer = combineReducers({
   dataRover: roverDataReducer,
