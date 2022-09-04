@@ -3,12 +3,24 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";
-import { ImageBackground, View, StyleSheet, Text } from "react-native";
+import {
+  ImageBackground,
+  View,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+} from "react-native";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { imageType } from "../type/differentType";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
+import { Dimensions } from "react-native";
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const top = (windowHeight * 22) / 100;
 export const LoadingScreen = () => {
+  const { height, width } = useWindowDimensions();
+  console.log(height);
   const navigation = useNavigation<any>();
   const images: imageType[] = useSelector((store: any) => store?.images);
   /**
@@ -35,39 +47,37 @@ export const LoadingScreen = () => {
         navigation.navigate("MainStackNavigator");
       }
     } else {
-      navigationContainerRef.current?.navigate("SigningStackNavigator");
+      navigation.navigate("SigningStackNavigator");
     }
   };
 
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../../assets/index.png")}
-        style={styles.image}
-        resizeMode="cover"
-      >
-        <Text style={styles.headerStyleSpace}>Space</Text>
-        <Text style={styles.headerStyleExploration}>Exploration</Text>
-        <View style={styles.innerContainer}>
-          <Text style={styles.innerText}>
-            Solo gli occhi aperti possono scoprire
-          </Text>
-          <Text style={styles.innerText}>
-            che l'universo è il libro della più alta
-          </Text>
-          <Text style={styles.innerText}>Verità.</Text>
-        </View>
-        <View style={styles.ButtonView}>
-          <ButtonComponent
-            buttonColor="#2E8AF6"
-            buttonName="Explore"
-            buttonWidth={240}
-            heightButton={44}
-            onPressButton={() => autoLogin()}
-          />
-        </View>
-      </ImageBackground>
-    </View>
+    <ImageBackground
+      source={require("../../assets/index.png")}
+      style={styles.image}
+      resizeMode="cover"
+    >
+      <Text style={styles.headerStyleSpace}>Space</Text>
+      <Text style={styles.headerStyleExploration}>Exploration</Text>
+      <View style={styles.innerContainer}>
+        <Text style={styles.innerText}>
+          Solo gli occhi aperti possono scoprire
+        </Text>
+        <Text style={styles.innerText}>
+          che l'universo è il libro della più alta
+        </Text>
+        <Text style={styles.innerText}>Verità.</Text>
+      </View>
+      <View style={styles.ButtonView}>
+        <ButtonComponent
+          buttonColor="#2E8AF6"
+          buttonName="Explore"
+          buttonWidth={240}
+          heightButton={44}
+          onPressButton={() => autoLogin()}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 const styles = StyleSheet.create({
@@ -103,7 +113,7 @@ const styles = StyleSheet.create({
   },
   ButtonView: {
     position: "relative",
-    left: 60,
-    top: 170,
+    alignItems: "center",
+    top: top,
   },
 });

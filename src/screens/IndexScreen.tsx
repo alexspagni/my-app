@@ -195,21 +195,23 @@ const IndexScreen = () => {
 
   return (
     <View style={styles.containerPrincipal}>
-      <SearchBar
-        term={roverName}
-        onTermChange={(newRoverName) => {
-          setRoverName(newRoverName);
-        }}
-        onEndEditing={() => {
-          dispatch({
-            type: LIBRARIES_ROVER_NAME,
-            payload: { ...roverData, rover_name: roverName },
-          });
+      <View style={{ alignItems: "center" }}>
+        <SearchBar
+          term={roverName}
+          onTermChange={(newRoverName) => {
+            setRoverName(newRoverName);
+          }}
+          onEndEditing={() => {
+            dispatch({
+              type: LIBRARIES_ROVER_NAME,
+              payload: { ...roverData, rover_name: roverName },
+            });
 
-          dispatch(setLoadingReducer(true));
-          dispatch(setSearchReducer(!search));
-        }}
-      />
+            dispatch(setLoadingReducer(true));
+            dispatch(setSearchReducer(!search));
+          }}
+        />
+      </View>
       <View style={styles.listButtonStyle}>
         <FilterButtonComponent
           color={allButtonColor}
@@ -372,7 +374,7 @@ const styles = StyleSheet.create({
   },
   listButtonStyle: {
     flexDirection: "row",
-    marginHorizontal: 18,
+    justifyContent: "center",
     marginTop: 11,
     marginBottom: 20,
   },

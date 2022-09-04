@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { TextInput, View, StyleSheet, Text } from "react-native";
 import { SignComponentType } from "../type/differentType";
@@ -20,11 +21,20 @@ export const SignComponent: React.FC<SignComponentType> = ({
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation<any>();
   const checkPattern = (word: string) => {
     const globalRegex = new RegExp(`[a-z0-9]{1,}@[a-z0-9]{1,}\\.[a-z]{1,}`);
     const result = globalRegex.test(word);
     return result;
   };
+  React.useEffect(
+    () =>
+      navigation.addListener("blur", () => {
+        setEmail("");
+        setPassword("");
+      }),
+    [navigation]
+  );
   return (
     <View>
       <Text style={styles.headerTextStyle}>{headerText}</Text>

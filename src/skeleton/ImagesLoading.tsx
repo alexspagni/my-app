@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import {
   FlatList,
@@ -21,6 +22,7 @@ import { imageType, roverDataType } from "../type/differentType";
  * screen. The logic used to search new image is the same used in the Index Screen
  */
 export const ImagesLoading = ({ navigation }: any) => {
+  const navigator = useNavigation<any>();
   const animatedValue1 = React.useRef(new Animated.Value(0)).current;
   const roverData: roverDataType = useSelector(
     (store: any) => store?.dataRover
@@ -41,7 +43,7 @@ export const ImagesLoading = ({ navigation }: any) => {
       dispatch(addElementsToLibrariesMarsRefreshing(imagesToRender));
     } catch {}
     dispatch(setLoadingReducer(false));
-    navigationContainerRef.current?.navigate("MainStackNavigator");
+    navigator.navigate("MainStackNavigator");
   };
   useEffect(() => {
     const backAction = () => {
@@ -135,12 +137,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#181A1C",
-
+    alignItems: "center",
     paddingTop: 20,
   },
 
   image: {
-    marginLeft: 25,
     width: 300,
     height: 150,
     borderRadius: 4,
@@ -148,7 +149,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     position: "relative",
-    left: 25,
     color: "white",
     fontSize: 16,
   },

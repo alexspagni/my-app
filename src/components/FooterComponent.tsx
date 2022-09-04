@@ -4,12 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { resetToken } from "../reducers/singReducer";
 import { useDispatch } from "react-redux";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
+import { useNavigation } from "@react-navigation/native";
 export const FooterComponent = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation<any>();
   const logOut = async () => {
     await AsyncStorage.removeItem("token");
     dispatch(resetToken(""));
-    navigationContainerRef.current?.navigate("SigningStackNavigator");
+    navigation.navigate("SigningStackNavigator");
   };
   return (
     <View style={styles.containerStyle}>

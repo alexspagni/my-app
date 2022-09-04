@@ -11,6 +11,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { roverDataType } from "../type/differentType";
 import { LIBRARIES_DATE } from "../reducers/DataReducer";
 import { ButtonComponent } from "./ButtonComponent";
+import { useNavigation } from "@react-navigation/native";
+import { Dimensions } from "react-native";
+import { Feather } from "@expo/vector-icons";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const top = (windowHeight * 5) / 100;
+const left = (windowWidth * 10) / 100;
 /**
  * this component is used to show different input text to enable the user search images by date.
  * It doesn't receive any prop.
@@ -21,7 +28,7 @@ const FormSearch: React.FC = () => {
   const [day, setDay] = useState<string>("");
   const [month, setMonth] = useState<string>("");
   const [year, setYear] = useState<string>("");
-
+  const navigator = useNavigation<any>();
   const roverData: roverDataType = useSelector(
     (store: any) => store?.dataRover
   );
@@ -31,12 +38,7 @@ const FormSearch: React.FC = () => {
 
   return (
     <View style={styles.backgroundStyle}>
-      <TouchableOpacity
-        style={styles.IconX}
-        onPress={() => navigationContainerRef.current?.navigate("IndexScreen")}
-      >
-        <Image source={require("../../assets/iconX.png")} />
-      </TouchableOpacity>
+      <View style={{}}></View>
       <View
         style={{
           flexDirection: "row",
@@ -54,6 +56,14 @@ const FormSearch: React.FC = () => {
             name="ios-information-circle-outline"
             size={35}
             color="white"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigator.navigate("IndexScreen")}>
+          <Feather
+            name="x-circle"
+            size={32}
+            color="white"
+            style={styles.IconX}
           />
         </TouchableOpacity>
       </View>
@@ -118,21 +128,20 @@ const styles = StyleSheet.create({
   },
   ImputTextContainer: {
     flexDirection: "row",
-    top: 0,
+    justifyContent: "space-around",
     marginTop: 20,
     position: "relative",
-    bottom: 90,
   },
   IconX: {
     position: "relative",
-    left: 15,
-    top: 35,
-    width: 50,
-    height: 40,
+    top: 102,
+    marginLeft: 20,
+    width: 40,
+    height: 35,
   },
   ButtonView: {
     marginTop: 30,
-    marginLeft: 85,
+    alignItems: "center",
   },
   iconStyle: {
     position: "relative",

@@ -43,8 +43,8 @@ export const SignUp = ({ navigation }: any) => {
   return (
     <View style={styles.ContainerStyle}>
       <TouchableOpacity
-        style={{ height: 75, width: 75 }}
-        onPress={() => navigationContainerRef.current?.goBack()}
+        style={{ height: 100, width: 100 }}
+        onPress={() => navigation.goBack()}
       >
         <Image
           source={require("../../assets/iconX.png")}
@@ -53,12 +53,14 @@ export const SignUp = ({ navigation }: any) => {
         />
       </TouchableOpacity>
 
-      <SignComponent
-        headerText="Sign up"
-        onSubmit={signUp}
-        error_message={signState.error_message}
-        buttonName="Sign me up"
-      />
+      <View style={{ alignItems: "center" }}>
+        <SignComponent
+          headerText="Sign up"
+          onSubmit={signUp}
+          error_message={signState.error_message}
+          buttonName="Sign me up"
+        />
+      </View>
     </View>
   );
 };
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     position: "relative",
-    left: 10,
-    top: 20,
+    top: 40,
+    left: 30,
   },
 });
