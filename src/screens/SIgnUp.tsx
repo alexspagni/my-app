@@ -8,7 +8,10 @@ import { navigationContainerRef } from "../Navigator/ContainerRef";
 import React from "react";
 
 import { SignComponent } from "../components/SingComponent";
-import { setSearchReducer } from "../reducers/setLoadingReducer";
+import {
+  setLoadingReducer,
+  setSearchReducer,
+} from "../reducers/setLoadingReducer";
 export const SignUp = ({ navigation }: any) => {
   const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch();
@@ -19,11 +22,12 @@ export const SignUp = ({ navigation }: any) => {
       const response = await expressApi.post("/signup", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch(addToken(response.data.token));
+      dispatch(setSearchReducer(!search));
+      //dispatch(setLoadingReducer(true));
       navigationContainerRef.current?.navigate("MainStackNavigator");
     } catch (err: any) {
       console.log(err.message);
       dispatch(addError("Something is gone wrong with Sign Up"));
-      dispatch(setSearchReducer(!search));
     }
   };
 

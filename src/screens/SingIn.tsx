@@ -8,24 +8,29 @@ import { addError, addToken, removeError } from "../reducers/singReducer";
 import React from "react";
 import { SignComponent } from "../components/SingComponent";
 import { ButtonComponent } from "../components/ButtonComponent";
-import { setSearchReducer } from "../reducers/setLoadingReducer";
+import {
+  setLoadingReducer,
+  setSearchReducer,
+} from "../reducers/setLoadingReducer";
+import { useNavigation } from "@react-navigation/native";
 
 export const SignIn = ({ navigation }: any) => {
   const signState: stateUser = useSelector((store: any) => store?.sing);
   const dispatch = useDispatch<any>();
   const search = useSelector((store: any) => store?.search);
+  const navigations = useNavigation<any>();
   //Function to sign in a user that already exist on mongoDB database
   const signIn = async ({ email, password }: signType) => {
     try {
       const response = await expressApi.post("/signin", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
+      dispatch(setLoadingReducer(true));
+      dispatch(setSearchReducer(!search));
       dispatch(addToken(response.data.token));
       navigationContainerRef.current?.navigate("MainStackNavigator");
     } catch (err: any) {
       console.log(err.message);
-
       dispatch(addError("Something is gone wrong with Sign In"));
-      dispatch(setSearchReducer(!search));
     }
   };
   //Every time i go to signIn screen i want to clear error message appear at the bottom of the screen

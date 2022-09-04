@@ -25,8 +25,8 @@ export const LoadingReducer=(state=initialValue,action:AllActionLoadingtype)=>{
 switch(action.type)
 {
     case LOADING_SET:
-        const returValue=action.payload;
-        return returValue;
+        
+        return action.payload;
     default :
     return state;
 }

@@ -9,13 +9,13 @@ import { navigationContainerRef } from "./src/Navigator/ContainerRef";
 import { SigningStackNavigator } from "./src/Navigator/SigningStackNavigator";
 import { LoadingScreen } from "./src/screens/LoadingScreen";
 import ShowScreen from "./src/screens/ShowScreen";
-import ConfiguereStore from "./src/configureStore";
+import ConfigureStore from "./src/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import { ImagesLoading } from "./src/skeleton/ImagesLoading";
 import { MainStackNavigator } from "./src/Navigator/MainStackNavigator";
 import { invertedForHorizontalIOS } from "./src/Navigator/InvertedForHorizontalIOS";
 
-const { store, persistor } = ConfiguereStore();
+const { store, persistor } = ConfigureStore();
 const Stack = createStackNavigator();
 
 const App = () => {

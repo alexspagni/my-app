@@ -1,6 +1,12 @@
 ////////ALL IMPORT///////////////
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList, BackHandler } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  BackHandler,
+  Keyboard,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageMars } from "../api/getImage";
 import PhotoComponent from "../components/PhotoComponent";
@@ -60,6 +66,7 @@ const IndexScreen = () => {
   );
   /////////////////////////////////////////////////////////////////////////////////////
   //i need this useEffect to carry flatList at the beginning
+
   useEffect(
     React.useCallback(() => {
       if (
@@ -141,7 +148,7 @@ const IndexScreen = () => {
           navigationContainerRef.current?.navigate("InfoScreenImageNotFound");
         }
       };
-
+      console.log("sono qui2");
       setTimeout(() => dispatch(setLoadingReducer(false)), 4000);
       setTimeout(() => ErrorMessage(), 4000);
     } catch {}
@@ -153,12 +160,17 @@ const IndexScreen = () => {
   };
   //I'm gonna make a new search every time "All button filter is pressed."
   useEffect(() => {
-    if (allButtonColor === "#2E8AF6" && loading) {
+    console.log("             ");
+    console.log("sono qui");
+    console.log(allButtonColor);
+    console.log(loading);
+
+    if (allButtonColor === "#2E8AF6" && loading === true) {
       dispatch({
         type: LIBRARIES_PAGE_NUMBER,
         payload: { ...roverData, page_number: 1 },
       });
-      //every time i enter into this "useEffect" is like i'm doing the first research, so i have to pass as pageNumber the first one.
+
       replaceImageFromMarsToList(
         roverData.rover_name,
         1,
@@ -301,11 +313,7 @@ const IndexScreen = () => {
               </View>
             )}
             onEndReached={() => {
-              /**
-               * these lines of code will be executed just when a user will reach the end of the list
-               */
               const newPage = roverData.page_number + 1;
-              // console.log(newPage);
 
               addImageFromMarsToList(
                 roverData.rover_name,

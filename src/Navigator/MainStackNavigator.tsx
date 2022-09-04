@@ -8,6 +8,8 @@ import FormSearch from "../components/FormSearch";
 import { InfoScreenHome } from "../InfoPointScreen/InfoScreenHome";
 import { InfoScreenSearch } from "../InfoPointScreen/InfoScreenSearch";
 import { InfoScreenImageNotFound } from "../InfoPointScreen/InfoScreenImageNotFound";
+import { SignIn } from "../screens/SingIn";
+import { SignUp } from "../screens/SIgnUp";
 const Stack = createStackNavigator();
 /**
  * navigator used to navigated between signIn screen and SignUp screen

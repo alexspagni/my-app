@@ -61,22 +61,56 @@ const ShowScreen: React.FC = () => {
   }, []);
 
   const getNextImage = (imageToCompare: marsObject) => {
-    const index = images.findIndex((element) => element.image.id == image1.id);
+    let index = images.findIndex((element) => element.image.id == image1.id);
     if (index != images.length - 1) {
-      return images[index + 1].image;
+      index++;
+      let firstImageNotHide = -1;
+
+      for (let i = index; i < images.length; i++) {
+        if (images[i].hide == false) {
+          firstImageNotHide = i;
+          break;
+        }
+      }
+      if (firstImageNotHide != -1) {
+        return images[firstImageNotHide].image;
+      }
     } else {
-      return images[0].image;
+      for (let i = 0; i < images.length; i++) {
+        if (images[i].hide == false) {
+          return images[i].image;
+        }
+      }
     }
   };
 
   const getPreviousImage = (image1: marsObject) => {
-    const index = images.findIndex((element) => element.image.id == image1.id);
+    let index = images.findIndex((element) => element.image.id == image1.id);
     // console.log(index);
-
     if (index != 0) {
-      return images[index - 1].image;
+      index--;
+      let firstImageNotHide = -1;
+      for (let i = index; i > 0; i--) {
+        if (images[i].hide == false) {
+          firstImageNotHide = i;
+          break;
+        }
+      }
+      if (firstImageNotHide != -1) {
+        return images[firstImageNotHide].image;
+      } else {
+        for (let i = images.length - 1; i > 0; i++) {
+          if (images[i].hide == false) {
+            return images[i].image;
+          }
+        }
+      }
     } else {
-      return images[images.length - 1].image;
+      for (let i = images.length - 1; i > 0; i++) {
+        if (images[i].hide == false) {
+          return images[i].image;
+        }
+      }
     }
   };
   const panResponder = useRef(

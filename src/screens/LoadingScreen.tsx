@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { ImageBackground, View, StyleSheet, Text } from "react-native";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { imageType } from "../type/differentType";
+import { navigationContainerRef } from "../Navigator/ContainerRef";
 
 export const LoadingScreen = () => {
   const navigation = useNavigation<any>();
@@ -34,7 +35,7 @@ export const LoadingScreen = () => {
         navigation.navigate("MainStackNavigator");
       }
     } else {
-      navigation.navigate("SigningStackNavigator");
+      navigationContainerRef.current?.navigate("SigningStackNavigator");
     }
   };
 
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     left: 30,
     fontSize: 45,
     color: "white",
-    fontFamily: "sans-serif-light",
+    //fontFamily: "sans-serif-light",
   },
   image: {
     flex: 1,

@@ -27,7 +27,10 @@ export const SearchBar: React.FC<SearchBarType> = ({
         onChangeText={onTermChange}
         autoCapitalize="none"
         autoCorrect={false}
-        onEndEditing={onEndEditing}
+        onEndEditing={() => {
+          onEndEditing();
+          onTermChange("");
+        }}
       />
       <Feather name="search" style={styles.iconStyle} />
     </View>

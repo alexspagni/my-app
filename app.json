@@ -1,7 +1,7 @@
 {
     "expo": {
-        "name": "SpaceApp",
-        "slug": "NasaApiProject",
+        "name": "SpaceApplication",
+        "slug": "NasaApiProjects",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/spaceIcon.png",

@@ -10,7 +10,10 @@ type LibrariesAddActionTypeMars = {
   type: typeof LIBRARIES_ADD_MARS;
   payload: imageType[];
 };
-
+type LibrariesAddActionTypeRefreshMars = {
+  type: typeof LIBRARIES_ADD;
+  payload: imageType[];
+};
 type LibrariesResetActionHide = {
   type: typeof LIBRARIES_HIDE_ONE;
   payload: marsObject;
@@ -42,7 +45,7 @@ export const addElementsToLibrariesMars = (
 };
 export const addElementsToLibrariesMarsRefreshing = (
   array: imageType[]
-): LibrariesAddActionTypeMars | undefined => {
+): LibrariesAddActionTypeRefreshMars | undefined => {
   if (array.length) {
     return {
       type: LIBRARIES_ADD,
@@ -94,7 +97,10 @@ export const hideAllImages = (
 //////////////////////////////////////////////////////////
 export type ActionFunction = typeof addElementsToLibrariesMars;
 
-type AllLibrariesAction = LibrariesAddActionTypeMars | LibrariesSetEmptyArray;
+type AllLibrariesAction =
+  | LibrariesAddActionTypeMars
+  | LibrariesSetEmptyArray
+  | LibrariesAddActionTypeRefreshMars;
 //////ACTIONE TYPE//////////////////////////////////
 export const LIBRARIES_ADD: string = "images_add";
 export const LIBRARIES_ADD_MARS: string = "images_add_mars";
@@ -136,7 +142,8 @@ export const LIBRARIES_HIDE_RESET: string = "images_hide_reset";
 
 type AllLibrariesActionHide =
   | LibrariesResetActionHide
-  | LibrariesResetActionHideAll;
+  | LibrariesResetActionHideAll
+  | LibrariesResetImagesHide;
 /**
  * this reducer is used to store images hided.
  * LIBRARIES_HIDE_ONE-->it is used to add just one image hided to the state, this image will be add just if is not already in the state
@@ -146,7 +153,7 @@ type AllLibrariesActionHide =
 export const getImagesHided = (
   state = initalStateRoverImagesHide,
   action: AllLibrariesActionHide
-) => {
+): marsObject[] => {
   switch (action.type) {
     case LIBRARIES_HIDE_ONE:
       for (let i = 0; i < state.length; i++) {
@@ -155,7 +162,7 @@ export const getImagesHided = (
         }
       }
 
-      return [...state, action.payload];
+      return [...state, action.payload as marsObject];
     case LIBRARIES_HIDE_ALL:
       const newArray = filterImagesHided(action.payload as marsObject[], state);
       return [...state, ...(newArray as marsObject[])];
