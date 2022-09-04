@@ -31,7 +31,6 @@ const SearchImputText: React.FC<TextInputType> = ({
 
 const styles = StyleSheet.create({
   inputStyle: {
-    marginLeft: 15,
     paddingLeft: 5,
     fontSize: 14,
     backgroundColor: "#F0EEEE",

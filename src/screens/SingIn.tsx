@@ -55,7 +55,7 @@ export const SignIn = ({ navigation }: any) => {
         style={{
           fontSize: 21,
           color: "white",
-          marginLeft: 165,
+          top: 5,
         }}
       >
         or
@@ -79,10 +79,10 @@ const styles = StyleSheet.create({
   ContainerStyle: {
     paddingTop: 50,
     backgroundColor: "#181A1C",
+    alignItems: "center",
     flex: 1,
   },
   ButtonView: {
     marginTop: 15,
-    marginLeft: 60,
   },
 });

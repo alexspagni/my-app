@@ -44,7 +44,7 @@ const App = () => {
             <Stack.Screen
               name="SigningStackNavigator"
               component={SigningStackNavigator}
-              options={{ headerShown: false, presentation: "modal" }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="loading"

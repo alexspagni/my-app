@@ -29,7 +29,7 @@ export const SearchBar: React.FC<SearchBarType> = ({
         autoCorrect={false}
         onEndEditing={() => {
           onEndEditing();
-          onTermChange("");
+          //onTermChange("");
         }}
       />
       <Feather name="search" style={styles.iconStyle} />
@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     height: 44,
     width: 327,
     borderRadius: 32,
-    marginHorizontal: 15,
     marginTop: 40,
     flexDirection: "row",
     marginBottom: 10,

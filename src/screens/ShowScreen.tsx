@@ -9,6 +9,7 @@ import {
   BackHandler,
   PanResponder,
   Animated,
+  TouchableOpacity,
 } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,11 @@ import { hideAnImage } from "../filters/FIlters";
 import { navigationContainerRef } from "../Navigator/ContainerRef";
 import { addElementsToLibrariesMarsRefreshing } from "../reducers/getImagesReducers";
 import { imageType, marsObject } from "../type/differentType";
+import { Dimensions } from "react-native";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const left = (windowWidth - 250) / 2;
 /**
  * This Screen is used to show some images detail about an image.
  * In order to show this details i need to get access to a "marsObject" object which is shared
@@ -146,12 +152,12 @@ const ShowScreen: React.FC = () => {
       <Animated.View {...panResponder.panHandlers}>
         <Image source={{ uri: image1.img_src }} style={styles.image} />
       </Animated.View>
-      <Pressable
+      <TouchableOpacity
         style={styles.iconStyle}
         onPress={() => navigationContainerRef.current?.goBack()}
       >
         <Image source={require("../../assets/iconX.png")} />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.principalContainer}>
         <View style={{ marginTop: 30, marginLeft: 25 }}>
           <Text style={styles.TextStyleTitle}>
@@ -174,45 +180,55 @@ const ShowScreen: React.FC = () => {
               </Text>
             }
           </Text>
-          {
-            /**
-             * If user is going to watch some detail about an image which is been hided, i show
-             * a text message to say that the image is hided, otherwise i give the possibility to the
-             * user to hide the image.
-             */
-            lookImageHide(hides, image1) ? (
+        </View>
+        {
+          /**
+           * If user is going to watch some detail about an image which is been hided, i show
+           * a text message to say that the image is hided, otherwise i give the possibility to the
+           * user to hide the image.
+           */
+          lookImageHide(hides, image1) ? (
+            <View style={styles.hidedTextStyle}>
               <Text style={styles.TextStyleInnerText}>
                 This image has been hided
               </Text>
-            ) : (
-              <View style={styles.ButtonViewStyle}>
-                <ButtonComponent
-                  buttonName="Hide this image"
-                  buttonColor="#2E8AF6"
-                  buttonWidth={300}
-                  heightButton={44}
-                  onPressButton={() => {
-                    const newImageArray = hideAnImage(images, image1);
-                    dispatch({
-                      type: "images_hide_one",
-                      payload: image1,
-                    });
-                    dispatch(
-                      addElementsToLibrariesMarsRefreshing(newImageArray)
-                    );
-                    hideImageAlert();
-                  }}
-                />
-              </View>
-            )
-          }
-        </View>
+            </View>
+          ) : (
+            <View style={styles.ButtonViewStyle}>
+              <ButtonComponent
+                buttonName="Hide this image"
+                buttonColor="#2E8AF6"
+                buttonWidth={300}
+                heightButton={44}
+                onPressButton={() => {
+                  const newImageArray = hideAnImage(images, image1);
+                  dispatch({
+                    type: "images_hide_one",
+                    payload: image1,
+                  });
+                  dispatch(addElementsToLibrariesMarsRefreshing(newImageArray));
+                  hideImageAlert();
+                }}
+              />
+            </View>
+          )
+        }
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  hidedTextStyle: {
+    alignItems: "center",
+    top: 50,
+    width: 250,
+    height: 50,
+    borderColor: "red",
+    borderWidth: 2,
+    left: left,
+    justifyContent: "center",
+  },
   iconStyle: {
     position: "relative",
     bottom: 250,
@@ -225,24 +241,24 @@ const styles = StyleSheet.create({
   TextStyleTitle: {
     color: "green",
     fontSize: 18,
-    fontFamily: "serif",
   },
   TextStyleInnerText: {
     color: "white",
     fontSize: 18,
   },
   image: {
-    width: 360,
+    width: 400,
     height: 280,
     borderRadius: 4,
   },
   ButtonViewStyle: {
+    alignItems: "center",
     marginTop: 30,
   },
   principalContainer: {
     position: "relative",
     bottom: 60,
-    height: 500,
+    height: 700,
     borderRadius: 35,
     backgroundColor: "#181A1C",
   },
